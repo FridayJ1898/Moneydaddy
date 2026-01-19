@@ -19,18 +19,24 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .dictionary-card { border-left: 5px solid #e2e8f0; transition: all 0.3s ease; }
         .dictionary-card:hover { border-left-color: #1d4ed8; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .mobile-menu-overlay { background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); display: none; }
-        .mobile-menu-overlay.open { display: block; }
         .sidebar-drawer { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
         .sidebar-drawer.open { transform: translateX(0); }
-        .youtube-float { background: #FF0000; box-shadow: 0 4px 14px 0 rgba(255, 0, 0, 0.39); }
+        .mobile-menu-overlay { background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); display: none; }
+        .mobile-menu-overlay.open { display: block; }
+        .youtube-color { background: #FF0000; }
+        .blog-color { background: #03C75A; }
     </style>
-    <!-- Chosen Palette: Navy (Professional), Trust Blue (Data), Pure Red (YouTube) -->
+    <!-- Chosen Palette: Navy (Professional), Naver Green (Blog), YouTube Red (Video) -->
     <!-- Application Structure Plan:
-        1. Mobile-First Responsive UI: Use a hamburger menu drawer for mobile and a fixed sidebar for desktop.
-        2. Content Isolation: Dates are strictly managed (Finance: 01.18, Quantum/Dictionary: 01.19).
-        3. Adaptive Charts: Charts resize dynamically to fit mobile viewport widths.
-        4. Money Daddy Branding: Integrated YouTube channel link in both the sidebar and a mobile-friendly floating button.
+        1. Multi-Channel Sidebar: Integrated YouTube and Naver Blog links into both desktop and mobile views.
+        2. Content Database: Maintained strictly separate dates for Finance (Jan 18) and others (Jan 19).
+        3. Scalable Dictionary: Detailed analysis for all 6 ETFs covering indices, market logic, and constituents.
+        4. Mobile Optimization: Responsive drawer menu and adaptive chart layouts.
+    -->
+    <!-- Visualization & Content Choices:
+        - Side Navigation: Includes external channel links to YouTube and Blog.
+        - Master Dictionary: Full-width list for educational content.
+        - ETF Posts: Comparison dashboards for focused sector analysis.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
@@ -45,36 +51,48 @@
         </button>
         <div class="flex items-center gap-2">
             <span class="w-7 h-7 bg-blue-700 rounded flex items-center justify-center text-white text-xs font-bold">M</span>
-            <span class="font-bold text-slate-900">머니대디 Insight</span>
+            <span class="font-bold text-slate-900 text-sm">머니대디 Insight</span>
         </div>
-        <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="text-red-600 font-bold text-xs uppercase">YouTube</a>
+        <div class="flex gap-3">
+            <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="text-emerald-600 font-bold text-[10px] uppercase">Blog</a>
+            <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="text-red-600 font-bold text-[10px] uppercase">YT</a>
+        </div>
     </header>
 
     <!-- Sidebar / Drawer -->
     <div id="mobile-overlay" class="mobile-menu-overlay fixed inset-0 z-40 md:hidden" onclick="toggleMobileMenu()"></div>
     <aside id="sidebar" class="sidebar-drawer fixed md:static inset-y-0 left-0 w-72 md:w-80 bg-white border-r border-slate-200 flex flex-col h-full md:h-screen z-50 md:transform-none">
-        <div class="p-6 border-b border-slate-100 bg-slate-50 hidden md:block">
+        
+        <!-- Sidebar Brand -->
+        <div class="p-6 border-b border-slate-100 bg-slate-50">
             <h1 class="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <span class="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center text-white text-sm">M</span>
                 머니대디 Insight
             </h1>
-            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-bold">Today: 2026.01.19</p>
-        </div>
-
-        <div class="p-6 md:hidden flex justify-between items-center border-b border-slate-100">
-            <span class="font-bold text-slate-900">Menu</span>
-            <button onclick="toggleMobileMenu()" class="text-slate-400 font-bold text-xl">✕</button>
+            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-bold">Expert Financial Guide</p>
+            
+            <!-- Channel Links -->
+            <div class="mt-5 space-y-2">
+                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center gap-2 text-white py-2.5 rounded-xl text-[11px] font-bold blog-color shadow-sm hover:opacity-90 transition-opacity">
+                    <span>네이버 블로그 바로가기</span>
+                </a>
+                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center gap-2 text-white py-2.5 rounded-xl text-[11px] font-bold youtube-color shadow-sm hover:opacity-90 transition-opacity">
+                    <span>유튜브 채널 구독하기</span>
+                </a>
+            </div>
         </div>
         
+        <!-- Navigation Menu -->
         <div class="flex-grow overflow-y-auto custom-scrollbar p-4 space-y-2" id="sidebar-menu">
             <!-- Sidebar Items Generated by JS -->
         </div>
 
-        <div class="p-4 border-t border-slate-100">
-            <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center gap-2 text-white p-3 rounded-xl text-xs font-bold youtube-float w-full">
-                <span>▶ 머니대디 유튜브 보러가기</span>
-            </a>
-            <p class="text-[10px] text-slate-400 text-center mt-3">매일 영상 브리핑이 업로드됩니다.</p>
+        <!-- Sidebar Footer -->
+        <div class="p-4 border-t border-slate-100 hidden md:block">
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <p class="text-[10px] font-bold text-slate-600">Daily Archive</p>
+                <p class="text-[10px] text-slate-400 mt-1 leading-tight">조사된 모든 자료는 머니대디의 소중한 지적 자산입니다.</p>
+            </div>
         </div>
     </aside>
 
@@ -93,33 +111,33 @@
                 constituents: ["Berkshire Hathaway (BRK.B)", "JPMorgan Chase (JPM)", "Visa (V)", "Mastercard (MA)", "Bank of America (BAC)"],
                 summary: "미국 금융 섹터의 심장이자 표준",
                 details: `
-                    <b>[추종 지수 분석]</b> S&P 500 내 금융 기업들로 구성된 지수를 추종합니다. 시가총액 가중 방식으로 대형 기관들의 움직임에 직접 연동됩니다.
-                    <br><br><b>[시장 반응 원리]</b> 금리가 상승해 은행 예대마진이 개선되거나 경기 활황으로 자본 거래가 늘 때 수익을 냅니다.
-                    <br><br><b>[핵심 리스크]</b> 금융 규제 강화나 금리 급락(불황 신호) 시 매도세가 몰릴 수 있습니다.`,
+                    <b>[추종 지수 분석]</b> S&P 500 내의 주요 금융 기업들을 시가총액 비중으로 추종합니다. 미국 경제 전반의 자금 흐름을 가장 잘 나타내는 지표입니다.
+                    <br><br><b>[시장 반응 원리]</b> 금리가 완만하게 상승하여 예대마진이 개선되거나, 소비 활성화로 결제 수수료 수익이 늘어날 때 수혜를 입습니다.
+                    <br><br><b>[시장 대응]</b> 경기 회복 초입기에 가장 안정적인 수익을 기대할 수 있는 금융 섹터의 '대장주'입니다.`,
                 fee: "0.09%", yield: "1.6%", color: "#1d4ed8"
             },
             KBE: {
-                title: "SPDR S&S Bank ETF",
+                title: "SPDR S&P Bank ETF",
                 ticker: "KBE",
                 index: "S&P Banks Select Industry Index",
-                constituents: ["Wells Fargo (WFC)", "Citigroup (C)", "M&T Bank (MTB)", "First Citizens (FCNCA)", "U.S. Bancorp (USB)"],
-                summary: "은행 본연의 수익에 집중하는 투자",
+                constituents: ["Wells Fargo (WFC)", "Citigroup (C)", "M&T Bank (MTB)", "Regions Financial (RF)", "US Bancorp (USB)"],
+                summary: "은행 본연의 수익 구조에 집중하는 투자",
                 details: `
-                    <b>[추종 지수 분석]</b> 은행 산업군 전반에 동일 가중 방식으로 투자하여 전체 산업 성장에 베팅합니다.
-                    <br><br><b>[시장 반응 원리]</b> 금리 변동성에 매우 민감하며 대출 수요와 기업 투자가 늘 때 수혜를 입습니다.
-                    <br><br><b>[핵심 리스크]</b> 신용 리스크(대출 부실)나 경기 침체 시 자산 건전성 우려가 커집니다.`,
+                    <b>[추종 지수 분석]</b> 대형 은행과 지역 은행을 아우르는 은행 전문 지수를 추종하며, 동일 가중 방식에 가깝게 운용됩니다.
+                    <br><br><b>[시장 반응 원리]</b> 순이자마진(NIM)의 변화에 극도로 민감합니다. 금리 인상기에 대출 금리 상승 속도가 예금 금리보다 빠를 때 수익이 극대화됩니다.
+                    <br><br><b>[시장 대응]</b> 금리 상승기 초기에 XLF보다 높은 탄력을 원할 때 적합한 선택입니다.`,
                 fee: "0.35%", yield: "2.8%", color: "#059669"
             },
             KRE: {
                 title: "SPDR S&P Regional Banking ETF",
                 ticker: "KRE",
                 index: "S&P Regional Banks Select Industry Index",
-                constituents: ["Regions Financial (RF)", "Huntington Bancshares (HBAN)", "Zions Bancorp (ZION)", "Western Alliance (WAL)", "KeyCorp (KEY)"],
-                summary: "미국 바닥 경제의 척도, 지역 은행 투자",
+                constituents: ["Huntington (HBAN)", "Zions Bancorp (ZION)", "Western Alliance (WAL)", "KeyCorp (KEY)", "M&T Bank (MTB)"],
+                summary: "미국 바닥 경제의 척도, 지역 은행 집중 투자",
                 details: `
-                    <b>[추종 지수 분석]</b> 미국 중소형 지역 은행들만을 포함합니다. 로컬 비즈니스 뉴스에 민감하게 반응합니다.
-                    <br><br><b>[시장 반응 원리]</b> 소비 심리와 지역 대출 수요에 반응하며, 은행 간 M&A 소식이 주가 촉매제가 됩니다.
-                    <br><br><b>[핵심 리스크]</b> 상업용 부동산(CRE) 대출 비중이 높아 부동산 경기 하락 시 취약합니다.`,
+                    <b>[추종 지수 분석]</b> 미국 전역의 지역 거점 중소형 은행들만을 전문적으로 포함합니다. 미국 국내 경제 체력을 가장 잘 보여줍니다.
+                    <br><br><b>[시장 반응 원리]</b> 지역 소비, 부동산 대출, 지역 상권 활성화 지표에 반응합니다. 은행 간 M&A 발생 시 큰 주가 상승을 보입니다.
+                    <br><br><b>[시장 대응]</b> 고배당과 반등을 노리는 공격적 투자자에게 적합하지만, 부동산 리스크 상존 시 주의가 필요합니다.`,
                 fee: "0.35%", yield: "3.2%", color: "#d97706"
             },
             QTUM: {
@@ -129,21 +147,21 @@
                 constituents: ["Nvidia (NVDA)", "Micron (MU)", "Applied Materials (AMAT)", "IBM", "Honeywell (HON)"],
                 summary: "하드웨어 기반의 양자 혁신 선점",
                 details: `
-                    <b>[추종 지수 분석]</b> 양자 하드웨어 및 반도체 공정 기업들을 선별 투자하는 지수를 추종합니다.
-                    <br><br><b>[시장 반응 원리]</b> 반도체 사이클에 연동되며 차세대 연산 장치 부각 시 프리미엄이 붙습니다.
-                    <br><br><b>[핵심 리스크]</b> 기술 상용화 지연 시 밸류에이션 논란이 발생할 수 있습니다.`,
+                    <b>[추종 지수 분석]</b> 양자 컴퓨팅 하드웨어와 이를 구현하는 반도체 기술력을 가진 기업들에 집중 투자합니다.
+                    <br><br><b>[시장 반응 원리]</b> 반도체 업황 사이클과 AI 기술 발전에 동조화됩니다. 차세대 연산 장치에 대한 투심이 반영됩니다.
+                    <br><br><b>[시장 대응]</b> AI 이후의 거대 기술 흐름을 선점하고 싶은 투자자에게 필수적인 하드웨어 테마입니다.`,
                 fee: "0.40%", yield: "0.9%", color: "#4f46e5"
             },
             TEKZ: {
                 title: "First Trust Cloud & Quantum ETF",
                 ticker: "TEKZ",
                 index: "First Trust Cloud & Quantum Index",
-                constituents: ["Microsoft (MSFT)", "Amazon (AMZN)", "Alphabet (GOOGL)", "Oracle (ORCL)", "Snowflake (SNOW)"],
-                summary: "클라우드로 접속하는 양자 세상",
+                constituents: ["Microsoft (MSFT)", "Amazon (AMZN)", "Alphabet (GOOGL)", "Snowflake (SNOW)", "Oracle (ORCL)"],
+                summary: "클라우드로 접속하는 양자 인프라",
                 details: `
-                    <b>[추종 지수 분석]</b> 클라우드 기반의 '서비스형 양자(QaaS)' 제공 기업들을 선별합니다.
-                    <br><br><b>[시장 반응 원리]</b> 클라우드 실적 성장에 반응하며 대형주 비중이 높아 상대적으로 안정적입니다.
-                    <br><br><b>[핵심 리스크]</b> 빅테크 규제 이슈 발생 시 주가 하향 압력을 받습니다.`,
+                    <b>[추종 지수 분석]</b> 클라우드 서비스(QaaS)를 통해 양자 컴퓨팅 자원을 제공하는 빅테크 인프라 기업에 투자합니다.
+                    <br><br><b>[시장 반응 원리]</b> 클라우드 시장 성장과 빅테크 실적에 반응하며, 우량주 비중이 높아 하락장에서 방어력이 좋습니다.
+                    <br><br><b>[시장 대응]</b> 양자 기술의 상용화 단계에서 플랫폼 수익을 누리고 싶은 투자자에게 적합합니다.`,
                 fee: "0.60%", yield: "0.3%", color: "#6366f1"
             },
             LOUP: {
@@ -151,23 +169,23 @@
                 ticker: "LOUP",
                 index: "Loup Frontier Tech Index",
                 constituents: ["IonQ (IONQ)", "Rigetti (RGTI)", "D-Wave (QBTS)", "Teradyne (TER)", "Quantinuum"],
-                summary: "파괴적 혁신의 프런티어 기술",
+                summary: "파괴적 혁신을 꿈꾸는 프런티어 기술",
                 details: `
-                    <b>[추종 지수 분석]</b> 파괴적 혁신 기술을 가진 30개 내외의 중소형 혁신 기업에 집중 투자합니다.
-                    <br><br><b>[시장 반응 원리]</b> 금리에 가장 민감하며 유동성 장세에서 상승폭이 극대화됩니다.
-                    <br><br><b>[핵심 리스크]</b> 변동성이 매우 크며 금리 인상기에 급락 위험이 있습니다.`,
+                    <b>[추종 지수 분석]</b> 차세대 AI 소프트웨어와 양자 전용 하드웨어 등 30개의 파괴적 혁신 종목에 집중합니다.
+                    <br><br><b>[시장 반응 원리]</b> 시장 유동성과 금리에 매우 민감하며, 기술적 혁신 소식이 전해질 때 폭발적인 주가 상승을 보입니다.
+                    <br><br><b>[시장 대응]</b> 변동성을 즐기며 수년 뒤의 유니콘 기업을 미리 선점하려는 공격적 투자자용입니다.`,
                 fee: "0.70%", yield: "0.0%", color: "#a855f7"
             }
         };
 
-        // --- POSTS DATABASE (With accurate timelines) ---
+        // --- POSTS DATABASE ---
         const POSTS_DATABASE = [
             {
                 id: "etf-dictionary",
                 category: "백과사전",
                 title: "📖 머니대디 ETF 백과사전",
                 date: "2026.01.19",
-                description: "매일 업데이트되는 ETF 분석 바이블입니다.",
+                description: "매일 하나씩 쌓이는 금융 지식의 바이블.",
                 type: "dictionary",
                 render: renderDictionary
             },
@@ -176,16 +194,16 @@
                 category: "테마 분석",
                 title: "양자컴퓨터 ETF 3종 심층 분석 리포트",
                 date: "2026.01.19",
-                description: "AI 다음의 거대한 물결을 준비하세요.",
+                description: "AI의 다음 주자, 양자 기술을 선점하세요.",
                 type: "interactive",
                 render: renderQuantumPost
             },
             {
                 id: "etf-finance-analysis",
                 category: "ETF 분석",
-                title: "금융주 ETF 3종 (XLF, KBE, KRE) 비교",
+                title: "금융주 ETF 3종 (XLF, KBE, KRE) 비교 분석",
                 date: "2026.01.18",
-                description: "금리 환경에서의 금융 섹터 공략법입니다.",
+                description: "금리 환경에 따른 최적의 금융 투자 가이드.",
                 type: "interactive",
                 render: renderFinancialPost
             }
@@ -228,7 +246,7 @@
             const container = document.getElementById('main-content');
             container.innerHTML = '';
             const wrapper = document.createElement('div');
-            wrapper.className = 'fade-in min-h-full pb-20';
+            wrapper.className = 'fade-in min-h-full pb-10';
             container.appendChild(wrapper);
             post.render(wrapper);
             container.scrollTop = 0;
@@ -237,12 +255,10 @@
         // --- RENDERERS ---
         function renderDictionary(container) {
             container.innerHTML = `
-                <div class="bg-blue-900 text-white p-6 md:p-20">
-                    <div class="max-w-4xl mx-auto text-center">
-                        <span class="bg-blue-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase mb-4 inline-block">Updated: 2026.01.19</span>
-                        <h1 class="text-2xl md:text-5xl font-black mb-4 leading-tight">ETF 백과사전</h1>
-                        <p class="text-blue-100 text-sm md:text-lg font-light">머니대디가 파헤친 ETF의 <b>진짜 원리</b>입니다.</p>
-                    </div>
+                <div class="bg-blue-900 text-white p-8 md:p-24 text-center">
+                    <span class="bg-blue-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase mb-4 inline-block">Daily Update: 2026.01.19</span>
+                    <h1 class="text-3xl md:text-5xl font-black mb-4">ETF 백과사전</h1>
+                    <p class="text-blue-100 text-sm md:text-lg font-light">머니대디가 직접 분석한 ETF의 <b>핵심 지수와 메커니즘</b>입니다.</p>
                 </div>
 
                 <div class="max-w-5xl mx-auto px-4 md:px-6 py-8 space-y-8">
@@ -254,24 +270,22 @@
                                 <div>
                                     <div class="flex items-center gap-2 mb-2">
                                         <span class="bg-slate-900 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase">${ticker}</span>
-                                        <span class="text-[10px] font-bold text-blue-600 uppercase truncate max-w-[150px]">${data.index}</span>
+                                        <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">${data.index}</span>
                                     </div>
                                     <h3 class="text-xl md:text-2xl font-black text-slate-800">${data.title}</h3>
                                 </div>
-                                <div class="flex gap-4 text-[11px] font-bold text-slate-400 border-l md:border-l border-slate-100 pl-4">
-                                    <div class="text-left">보수<br><span class="text-slate-900 text-base">${data.fee}</span></div>
-                                    <div class="text-left text-blue-600">배당<br><span class="text-blue-600 text-base">${data.yield}</span></div>
+                                <div class="flex gap-4 text-[11px] font-bold text-slate-400 md:border-l border-slate-100 md:pl-4">
+                                    <div class="text-left">보수율<br><span class="text-slate-900 text-base">${data.fee}</span></div>
+                                    <div class="text-left text-blue-600">배당수익<br><span class="text-blue-600 text-base">${data.yield}</span></div>
                                 </div>
                             </div>
-                            
                             <div class="mb-6">
-                                <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">핵심 구성 종목</h4>
+                                <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">핵심 종목</h4>
                                 <div class="flex flex-wrap gap-1.5">
                                     ${data.constituents.map(c => `<span class="px-2 py-1 bg-slate-50 text-slate-600 rounded text-[10px] border border-slate-100">${c}</span>`).join('')}
                                 </div>
                             </div>
-
-                            <div class="bg-slate-50 p-5 rounded-xl text-slate-700 space-y-4 text-xs md:text-sm leading-relaxed border border-slate-100">
+                            <div class="bg-slate-50 p-5 rounded-xl text-slate-700 space-y-4 text-xs md:text-sm leading-relaxed">
                                 <p class="font-bold text-blue-900 italic">"${data.summary}"</p>
                                 <div>${data.details}</div>
                             </div>
@@ -283,21 +297,21 @@
 
         function renderFinancialPost(container) {
             container.innerHTML = `
-                <div class="bg-slate-900 text-white p-6 md:p-20 border-b border-slate-800">
+                <div class="bg-slate-900 text-white p-8 md:p-24 border-b border-slate-800">
                     <div class="max-w-4xl mx-auto">
                         <span class="text-blue-400 font-bold text-[10px] tracking-widest uppercase">Analysis | 2026.01.18</span>
-                        <h1 class="text-2xl md:text-5xl font-black mt-3 mb-4 leading-tight">미국 금융 ETF 3종 비교</h1>
-                        <p class="text-slate-400 text-sm md:text-lg leading-relaxed max-w-2xl font-light">금융 섹터 투자의 정석! XLF, KBE, KRE 분석입니다.</p>
+                        <h1 class="text-3xl md:text-5xl font-black mt-3 mb-4 leading-tight">미국 금융 ETF 3종 비교</h1>
+                        <p class="text-slate-400 text-sm md:text-lg leading-relaxed max-w-2xl font-light">금융 섹터 투자의 정석! XLF, KBE, KRE의 성능을 분석합니다.</p>
                     </div>
                 </div>
                 <div class="max-w-6xl mx-auto px-4 md:px-6 py-8">
-                    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
-                        <h4 class="font-bold mb-4 text-slate-800 text-center text-sm">성장 추이 시뮬레이션</h4>
+                    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8 text-center">
+                        <h4 class="font-bold mb-4 text-slate-800 text-sm uppercase tracking-widest">수익률 추이 시뮬레이션</h4>
                         <div class="chart-container"><canvas id="financeChart"></canvas></div>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-6">
                         <div class="grid grid-cols-3 lg:grid-cols-1 lg:w-80 gap-3">
-                            ${['XLF', 'KBE', 'KRE'].map(t => `<button onclick="updateETFData('${t}', 'finance')" class="w-full p-3 md:p-5 text-center md:text-left border-2 border-slate-100 rounded-xl hover:bg-slate-50 font-bold text-slate-700 text-xs md:text-base">${t}</button>`).join('')}
+                            ${['XLF', 'KBE', 'KRE'].map(t => `<button onclick="updateETFData('${t}', 'finance')" class="w-full p-3 md:p-5 text-center md:text-left border-2 border-slate-100 rounded-xl hover:bg-slate-50 font-bold text-slate-700 text-xs md:text-base transition-all">${t}</button>`).join('')}
                         </div>
                         <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="chart-container" style="height:250px"><canvas id="financeDonut"></canvas></div></div>
@@ -312,21 +326,21 @@
 
         function renderQuantumPost(container) {
             container.innerHTML = `
-                <div class="bg-indigo-950 text-white p-6 md:p-20 border-b border-indigo-900">
+                <div class="bg-indigo-950 text-white p-8 md:p-24 border-b border-indigo-900">
                     <div class="max-w-4xl mx-auto">
                         <span class="text-indigo-400 font-bold text-[10px] tracking-widest uppercase">Latest | 2026.01.19</span>
-                        <h1 class="text-2xl md:text-5xl font-black mt-3 mb-4 leading-tight">미래 기술: 양자컴퓨터 ETF</h1>
-                        <p class="text-indigo-200 text-sm md:text-lg leading-relaxed max-w-2xl font-light">AI 다음의 기술 혁명, 양자 컴퓨팅 투자 지도입니다.</p>
+                        <h1 class="text-3xl md:text-5xl font-black mt-3 mb-4 leading-tight">차세대 기술: 양자컴퓨터 ETF</h1>
+                        <p class="text-indigo-200 text-sm md:text-lg leading-relaxed max-w-2xl font-light">AI 그 이상의 미래, 양자 컴퓨팅 테마를 해부합니다.</p>
                     </div>
                 </div>
                 <div class="max-w-6xl mx-auto px-4 md:px-6 py-8">
-                    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
-                        <h4 class="font-bold mb-4 text-indigo-900 text-center text-sm">퀀텀 테마 수익률 비교</h4>
+                    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8 text-center">
+                        <h4 class="font-bold mb-4 text-indigo-900 text-sm uppercase tracking-widest">퀀텀 테마 상대 수익률</h4>
                         <div class="chart-container"><canvas id="quantumChart"></canvas></div>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-6">
                         <div class="grid grid-cols-3 lg:grid-cols-1 lg:w-80 gap-3">
-                            ${['QTUM', 'TEKZ', 'LOUP'].map(t => `<button onclick="updateETFData('${t}', 'quantum')" class="w-full p-3 md:p-5 text-center md:text-left border-2 border-indigo-50 rounded-xl hover:bg-indigo-50 font-bold text-indigo-700 text-xs md:text-base">${t}</button>`).join('')}
+                            ${['QTUM', 'TEKZ', 'LOUP'].map(t => `<button onclick="updateETFData('${t}', 'quantum')" class="w-full p-3 md:p-5 text-center md:text-left border-2 border-indigo-50 rounded-xl hover:bg-indigo-50 font-bold text-indigo-700 text-xs md:text-base transition-all">${t}</button>`).join('')}
                         </div>
                         <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-white p-5 rounded-2xl border border-indigo-50 shadow-sm"><div class="chart-container" style="height:250px"><canvas id="quantumDonut"></canvas></div></div>
@@ -339,7 +353,7 @@
             updateETFData('QTUM', 'quantum');
         }
 
-        // --- COMMON LOGIC ---
+        // --- COMMON CHARTING LOGIC ---
         function initChart(id, labels, datasets, colors) {
             const ctx = document.getElementById(id).getContext('2d');
             if (mainChart) mainChart.destroy();
@@ -367,7 +381,7 @@
             donutChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['핵심', '보조', '기타'],
+                    labels: ['Top5', 'Others', 'Cash'],
                     datasets: [{ data: [65, 25, 10], backgroundColor: [`rgba(${baseColor[0]},${baseColor[1]},${baseColor[2]},1)`, `rgba(${baseColor[0]},${baseColor[1]},${baseColor[2]},0.6)`, `rgba(${baseColor[0]},${baseColor[1]},${baseColor[2]},0.3)`], borderWidth: 0 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 9 } } } } }
