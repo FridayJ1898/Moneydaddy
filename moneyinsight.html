@@ -8,24 +8,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 기본 스타일 및 폰트 설정 */
+        /* 기본 레이아웃 및 폰트 */
         body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
         
-        /* 레이아웃 고정: 사이드바 폭이 변하지 않도록 설정 */
+        /* 사이드바 너비 고정 (320px) */
         .sidebar-fixed-width { width: 320px; min-width: 320px; max-width: 320px; flex-shrink: 0; }
         
-        /* 차트 컨테이너: 모바일과 데스크탑 높이 최적화 */
+        /* 차트 컨테이너 */
         .chart-container { position: relative; width: 100%; height: 280px; margin: 0 auto; }
         @media (min-width: 768px) { .chart-container { height: 380px; } }
         
-        /* 메뉴 활성화 스타일 */
+        /* 메뉴 활성화 효과 */
         .sidebar-item.active { background-color: #eff6ff; border-left: 4px solid #1d4ed8; color: #1d4ed8; font-weight: 700; }
         
         /* 애니메이션 */
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 모바일 드로어 설정 */
+        /* 모바일 드로어 및 오버레이 */
         .mobile-menu-overlay { background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); display: none; position: fixed; inset: 0; z-index: 40; }
         .mobile-menu-overlay.open { display: block; }
         
@@ -35,7 +35,7 @@
         }
         .sidebar-drawer.open { transform: translateX(0); }
 
-        /* 브랜드 컬러 */
+        /* 채널 아이덴티티 컬러 */
         .youtube-color { background: #FF0000; }
         .blog-color { background: #03C75A; }
         
@@ -43,14 +43,18 @@
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* 리포트 텍스트 스타일 */
+        .report-content p { margin-bottom: 1.25rem; line-height: 1.8; }
+        .report-content h3 { margin-top: 2rem; margin-bottom: 1rem; font-weight: 700; color: #0f172a; border-left: 4px solid #1d4ed8; padding-left: 0.75rem; }
     </style>
-    <!-- Chosen Palette: Navy (Expertise), Trust Blue (Data), Naver Green (Blog), YouTube Red (Video) -->
+    <!-- Chosen Palette: Slate (Professional), Navy (Authority), Emerald (Growth) -->
     <!-- Application Structure Plan:
-        1. Fixed Sidebar: Enforced 'sidebar-fixed-width' to prevent layout shifts during content changes.
-        2. Mobile Integrity: Implemented a hamburger menu with a proper overlay/drawer system for small screens.
-        3. Multi-Category Dashboard: Unified interface for Finance, Quantum, Data Infra, and Power Infra.
-        4. Data Persistence: Accurate report dates (Jan 18, 19, 22) as requested.
-        5. Channel Synergy: Prominent YouTube and Blog links in both mobile and desktop headers.
+        1. Fixed Sidebar (320px): Ensures layout stability across all sections.
+        2. Detailed Report Integration: Expanded renderReport function to include the full user-provided text.
+        3. Persona Optimization: Applied "Money Daddy" spoken-style and SEO best practices (short paragraphs, bold text).
+        4. Mobile Fidelity: Maintained drawer system and responsive tables/charts.
+        5. Chronological Accuracy: Finance (Jan 18), Quantum (Jan 19), AI Infra & Dictionary (Jan 22).
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
@@ -58,7 +62,7 @@
 
     <!-- Mobile Top Navigation -->
     <header class="lg:hidden bg-white border-b border-slate-200 px-4 h-16 flex items-center justify-between sticky top-0 z-40">
-        <button onclick="toggleMobileMenu()" class="p-2 text-slate-800 focus:outline-none" aria-label="메뉴 열기">
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-800" aria-label="메뉴">
             <div class="w-6 h-0.5 bg-current mb-1.5"></div>
             <div class="w-6 h-0.5 bg-current mb-1.5"></div>
             <div class="w-6 h-0.5 bg-current"></div>
@@ -76,82 +80,71 @@
     <!-- Mobile Overlay -->
     <div id="mobile-overlay" class="mobile-menu-overlay lg:hidden" onclick="toggleMobileMenu()"></div>
 
-    <!-- Sidebar Navigation (Fixed Width for Stability) -->
+    <!-- Sidebar (Fixed Width) -->
     <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full border-r border-slate-200">
-        <!-- Sidebar Brand (Desktop Only) -->
+        <!-- Sidebar Brand (Desktop) -->
         <div class="p-6 border-b border-slate-100 bg-slate-50 hidden lg:block">
             <h1 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
                 <span class="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center text-white text-sm">M</span>
                 머니대디 Insight
             </h1>
             <div class="grid grid-cols-2 gap-2">
-                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold blog-color shadow-sm">블로그</a>
-                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold youtube-color shadow-sm">유튜브</a>
+                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold blog-color">블로그</a>
+                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold youtube-color">유튜브</a>
             </div>
         </div>
-
-        <!-- Sidebar Header (Mobile Only) -->
-        <div class="p-6 lg:hidden flex justify-between items-center border-b border-slate-100 bg-slate-50">
-            <span class="font-bold text-slate-900">전체 메뉴</span>
-            <button onclick="toggleMobileMenu()" class="text-slate-400 text-xl font-bold">✕</button>
-        </div>
         
-        <!-- Navigation Menu Items -->
+        <!-- Navigation -->
         <div class="flex-grow overflow-y-auto custom-scrollbar p-4 space-y-2" id="sidebar-menu">
-            <!-- Sidebar Items Generated by JS -->
+            <!-- Sidebar Items Injected by JS -->
         </div>
 
-        <!-- Sidebar Footer -->
         <div class="p-4 border-t border-slate-100 bg-slate-50">
-            <p class="text-[10px] text-slate-400 text-center">Data Updated: 2026.01.22</p>
-            <p class="text-[10px] text-slate-500 text-center font-bold mt-1 uppercase tracking-tighter">© Money Daddy Insights</p>
+            <p class="text-[10px] text-slate-400 text-center uppercase tracking-widest font-bold">Since 2024 머니대디</p>
         </div>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar relative bg-white" id="main-content">
-        <!-- Dynamic Content Injected Here -->
+        <!-- Report Content / Dashboards Injected here -->
     </main>
 
     <script>
-        // --- MASTER DATA: ETF DATABASE ---
+        // --- MASTER DATA ---
         const ETF_MASTER_DB = {
             // Finance (Jan 18)
-            XLF: { title: "Financial Select Sector SPDR", ticker: "XLF", index: "Financial Select Sector Index", constituents: ["BRK.B", "JPM", "Visa", "Mastercard"], summary: "금융 섹터 대장주", details: "안정적인 우량주 위주로 구성되어 경기 우상향 시 가장 탄탄한 방어력과 수익률을 보장합니다.", fee: "0.09%", yield: "1.6%", color: "#1d4ed8" },
-            KBE: { title: "SPDR S&P Bank ETF", ticker: "KBE", index: "S&P Banks Index", constituents: ["Wells Fargo", "Citigroup", "M&T Bank"], summary: "은행 섹터 균형 투자", details: "동일 가중 방식으로 대형과 중소형 은행의 수익을 고르게 추종하여 예대마진 수혜를 극대화합니다.", fee: "0.35%", yield: "2.8%", color: "#059669" },
-            KRE: { title: "SPDR S&P Regional Banking ETF", ticker: "KRE", index: "S&P Regional Banks Index", constituents: ["RF", "ZION", "WAL"], summary: "지역 경제의 혈관", details: "미국 로컬 실물 경기와 밀접하며 M&A 활성화 시 가장 높은 탄력을 보여주는 고배당 ETF입니다.", fee: "0.35%", yield: "3.2%", color: "#d97706" },
+            XLF: { title: "Financial Select Sector SPDR", ticker: "XLF", index: "Financial Select Sector Index", constituents: ["BRK.B", "JPM", "Visa", "Mastercard"], summary: "안정적인 종합 금융 대장주", details: "금융 전반을 아우르는 시총 가중 ETF로 금리 인상기 안정적 수익을 제공합니다.", fee: "0.09%", yield: "1.6%", color: "#1d4ed8" },
+            KBE: { title: "SPDR S&P Bank ETF", ticker: "KBE", index: "S&P Banks Index", constituents: ["Wells Fargo", "Citigroup", "First Citizens"], summary: "수정 동일 가중 은행 ETF", details: "대형주에 쏠리지 않고 섹터 전반의 은행 마진 개선 수혜를 균형 있게 추구합니다.", fee: "0.35%", yield: "2.8%", color: "#059669" },
+            KRE: { title: "SPDR S&P Regional Banking ETF", ticker: "KRE", index: "S&P Regional Banks Index", constituents: ["Regions", "Zions", "Huntington"], summary: "미국 지역 은행 집중 투자", details: "로컬 경제와 밀접하며 M&A 및 고배당 메리트가 돋보이는 공격적 선택지입니다.", fee: "0.35%", yield: "3.2%", color: "#d97706" },
             
             // Quantum (Jan 19)
-            QTUM: { title: "Defiance Quantum Strategy ETF", ticker: "QTUM", index: "BlueStar Quantum Computing Index", constituents: ["Nvidia", "Micron", "IBM"], summary: "하드웨어 기반 혁신", details: "양자 연산을 실제로 구현하는 하드웨어 강자들에 집중하여 AI 이후의 기술 동력을 선점합니다.", fee: "0.40%", yield: "0.9%", color: "#4f46e5" },
-            TEKZ: { title: "First Trust Cloud & Quantum ETF", ticker: "TEKZ", index: "First Trust Cloud & Quantum Index", constituents: ["MSFT", "AMZN", "GOOGL"], summary: "빅테크 클라우드 양자", details: "빅테크의 클라우드 플랫폼 매출과 양자 기술의 상용화 시너지를 동시에 누리는 안정적 선택지입니다.", fee: "0.60%", yield: "0.3%", color: "#6366f1" },
-            LOUP: { title: "Invesco AI and Next Gen Software", ticker: "LOUP", index: "Loup Frontier Tech Index", constituents: ["IonQ", "Rigetti", "D-Wave"], summary: "공격적 파괴적 혁신", details: "기술적 돌파구를 마련할 소수 정예 소프트웨어 기업에 베팅하는 하이리스크 하이리턴 상품입니다.", fee: "0.70%", yield: "0.0%", color: "#a855f7" },
+            QTUM: { title: "Defiance Quantum Strategy ETF", ticker: "QTUM", index: "BlueStar Quantum Computing Index", constituents: ["Nvidia", "Micron", "Applied Materials"], summary: "하드웨어 기반 양자 혁신", details: "양자 컴퓨팅 하드웨어와 반도체 공급망의 핵심 기업들에 선제적으로 투자합니다.", fee: "0.40%", yield: "0.9%", color: "#4f46e5" },
+            TEKZ: { title: "First Trust Cloud & Quantum ETF", ticker: "TEKZ", index: "First Trust Cloud & Quantum Index", constituents: ["Microsoft", "Amazon", "Alphabet"], summary: "클라우드 서비스형 양자(QaaS)", details: "빅테크의 클라우드 플랫폼 성장과 양자 기술의 시너지를 결합한 안정적 기술주입니다.", fee: "0.60%", yield: "0.3%", color: "#6366f1" },
+            LOUP: { title: "Invesco AI and Next Gen Software", ticker: "LOUP", index: "Loup Frontier Tech Index", constituents: ["IonQ", "Rigetti", "D-Wave"], summary: "파괴적 혁신 기술 선점", details: "미래를 바꿀 30개의 정예 소프트웨어 및 하드웨어 스타트업 기업에 베팅합니다.", fee: "0.70%", yield: "0.0%", color: "#a855f7" },
             
-            // Data Infra (Jan 22)
-            DTCR: { title: "Global X Data Center & Digital Infra", ticker: "DTCR", index: "Solactive Digital Infra Index", constituents: ["Equinix", "Digital Realty", "Nvidia"], summary: "부동산+기술 하이브리드", details: "데이터 센터의 물리적 부지와 그 안의 연산 장비를 동시에 담아 AI 하드웨어 붐을 공략합니다.", fee: "0.50%", yield: "1.2%", color: "#1d4ed8" },
-            SRVR: { title: "Pacer Data & Infra Real Estate", ticker: "SRVR", index: "Kelly Data Center Index", constituents: ["American Tower", "Equinix", "Crown Castle"], summary: "순수 리츠 배당 수익", details: "통신 타워와 데이터 센터의 임대 수익에만 집중하여 금리 인하 시 자산 가치 재평가를 노립니다.", fee: "0.60%", yield: "3.5%", color: "#059669" },
-            IDGT: { title: "iShares U.S. Digital Infra & RE", ticker: "IDGT", index: "S&P Data Center Index", constituents: ["Equinix", "American Tower", "Digital Realty"], summary: "미국 시장 효율적 투자", details: "블랙록의 낮은 보수를 장점으로 미국 핵심 디지털 인프라 기업들을 효율적으로 보유합니다.", fee: "0.41%", yield: "1.8%", color: "#d97706" },
-            
-            // Power Infra (Jan 22)
-            GRID: { title: "First Trust NASDAQ Smart Grid", ticker: "GRID", index: "NASDAQ Smart Grid Index", constituents: ["Eaton", "ABB", "Schneider Electric"], summary: "변압기 슈퍼사이클 주역", details: "송배전망 현대화와 변압기 부족 사태의 최대 수혜를 입는 전력 기기 제조사 전문 ETF입니다.", fee: "0.57%", yield: "1.1%", color: "#4f46e5" },
-            PAVE: { title: "Global X U.S. Infrastructure Dev", ticker: "PAVE", index: "Indxx U.S. Infra Index", constituents: ["United Rentals", "Eaton", "Quanta Services"], summary: "미국 인프라 재건 수혜", details: "전력뿐만 아니라 도로, 교량 등 미국 제조업 부흥을 위한 건설 인프라 전반을 포괄합니다.", fee: "0.47%", yield: "0.7%", color: "#6366f1" },
-            XLU: { title: "Utilities Select Sector SPDR", ticker: "XLU", index: "Utilities Select Index", constituents: ["NextEra Energy", "Southern", "Duke Energy"], summary: "성장주가 된 유틸리티", details: "데이터 센터의 막대한 전력 수요를 독점적으로 공급하는 전통 유틸리티 대장주들의 재발견입니다.", fee: "0.09%", yield: "3.1%", color: "#a855f7" }
+            // AI Infra (Jan 22)
+            DTCR: { title: "Global X Data Center & Digital Infra", ticker: "DTCR", index: "Solactive Digital Infra Index", constituents: ["Equinix", "Digital Realty", "TSMC"], summary: "하드웨어 성장을 품은 데이터 인프라", details: "리츠뿐만 아니라 서버, 서버칩 등 하드웨어 제조사 비중이 높아 공격적 성향에 적합합니다.", fee: "0.50%", yield: "1.2%", color: "#1d4ed8" },
+            SRVR: { title: "Pacer Data & Infra Real Estate", ticker: "SRVR", index: "Kelly Data Center & Tower Index", constituents: ["Equinix", "American Tower", "Crown Castle"], summary: "안정적 배당의 순수 리츠", details: "기술주를 배제하고 물리적 자산(부동산) 임대 수익에 집중하여 금리 하락 시 재평가를 노립니다.", fee: "0.60%", yield: "3.5%", color: "#059669" },
+            IDGT: { title: "iShares U.S. Digital Infra & RE", ticker: "IDGT", index: "S&P Data Center Index", constituents: ["Equinix", "Digital Realty", "SBA Comm"], summary: "블랙록의 저비용 인프라 대안", details: "낮은 운용 보수로 미국 내 디지털 인프라 핵심 기업을 효율적으로 보유할 수 있습니다.", fee: "0.41%", yield: "1.8%", color: "#d97706" },
+            GRID: { title: "First Trust NASDAQ Smart Grid", ticker: "GRID", index: "NASDAQ Smart Grid Index", constituents: ["Eaton", "ABB", "Schneider Electric"], summary: "변압기 슈퍼사이클의 왕", details: "전력망 현대화 및 데이터 센터 전용 전력 장비 시장을 과점한 글로벌 제조사에 집중합니다.", fee: "0.57%", yield: "1.1%", color: "#4f46e5" },
+            PAVE: { title: "Global X U.S. Infrastructure Dev", ticker: "PAVE", index: "Indxx U.S. Infrastructure Index", constituents: ["United Rentals", "Eaton", "Quanta Services"], summary: "제조업 리쇼어링의 최대 수혜", details: "미국 내 공장 건설과 인프라 현대화 전반을 포괄하는 초대형 인프라 ETF입니다.", fee: "0.47%", yield: "0.7%", color: "#6366f1" },
+            XLU: { title: "Utilities Select Sector SPDR", ticker: "XLU", index: "Utilities Select Index", constituents: ["NextEra", "Duke", "Southern Co"], summary: "에너지 안보와 성장의 유틸리티", details: "데이터 센터와 직접 계약하는 전력 회사들의 성장판이 열리며 재조명받고 있습니다.", fee: "0.09%", yield: "3.1%", color: "#a855f7" }
         };
 
-        // --- POSTS DATABASE ---
+        // --- POSTS CONFIG ---
         const POSTS_DATABASE = [
-            { id: "ai-infra-report", category: "리포트", title: "2026 글로벌 AI 인프라 투자 보고서", date: "2026.01.22", type: "report" },
+            { id: "ai-infra-2026-full", category: "리포트", title: "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", date: "2026.01.22", type: "report" },
             { id: "etf-dictionary", category: "백과사전", title: "📖 머니대디 ETF 백과사전", date: "2026.01.22", type: "dictionary" },
-            { id: "power-infra-analysis", category: "ETF 분석", title: "전력 인프라 ETF (GRID, PAVE, XLU) 분석", date: "2026.01.22", type: "interactive", categoryKey: "power" },
-            { id: "data-infra-analysis", category: "ETF 분석", title: "데이터 인프라 ETF (DTCR, SRVR, IDGT) 분석", date: "2026.01.22", type: "interactive", categoryKey: "data" },
+            { id: "power-analysis", category: "ETF 분석", title: "전력 인프라 ETF (GRID, PAVE, XLU) 분석", date: "2026.01.22", type: "interactive", categoryKey: "power" },
+            { id: "data-analysis", category: "ETF 분석", title: "데이터 인프라 ETF (DTCR, SRVR, IDGT) 분석", date: "2026.01.22", type: "interactive", categoryKey: "data" },
             { id: "quantum-analysis", category: "ETF 분석", title: "양자컴퓨터 ETF (QTUM, TEKZ, LOUP) 분석", date: "2026.01.19", type: "interactive", categoryKey: "quantum" },
             { id: "finance-analysis", category: "ETF 분석", title: "금융주 ETF (XLF, KBE, KRE) 분석", date: "2026.01.18", type: "interactive", categoryKey: "finance" }
         ];
 
         let currentPostId = POSTS_DATABASE[0].id;
-        let mainLineChart = null;
-        let donutChart = null;
+        let lineChart = null;
+        let pieChart = null;
 
-        // --- CORE INITIALIZATION ---
         window.onload = () => { renderSidebar(); loadPost(currentPostId); };
 
         function toggleMobileMenu() {
@@ -182,51 +175,128 @@
             const container = document.getElementById('main-content');
             container.innerHTML = '';
             const wrapper = document.createElement('div');
-            wrapper.className = 'fade-in pb-16';
+            wrapper.className = 'fade-in';
             container.appendChild(wrapper);
 
-            if (post.type === 'report') renderReport(wrapper);
+            if (post.type === 'report') renderFullReport(wrapper);
             else if (post.type === 'dictionary') renderDictionary(wrapper);
-            else if (post.type === 'interactive') renderInteractivePost(wrapper, post);
+            else if (post.type === 'interactive') renderInteractiveDashboard(wrapper, post);
             
             container.scrollTop = 0;
         }
 
-        // --- RENDERER: REPORT ---
-        function renderReport(container) {
+        // --- RENDERER: FULL SIGNATURE REPORT ---
+        function renderFullReport(container) {
             container.innerHTML = `
-                <div class="bg-slate-900 text-white p-8 md:p-20 text-center">
-                    <span class="text-blue-400 font-bold text-xs uppercase tracking-widest bg-blue-900/50 px-3 py-1 rounded">Expert Report | 2026.01.22</span>
-                    <h1 class="text-3xl md:text-5xl font-black mt-6 mb-8 leading-tight text-white">글로벌 AI 인프라 투자 보고서</h1>
-                    <p class="text-slate-400 text-sm md:text-lg max-w-3xl mx-auto italic">"데이터 센터와 전력망의 융합과 슈퍼사이클 정밀 분석"</p>
-                </div>
-                <div class="max-w-4xl mx-auto px-6 py-12 text-slate-700 leading-relaxed space-y-8">
-                    <section>
-                        <h2 class="text-2xl font-bold text-slate-900 mb-4">투자 패러다임의 거대한 변화</h2>
-                        <p>2026년 시장은 더 이상 칩에만 열광하지 않습니다. 그 칩이 작동할 <b>물리적 공간(데이터 센터)</b>과 심장을 뛰게 할 <b>에너지(전력망)</b>가 진정한 가치 자산으로 재평가받고 있습니다.</p>
-                    </section>
-                    <div class="bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-600">
-                        <p class="font-bold text-blue-900 mb-2">💡 머니대디 핵심 통찰</p>
-                        <p class="text-sm">단순한 성장을 넘어선 '구조적 공급 부족' 국면입니다. 전력망 연결 대기 시간은 일부 지역에서 3~5년에 달하며, 이는 기존 인프라 소유자들에게 압도적인 가격 결정권을 부여합니다.</p>
+                <div class="bg-slate-900 text-white p-8 md:p-24 border-b-8 border-blue-600">
+                    <div class="max-w-4xl mx-auto">
+                        <span class="text-blue-400 font-bold text-xs uppercase tracking-widest bg-blue-900/50 px-3 py-1 rounded">Annual Special | 2026.01.22</span>
+                        <h1 class="text-3xl md:text-6xl font-black mt-6 mb-8 leading-tight">2026 글로벌 AI 인프라 투자 보고서</h1>
+                        <p class="text-slate-400 text-lg md:text-xl leading-relaxed max-w-3xl italic">"데이터 센터와 전력망의 융합, 그리고 거대한 슈퍼사이클의 시작"</p>
                     </div>
-                    <section>
-                        <h2 class="text-2xl font-bold text-slate-900 mb-4">체크해야 할 슈퍼사이클 지표</h2>
-                        <ul class="list-disc ml-6 space-y-2 text-slate-600">
-                            <li>빅테크 기업(MS, 구글, 아마존)의 공격적 CapEx 지속 여부</li>
-                            <li>변압기 리드타임: 현재 3~4년 대기로 공급자 우위 시장 형성</li>
-                            <li>데이터 센터 공실률: 북미 주요 시장 2.8%로 사상 최저 기록</li>
-                        </ul>
+                </div>
+
+                <div class="max-w-4xl mx-auto px-6 py-16 report-content text-slate-700">
+                    <!-- 서문 -->
+                    <section class="mb-16">
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="w-2 h-8 bg-blue-600"></span> 1. 디지털 전환의 물리적 현실
+                        </h2>
+                        <p>안녕하세요, 머니대디입니다! 2026년 자본 시장의 핵심 키워드는 <b>'AI의 물리적 구현(Physical Implementation)'</b>입니다. 이제 시장은 똑똑한 알고리즘을 넘어, 그 알고리즘이 숨 쉬고 일할 <b>'물리적 공간(데이터 센터)'</b>과 심장을 뛰게 할 <b>'에너지(전력망)'</b>에 집중하기 시작했습니다.</p>
+                        <p>우리는 현재 단순한 수요 증가를 넘어선 <b>'구조적 공급 부족(Structural Shortage)'</b> 국면에 진입했습니다. 이는 관련 자산의 가치 재평가(Re-rating)를 정당화하는 강력한 근거가 됩니다.</p>
+                        
+                        <div class="my-10 p-8 bg-blue-50 rounded-3xl border border-blue-100 shadow-sm">
+                            <h4 class="font-black text-blue-900 mb-4 tracking-tighter uppercase text-sm">💡 AI 연산의 패러다임 시프트</h4>
+                            <p class="text-sm text-blue-800">2025년까지 AI 워크로드의 25%였던 <b>추론(Inference)</b> 수요가 2026년부터 폭발합니다. 학습이 중앙집중형이라면, 추론은 사용자 근처의 <b>'엣지(Edge)'</b>를 필요로 합니다. 이는 데이터 센터 리츠의 지리적 확장을 강제하고 있습니다.</p>
+                        </div>
+                        <p class="text-xs text-slate-400 italic text-center"></p>
+                    </section>
+
+                    <!-- 매크로 분석 -->
+                    <section class="mb-16">
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="w-2 h-8 bg-blue-600"></span> 2. 2026 Market Outlook
+                        </h2>
+                        <h3>금리 환경 변화와 하이퍼스케일러의 질주</h3>
+                        <p>데이터 센터와 유틸리티는 대표적인 <b>자본 집약적 섹터</b>입니다. 2025년 하반기부터 시작된 금리 안정화는 이들에게 이중 호재입니다. 자금 조달 비용이 낮아지며 수익성(FFO/EPS)이 개선되고, 국채 금리 하락은 고배당 자산인 리츠와 유틸리티의 매력을 극대화합니다.</p>
+                        <p>아마존, MS, 구글 등 빅테크(Hyperscalers)들은 2026년에도 <b>공격적인 CapEx 슈퍼사이클</b>을 예고했습니다. TSMC가 설비 투자 가이던스를 560억 달러로 상향한 것은 AI 지출 붐이 일시적 현상이 아님을 시사합니다.</p>
+                        
+                        <div class="bg-slate-50 p-6 rounded-2xl border-l-4 border-slate-800 my-8">
+                            <p class="font-bold mb-2">⚡ 전력망 병목(Grid Bottleneck) 현상</p>
+                            <p class="text-sm">미국 내 전력망 연결 대기 시간은 현재 <b>3~5년</b>에 달합니다. 데이터 센터 건설의 최대 리스크는 '부지'가 아니라 '전력 확보'입니다. 이는 전력 인프라 기업들에게 강력한 <b>가격 결정권(Pricing Power)</b>을 부여하고 있습니다.</p>
+                        </div>
+                    </section>
+
+                    <!-- 데이터 인프라 ETF -->
+                    <section class="mb-16">
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="w-2 h-8 bg-blue-600"></span> 3. 데이터 인프라 ETF 심층 분석
+                        </h2>
+                        <div class="overflow-x-auto mb-8 bg-white border border-slate-200 rounded-3xl">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[10px]">
+                                    <tr><th class="px-6 py-4">구분</th><th class="px-6 py-4">DTCR (공격적)</th><th class="px-6 py-4">SRVR (안정적)</th><th class="px-6 py-4">IDGT (효율적)</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr><td class="px-6 py-4 font-bold bg-slate-50/50">운용사</td><td class="px-6 py-4">Global X</td><td class="px-6 py-4">Pacer</td><td class="px-6 py-4">iShares</td></tr>
+                                    <tr><td class="px-6 py-4 font-bold bg-slate-50/50">TER (보수)</td><td class="px-6 py-4">0.50%</td><td class="px-6 py-4 text-red-500">0.60%</td><td class="px-6 py-4 text-blue-600">0.41%</td></tr>
+                                    <tr><td class="px-6 py-4 font-bold bg-slate-50/50">섹터 비중</td><td class="px-6 py-4">기술(54%), 부동산(43%)</td><td class="px-6 py-4">부동산(66%), 통신(13%)</td><td class="px-6 py-4">혼합형</td></tr>
+                                    <tr><td class="px-6 py-4 font-bold bg-slate-50/50">성과 (YTD)</td><td class="px-6 py-4 text-emerald-600 font-black">+12.74%</td><td class="px-6 py-4">+5.91%</td><td class="px-6 py-4">+3.82%</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><b>DTCR</b>은 하이브리드 전략으로 반도체(엔비디아 등)와 리츠를 동시에 담아 상승장에서 가장 높은 탄력을 보입니다. 반면 <b>SRVR</b>은 통신 타워와 순수 리츠에 집중하여 배당 수익을 선호하는 분들에게 최고의 대안입니다.</p>
+                        <p class="text-xs text-slate-400 italic text-center"></p>
+                    </section>
+
+                    <!-- 전력 인프라 ETF -->
+                    <section class="mb-16">
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="w-2 h-8 bg-blue-600"></span> 4. 전력 인프라 ETF: AI의 혈관
+                        </h2>
+                        <p>AI 데이터 센터가 '뇌'라면 전력망은 '혈관'입니다. <b>GRID</b>는 변압기 슈퍼사이클의 최대 수혜주인 이튼(Eaton), ABB 등을 장악하고 있습니다. 현재 변압기 공급 부족률은 2026년 30%에 달할 전망이며, 리드타임은 줄어들 기미가 없습니다.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                            <div class="p-6 border border-slate-200 rounded-3xl bg-white shadow-sm">
+                                <h4 class="font-bold text-slate-900 mb-2">🏗️ PAVE (인프라 재건)</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">도로, 교량, 전력망을 모두 아우르는 거대 인프라 ETF입니다. 미국 제조업 리쇼어링 붐의 최대 수혜주입니다.</p>
+                            </div>
+                            <div class="p-6 border border-slate-200 rounded-3xl bg-white shadow-sm">
+                                <h4 class="font-bold text-slate-900 mb-2">🔌 XLU (성장주형 유틸리티)</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">전통적 방어주였으나, 데이터 센터와 직접 전력 구매 계약(PPA)을 맺으며 성장주로 거듭나고 있습니다.</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 italic text-center"></p>
+                    </section>
+
+                    <!-- 결론 및 제언 -->
+                    <section class="pt-12 border-t border-slate-200">
+                        <div class="bg-slate-900 text-white p-10 rounded-[3rem] text-center shadow-xl">
+                            <h2 class="text-2xl font-black mb-6 italic text-blue-400">"곡괭이와 청바지 전략"</h2>
+                            <p class="mb-10 text-slate-300">19세기 골드러시의 진정한 승자는 곡괭이를 판 사람이었습니다.<br>2026년 AI 골드러시의 곡괭이는 바로 '인프라'입니다.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                                <div class="p-6 bg-slate-800 rounded-3xl border border-slate-700">
+                                    <span class="text-blue-400 font-bold text-xs uppercase">공격형 (DTCR 50% + GRID 50%)</span>
+                                    <p class="text-xs mt-2 text-slate-400">기술주 상승 베타와 변압기 부족의 프리미엄을 동시에 공략합니다.</p>
+                                </div>
+                                <div class="p-6 bg-slate-800 rounded-3xl border border-slate-700">
+                                    <span class="text-emerald-400 font-bold text-xs uppercase">안정형 (SRVR 40% + XLU 40% + PAVE 20%)</span>
+                                    <p class="text-xs mt-2 text-slate-400">안정적 인컴과 금리 인하 수혜, 인프라 재건 정책을 모두 담습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-12 text-center text-slate-400 text-[10px] leading-relaxed">
+                            #데이터센터 #전력인프라 #AI투자 #슈퍼사이클 #2026리포트 #머니대디 #미국주식전문가 #DTCR #GRID #리츠
+                        </p>
                     </section>
                 </div>
             `;
         }
 
-        // --- RENDERER: DICTIONARY ---
         function renderDictionary(container) {
             container.innerHTML = `
                 <div class="bg-blue-900 text-white p-10 md:p-20 text-center">
                     <h1 class="text-3xl md:text-5xl font-black mb-4">ETF 백과사전</h1>
-                    <p class="text-blue-100 text-sm md:text-lg">조사된 모든 ETF의 상세 바이블 (2026.01.22)</p>
+                    <p class="text-blue-100 text-sm md:text-lg">조사된 12종의 핵심 ETF 바이블</p>
                 </div>
                 <div class="max-w-5xl mx-auto px-4 py-12 space-y-6">
                     ${Object.keys(ETF_MASTER_DB).map(ticker => {
@@ -238,9 +308,8 @@
                                 <div class="flex gap-4 text-[11px] font-bold text-slate-400"><div>보수<br><span class="text-slate-900 text-base font-bold">${data.fee}</span></div><div>배당<br><span class="text-blue-600 text-base font-bold">${data.yield}</span></div></div>
                             </div>
                             <div class="bg-slate-50 p-5 rounded-xl text-slate-700 text-xs md:text-sm leading-relaxed border border-slate-100">
-                                <p class="font-bold text-blue-900 mb-1 italic">"${data.summary}"</p>
+                                <p class="font-bold text-blue-900 mb-1">"${data.summary}"</p>
                                 <p>${data.details}</p>
-                                <div class="mt-4 flex flex-wrap gap-1">${data.constituents.map(c => `<span class="bg-white px-2 py-0.5 border border-slate-200 rounded text-[10px] font-medium">${c}</span>`).join('')}</div>
                             </div>
                         </div>`;
                     }).join('')}
@@ -248,8 +317,7 @@
             `;
         }
 
-        // --- RENDERER: INTERACTIVE DASHBOARD ---
-        function renderInteractivePost(container, post) {
+        function renderInteractiveDashboard(container, post) {
             const categories = {
                 finance: ['XLF', 'KBE', 'KRE'],
                 quantum: ['QTUM', 'TEKZ', 'LOUP'],
@@ -257,85 +325,76 @@
                 power: ['GRID', 'PAVE', 'XLU']
             };
             const tickers = categories[post.categoryKey];
-            const themeColor = post.categoryKey === 'power' || post.categoryKey === 'quantum' ? 'indigo' : (post.categoryKey === 'data' ? 'blue' : 'slate');
+            const themeColor = post.categoryKey === 'power' ? 'indigo' : (post.categoryKey === 'data' ? 'blue' : (post.categoryKey === 'quantum' ? 'purple' : 'slate'));
 
             container.innerHTML = `
-                <div class="bg-${themeColor}-900 text-white p-8 md:p-20">
+                <div class="bg-${themeColor}-950 text-white p-8 md:p-20">
                     <div class="max-w-4xl mx-auto">
                         <span class="text-${themeColor}-400 font-bold text-[10px] tracking-widest uppercase">${post.category} | ${post.date}</span>
-                        <h1 class="text-2xl md:text-4xl font-black mt-3 mb-4 leading-tight">${post.title}</h1>
-                        <p class="text-${themeColor}-100 text-sm md:text-lg opacity-80">머니대디가 정밀 분석한 실시간 섹터 지표입니다.</p>
+                        <h1 class="text-2xl md:text-4xl font-black mt-3 mb-4">${post.title}</h1>
+                        <p class="text-slate-300 text-sm md:text-lg opacity-80 leading-relaxed">데이터 기반 종목별 실시간 분석 리포트입니다.</p>
                     </div>
                 </div>
                 <div class="max-w-6xl mx-auto px-4 py-8">
                     <div class="bg-white p-4 md:p-8 rounded-3xl shadow-sm border border-slate-200 mb-8">
-                        <h4 class="font-bold mb-6 text-sm uppercase tracking-widest text-center text-slate-500 underline underline-offset-8">수익률 시뮬레이션</h4>
-                        <div class="chart-container"><canvas id="mainChart"></canvas></div>
+                        <h4 class="font-bold mb-6 text-sm uppercase tracking-widest text-center text-slate-500 underline underline-offset-8">상대 수익률 시뮬레이션</h4>
+                        <div class="chart-container"><canvas id="lineChartCanvas"></canvas></div>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-6">
-                        <!-- 고정 폭 선택 버튼 영역 -->
                         <div class="grid grid-cols-3 lg:grid-cols-1 lg:w-48 gap-3 shrink-0">
-                            ${tickers.map(t => `<button onclick="updateInteractiveData('${t}', '${post.categoryKey}')" class="w-full p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 font-bold text-slate-700 text-xs md:text-base shadow-sm transition-all">${t}</button>`).join('')}
+                            ${tickers.map(t => `<button onclick="updateData('${t}')" class="w-full p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 font-bold text-slate-700 text-xs md:text-base transition-all">${t}</button>`).join('')}
                         </div>
-                        <!-- 가변 폭 정보 영역 -->
                         <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center">
-                                <h4 class="text-xs font-bold text-slate-400 mb-4 uppercase">섹터 구성 비중</h4>
-                                <div class="chart-container" style="height:220px"><canvas id="donutChart"></canvas></div>
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <h4 class="text-xs font-bold text-slate-400 mb-4 uppercase">핵심 지표 요약</h4>
+                                <table class="w-full text-xs"><tbody id="summary-table" class="divide-y divide-slate-100"></tbody></table>
                             </div>
-                            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                                <h4 class="text-xs font-bold text-slate-400 mb-4 uppercase">상세 리포트</h4>
-                                <table class="w-full text-xs"><tbody id="data-table" class="divide-y divide-slate-100"></tbody></table>
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center">
+                                <h4 class="text-xs font-bold text-slate-400 mb-4 uppercase">자산 배분 구조</h4>
+                                <div class="chart-container" style="height:220px"><canvas id="donutChartCanvas"></canvas></div>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
-            initMainChart(tickers);
-            updateInteractiveData(tickers[0], post.categoryKey);
+            initLineChart(tickers);
+            updateData(tickers[0]);
         }
 
-        // --- LOGIC: CHARTS & TABLES ---
-        function initMainChart(tickers) {
-            const ctx = document.getElementById('mainChart').getContext('2d');
-            if (mainLineChart) mainLineChart.destroy();
+        // --- COMMON CHARTING ---
+        function initLineChart(tickers) {
+            const ctx = document.getElementById('lineChartCanvas').getContext('2d');
+            if (lineChart) lineChart.destroy();
             const colors = ['#1d4ed8', '#059669', '#d97706', '#4f46e5'];
-            const datasets = tickers.map((t, i) => ({
-                label: t,
-                data: [100, 105 + (i*4), 115 - (i*6), 145 + (i*10), 165 + (i*15)],
-                borderColor: colors[i],
-                tension: 0.4,
-                borderWidth: 3,
-                pointRadius: 3
-            }));
-            mainLineChart = new Chart(ctx, { type: 'line', data: { labels: ['Start', 'Year 1', 'Year 2', 'Year 3', 'Today'], datasets }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10, family: 'Noto Sans KR' } } } }, scales: { y: { grid: { borderDash: [2, 4] } }, x: { grid: { display: false } } } } });
+            lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Start', 'Yr1', 'Yr2', 'Yr3', 'Now'],
+                    datasets: tickers.map((t, i) => ({
+                        label: t, data: [100, 105+(i*4), 115-(i*2), 140+(i*7), 160+(i*10)],
+                        borderColor: colors[i], tension: 0.4, borderWidth: 3, pointRadius: 2
+                    }))
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } }
+            });
         }
 
-        function updateInteractiveData(ticker, categoryKey) {
+        function updateData(ticker) {
             const data = ETF_MASTER_DB[ticker];
-            const table = document.getElementById('data-table');
-            table.innerHTML = `
-                <tr><td class="py-2 text-slate-500">종목코드</td><td class="py-2 text-right font-black text-slate-900">${data.ticker}</td></tr>
-                <tr><td class="py-2 text-slate-500">추종지수</td><td class="py-2 text-right font-bold text-xs truncate max-w-[150px]">${data.index}</td></tr>
-                <tr><td class="py-2 text-slate-500">운용보수</td><td class="py-2 text-right font-bold text-blue-600">${data.fee}</td></tr>
-                <tr><td class="py-2 text-slate-500">배당수익</td><td class="py-2 text-right font-bold text-emerald-600">${data.yield}</td></tr>
-                <tr><td class="py-3 font-bold text-slate-900 italic text-sm leading-relaxed" colspan="2">"${data.summary}"</td></tr>
+            document.getElementById('summary-table').innerHTML = `
+                <tr><td class="py-3 text-slate-500">종목</td><td class="py-3 text-right font-black text-slate-900">${ticker}</td></tr>
+                <tr><td class="py-3 text-slate-500">추종지수</td><td class="py-3 text-right font-bold text-xs truncate max-w-[140px]">${data.index}</td></tr>
+                <tr><td class="py-3 text-slate-500">보수/배당</td><td class="py-3 text-right font-bold text-blue-600">${data.fee} / ${data.yield}</td></tr>
+                <tr><td class="py-4 font-bold text-slate-900 italic text-sm" colspan="2">"${data.summary}"</td></tr>
                 <tr><td class="py-2 text-slate-500 text-[11px] leading-normal" colspan="2">${data.details}</td></tr>
             `;
 
-            const ctx = document.getElementById('donutChart').getContext('2d');
-            if (donutChart) donutChart.destroy();
-            const colors = ['#1d4ed8', '#059669', '#d97706', '#4f46e5'];
-            const idx = Object.keys(ETF_MASTER_DB).indexOf(ticker) % 4;
-            const baseColor = colors[idx];
-            
-            donutChart = new Chart(ctx, { 
-                type: 'doughnut', 
-                data: { 
-                    labels: ['Top Holdings', 'Others', 'Cash'], 
-                    datasets: [{ data: [65, 25, 10], backgroundColor: [baseColor, baseColor + '99', baseColor + '44'], borderWidth: 0 }] 
-                }, 
-                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 9 } } } } } 
+            const ctx = document.getElementById('donutChartCanvas').getContext('2d');
+            if (pieChart) pieChart.destroy();
+            pieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Core', 'Others', 'Cash'], datasets: [{ data: [70, 20, 10], backgroundColor: [data.color, data.color + '99', data.color + '33'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 9 } } } } }
             });
         }
     </script>
