@@ -133,6 +133,8 @@
 
         // --- POSTS CONFIG ---
         const POSTS_DATABASE = [
+            { id: "skt-2026-06-02", category: "📊 종목분석", title: "[2026.06.02] SKT: 엔비디아·앤트로픽·스타링크 3각 동맹이 촉발할 통신주의 구조적 리레이팅", date: "2026.06.02", type: "skt" },
+            { id: "daily-2026-06-02", category: "📰 데일리", title: "[2026.06.02] 'K자형 분열': AI 랠리 속 관세의 그림자, 연준의 새 선장 워시", date: "2026.06.02", type: "daily" },
             { id: "ai-infra-2026-full", category: "리포트", title: "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", date: "2026.01.22", type: "report" },
             { id: "etf-dictionary", category: "백과사전", title: "📖 머니대디 ETF 백과사전", date: "2026.01.22", type: "dictionary" },
             { id: "power-analysis", category: "ETF 분석", title: "전력 인프라 ETF (GRID, PAVE, XLU) 분석", date: "2026.01.22", type: "interactive", categoryKey: "power" },
@@ -178,11 +180,821 @@
             wrapper.className = 'fade-in';
             container.appendChild(wrapper);
 
-            if (post.type === 'report') renderFullReport(wrapper);
+            if (post.type === 'skt') renderSktReport(wrapper, post);
+            else if (post.type === 'daily') renderDailyReport(wrapper, post);
+            else if (post.type === 'report') renderFullReport(wrapper);
             else if (post.type === 'dictionary') renderDictionary(wrapper);
             else if (post.type === 'interactive') renderInteractiveDashboard(wrapper, post);
             
             container.scrollTop = 0;
+        }
+
+        // --- RENDERER: DAILY ECONOMIC ISSUE REPORT ---
+        function renderDailyReport(container, post) {
+            container.innerHTML = `
+                <!-- 히어로 배너 -->
+                <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f2942 100%); border-bottom: 4px solid #3b82f6; padding: 3rem 2rem 2.5rem;">
+                    <div style="max-width:860px; margin:0 auto;">
+                        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
+                            <span style="background:rgba(59,130,246,0.2); color:#93c5fd; font-size:0.65rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; padding:0.3rem 0.75rem; border-radius:999px; border:1px solid rgba(59,130,246,0.3);">📰 Daily Issue · 2026.06.02</span>
+                            <span style="background:rgba(239,68,68,0.15); color:#fca5a5; font-size:0.65rem; font-weight:700; padding:0.3rem 0.75rem; border-radius:999px; border:1px solid rgba(239,68,68,0.25);">🔴 LIVE</span>
+                        </div>
+                        <h1 style="color:#f8fafc; font-size:clamp(1.5rem,4vw,2.5rem); font-weight:900; line-height:1.25; margin-bottom:1rem;">'K자형 분열': AI 랠리 속 관세의 그림자,<br>연준의 새 선장 워시</h1>
+                        <p style="color:#94a3b8; font-size:1rem; line-height:1.7;">증시는 역대 최고가를 경신하는데, 내 장바구니 물가는 왜 이럴까요? 오늘 머니대디가 이 묘한 괴리의 정체를 파헤칩니다.</p>
+                        <div style="margin-top:1.5rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+                            <span style="background:rgba(16,185,129,0.1); color:#6ee7b7; font-size:0.7rem; padding:0.25rem 0.6rem; border-radius:6px; border:1px solid rgba(16,185,129,0.2);">📈 S&P500 ATH</span>
+                            <span style="background:rgba(245,158,11,0.1); color:#fcd34d; font-size:0.7rem; padding:0.25rem 0.6rem; border-radius:6px; border:1px solid rgba(245,158,11,0.2);">💸 관세 재부과</span>
+                            <span style="background:rgba(139,92,246,0.1); color:#c4b5fd; font-size:0.7rem; padding:0.25rem 0.6rem; border-radius:6px; border:1px solid rgba(139,92,246,0.2);">🏛️ 워시 연준 의장</span>
+                            <span style="background:rgba(59,130,246,0.1); color:#93c5fd; font-size:0.7rem; padding:0.25rem 0.6rem; border-radius:6px; border:1px solid rgba(59,130,246,0.2);">🤖 AI 랠리</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="max-width:860px; margin:0 auto; padding:2.5rem 1.5rem;">
+
+                    <!-- 오늘의 핵심 요약 카드 -->
+                    <div style="background:linear-gradient(135deg,#eff6ff,#f0fdf4); border:1px solid #bfdbfe; border-radius:1.5rem; padding:1.75rem 2rem; margin-bottom:2.5rem;">
+                        <h2 style="font-size:0.75rem; font-weight:800; color:#1d4ed8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1rem;">⚡ 오늘의 3줄 요약</h2>
+                        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                            <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+                                <span style="background:#3b82f6; color:white; width:1.5rem; height:1.5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:900; flex-shrink:0; margin-top:0.1rem;">1</span>
+                                <p style="margin:0; color:#1e293b; font-size:0.9rem; line-height:1.6;"><b>주식시장은 AI 랠리로 사상 최고가</b>를 경신 중이지만, 관세 비용이 소비자 가격으로 전가되며 서민 체감 물가는 반대로 치솟고 있습니다 — 전형적인 'K자형 경제'입니다.</p>
+                            </div>
+                            <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+                                <span style="background:#059669; color:white; width:1.5rem; height:1.5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:900; flex-shrink:0; margin-top:0.1rem;">2</span>
+                                <p style="margin:0; color:#1e293b; font-size:0.9rem; line-height:1.6;">트럼프 행정부는 연방대법원의 관세 무효화 판결 이후 <b>'1974년 무역법 122조'를 새 무기</b>로 꺼내 들며 글로벌 관세를 재부과, 무역 불확실성을 이어가고 있습니다.</p>
+                            </div>
+                            <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+                                <span style="background:#7c3aed; color:white; width:1.5rem; height:1.5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:900; flex-shrink:0; margin-top:0.1rem;">3</span>
+                                <p style="margin:0; color:#1e293b; font-size:0.9rem; line-height:1.6;">케빈 워시 신임 연준 의장 취임 후 <b>6월 16~17일 FOMC</b>가 첫 분기점입니다. 4월 CPI가 3년 만에 최고치를 기록한 가운데, 금리 동결이 유력하나 매파적 발언 가능성에 주목해야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 섹션 1: K자형 경제 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
+                            <span style="width:4px; height:2rem; background:#3b82f6; border-radius:2px; flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem; font-weight:900; color:#0f172a; margin:0;">1. K자형 경제 — 증시와 민심의 괴리</h2>
+                        </div>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1rem;">안녕하세요, 머니대디입니다! 요즘 뉴스 보면 이런 현상이 자주 눈에 띄죠. <b>"S&P500이 역대 최고가!"</b> 라는 헤드라인과 <b>"장보기가 무섭다"</b>는 유권자들의 목소리가 동시에 나옵니다. 이게 바로 'K자형 경제(K-shaped Economy)'입니다.</p>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1.5rem;">AI 기술주와 반도체 섹터가 지수를 끌어올리는 동안, 관세 비용 인상과 유가 상승으로 실물 경제에서 압박받는 일반 소비자들의 체감 경기는 전혀 다른 이야기입니다. <b>투자를 하는 사람과 하지 않는 사람의 격차</b>가 이렇게 극명하게 드러난 적이 없습니다.</p>
+
+                        <!-- K자형 차트 -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:1.25rem; padding:1.5rem; margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem; font-weight:700; color:#64748b; text-align:center; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">K자형 경제 지표 대비 (2025 → 2026)</h4>
+                            <div style="height:280px; position:relative;"><canvas id="kShapeChart"></canvas></div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem;">
+                            <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5); border:1px solid #a7f3d0; border-radius:1rem; padding:1.25rem;">
+                                <div style="font-size:1.75rem; font-weight:900; color:#059669;">+23%</div>
+                                <div style="font-size:0.8rem; color:#047857; font-weight:600; margin-top:0.25rem;">S&P 500 YTD 상승률</div>
+                                <div style="font-size:0.7rem; color:#6b7280; margin-top:0.25rem;">AI 랠리 · 빅테크 주도</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#fff7ed,#fed7aa); border:1px solid #fdba74; border-radius:1rem; padding:1.25rem;">
+                                <div style="font-size:1.75rem; font-weight:900; color:#d97706;">+3.8%</div>
+                                <div style="font-size:0.8rem; color:#b45309; font-weight:600; margin-top:0.25rem;">4월 CPI (전년비)</div>
+                                <div style="font-size:0.7rem; color:#6b7280; margin-top:0.25rem;">3년 만에 최고치</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#fef2f2,#fecaca); border:1px solid #fca5a5; border-radius:1rem; padding:1.25rem;">
+                                <div style="font-size:1.75rem; font-weight:900; color:#dc2626;">3~5년</div>
+                                <div style="font-size:0.8rem; color:#b91c1c; font-weight:600; margin-top:0.25rem;">관세 환급 대기 기간</div>
+                                <div style="font-size:0.7rem; color:#6b7280; margin-top:0.25rem;">소비자보다 기업 수혜</div>
+                            </div>
+                        </div>
+
+                        <div style="background:#1e293b; color:white; border-radius:1rem; padding:1.25rem 1.5rem; margin-top:1rem;">
+                            <p style="font-size:0.85rem; color:#94a3b8; margin:0; line-height:1.7;">💡 <b style="color:#93c5fd;">머니대디's 인사이트:</b> 이 K자형 경제에서 생존하는 전략은 단순합니다 — <b style="color:#6ee7b7;">AI 관련 인프라 ETF, 기술주 인덱스에 꾸준히 적립식으로 투자하는 것</b>이 실물 물가 상승을 방어하는 가장 현실적인 헤지 수단입니다.</p>
+                        </div>
+                    </section>
+
+                    <!-- 섹션 2: 관세 재부과 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
+                            <span style="width:4px; height:2rem; background:#f59e0b; border-radius:2px; flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem; font-weight:900; color:#0f172a; margin:0;">2. 관세 2.0 — '1974년 법'이라는 새 무기</h2>
+                        </div>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1rem;">연방대법원이 트럼프 행정부의 관세 조치 일부를 무효화했습니다. 그런데 행정부는 포기하지 않았습니다. <b>'1974년 무역법 제122조(Trade Act of 1974, Section 122)'</b>라는 새로운 법적 근거를 꺼내 들며 글로벌 관세를 재부과하고 있습니다.</p>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1.5rem;">이 법 조항은 국제수지 문제가 있을 때 대통령이 단독으로 최대 <b>15%의 수입 관세</b>를 150일간 부과할 수 있는 조항입니다. 시장 입장에서는 무역 정책 불확실성이 <b>'만성적 리스크'</b>로 굳어지는 셈입니다.</p>
+
+                        <!-- 관세 영향 테이블 -->
+                        <div style="overflow-x:auto; border:1px solid #e2e8f0; border-radius:1.25rem; margin-bottom:1.5rem;">
+                            <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                                <thead style="background:#f8fafc;">
+                                    <tr>
+                                        <th style="padding:0.875rem 1.25rem; text-align:left; font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">구분</th>
+                                        <th style="padding:0.875rem 1.25rem; text-align:left; font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">내용</th>
+                                        <th style="padding:0.875rem 1.25rem; text-align:left; font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">투자 시사점</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-top:1px solid #f1f5f9;">
+                                        <td style="padding:0.875rem 1.25rem; font-weight:700; color:#0f172a;">관세 무효화</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#475569;">연방대법원, 기존 관세 일부 위법 판결</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#059669; font-weight:600;">단기 증시 긍정 반응</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9; background:#fffbeb;">
+                                        <td style="padding:0.875rem 1.25rem; font-weight:700; color:#0f172a;">관세 2.0</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#475569;">122조 근거 새 관세 부과 (최대 15%, 150일)</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#d97706; font-weight:600;">불확실성 지속 → 방어주 주목</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9;">
+                                        <td style="padding:0.875rem 1.25rem; font-weight:700; color:#0f172a;">소비자 전가</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#475569;">어민·농민 등 핵심 지지층 이탈 조짐</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#dc2626; font-weight:600;">소매·식품 섹터 압박</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9; background:#f0fdf4;">
+                                        <td style="padding:0.875rem 1.25rem; font-weight:700; color:#0f172a;">관세 환급</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#475569;">위법 확정 관세 환급 진행 중</td>
+                                        <td style="padding:0.875rem 1.25rem; color:#059669; font-weight:600;">기업 마진 개선 기대</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:0.5rem; padding:1.25rem 1.5rem;">
+                            <p style="font-size:0.85rem; color:#78350f; margin:0; line-height:1.7;">⚠️ <b>11월 중간선거 변수:</b> 관세로 인한 생활고가 트럼프 핵심 지지층(농민, 어민, 제조업 노동자)으로 확산 중입니다. 중간선거를 앞두고 관세 정책이 완화될 가능성도 배제할 수 없습니다. <b>정치 이벤트를 체크하세요.</b></p>
+                        </div>
+                    </section>
+
+                    <!-- 섹션 3: 연준 신임 의장 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
+                            <span style="width:4px; height:2rem; background:#7c3aed; border-radius:2px; flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem; font-weight:900; color:#0f172a; margin:0;">3. 워시 연준 시대 — 6월 FOMC가 첫 시험대</h2>
+                        </div>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1rem;">5월 말, <b>케빈 워시(Kevin Warsh)</b> 신임 연준 의장이 공식 취임했습니다. 그는 2008년 금융위기 당시 연준 이사를 역임한 인물로, 시장에서는 <b>상대적으로 매파적 성향</b>으로 분류됩니다. 오는 <b>6월 16~17일 FOMC</b> 회의가 그의 첫 공식 무대입니다.</p>
+
+                        <!-- FOMC 시나리오 -->
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-bottom:1.5rem;">
+                            <div style="background:#f0fdf4; border:2px solid #86efac; border-radius:1rem; padding:1.25rem;">
+                                <div style="font-size:1.1rem; font-weight:900; color:#15803d; margin-bottom:0.5rem;">🟢 시나리오 A (유력)</div>
+                                <div style="font-size:1rem; font-weight:800; color:#166534;">금리 동결</div>
+                                <p style="font-size:0.8rem; color:#4b7c59; margin-top:0.5rem; margin-bottom:0;">CPI 고공행진으로 인하 근거 부족. 시장 컨센서스 약 75% 확률.</p>
+                            </div>
+                            <div style="background:#fefce8; border:2px solid #fde047; border-radius:1rem; padding:1.25rem;">
+                                <div style="font-size:1.1rem; font-weight:900; color:#a16207; margin-bottom:0.5rem;">🟡 시나리오 B</div>
+                                <div style="font-size:1rem; font-weight:800; color:#854d0e;">동결 + 매파 발언</div>
+                                <p style="font-size:0.8rem; color:#7c5e0d; margin-top:0.5rem; margin-bottom:0;">워시 의장의 성향상 인플레 경계 메시지 강화 가능. 단기 변동성 주의.</p>
+                            </div>
+                            <div style="background:#fef2f2; border:2px solid #fca5a5; border-radius:1rem; padding:1.25rem;">
+                                <div style="font-size:1.1rem; font-weight:900; color:#dc2626; margin-bottom:0.5rem;">🔴 시나리오 C (소수)</div>
+                                <div style="font-size:1rem; font-weight:800; color:#b91c1c;">금리 인상</div>
+                                <p style="font-size:0.8rem; color:#9b1c1c; margin-top:0.5rem; margin-bottom:0;">가능성 낮음. 경기 둔화 우려와 충돌.</p>
+                            </div>
+                        </div>
+
+                        <!-- FOMC 확률 차트 -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:1.25rem; padding:1.5rem; margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem; font-weight:700; color:#64748b; text-align:center; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">6월 FOMC 시나리오별 시장 예상 확률</h4>
+                            <div style="height:220px; position:relative;"><canvas id="fomcChart"></canvas></div>
+                        </div>
+
+                        <div style="background:#1e293b; color:white; border-radius:1rem; padding:1.25rem 1.5rem;">
+                            <p style="font-size:0.85rem; color:#94a3b8; margin:0; line-height:1.7;">🏛️ <b style="color:#c4b5fd;">머니대디's 인사이트:</b> 금리 동결 자체보다 <b style="color:#fde68a;">점도표(Dot Plot)와 워시 의장의 기자회견 톤</b>이 핵심입니다. 매파 메시지가 나오면 성장주·채권에 단기 조정 가능성이 있습니다. 단, 1~2주 이내 반등을 활용한 <b style="color:#6ee7b7;">적립식 매수 기회</b>로 삼으세요.</p>
+                        </div>
+                    </section>
+
+                    <!-- 섹션 4: AI 랠리 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
+                            <span style="width:4px; height:2rem; background:#0ea5e9; border-radius:2px; flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem; font-weight:900; color:#0f172a; margin:0;">4. AI 랠리는 진짜인가? — 실적이 증명한다</h2>
+                        </div>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1rem;">시장의 회의론에도 불구하고 AI 랠리가 계속되는 이유는 단순합니다. <b>실적이 뒷받침되고 있기 때문</b>입니다. 마이크로소프트, 구글, 아마존 등 빅테크들의 AI 관련 매출과 클라우드 성장률이 기대를 상회하며 CapEx 슈퍼사이클이 실재함을 증명하고 있습니다.</p>
+
+                        <p style="color:#475569; line-height:1.8; margin-bottom:1.5rem;">특히 <b>추론(Inference) 수요의 폭발</b>이 주목됩니다. 과거 학습(Training) 위주였다면, 이제는 실사용자와 접점인 추론 단계로 AI 워크로드가 확산되며 데이터 센터, 전력 인프라, 반도체 공급망 전반에 구조적 수요를 만들고 있습니다.</p>
+
+                        <!-- AI 섹터별 성과 차트 -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:1.25rem; padding:1.5rem; margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem; font-weight:700; color:#64748b; text-align:center; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">AI 관련 테마 ETF 연초 대비 성과 (%)</h4>
+                            <div style="height:260px; position:relative;"><canvas id="aiPerformanceChart"></canvas></div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:0.75rem;">
+                            <div style="text-align:center; background:white; border:1px solid #e2e8f0; border-radius:1rem; padding:1rem;">
+                                <div style="font-size:1.5rem; font-weight:900; color:#0ea5e9;">560B$</div>
+                                <div style="font-size:0.75rem; color:#475569; margin-top:0.25rem;">TSMC 2026 CapEx 가이던스</div>
+                            </div>
+                            <div style="text-align:center; background:white; border:1px solid #e2e8f0; border-radius:1rem; padding:1rem;">
+                                <div style="font-size:1.5rem; font-weight:900; color:#7c3aed;">75%</div>
+                                <div style="font-size:0.75rem; color:#475569; margin-top:0.25rem;">2026 AI 추론 워크로드 비중</div>
+                            </div>
+                            <div style="text-align:center; background:white; border:1px solid #e2e8f0; border-radius:1rem; padding:1rem;">
+                                <div style="font-size:1.5rem; font-weight:900; color:#059669;">3~5년</div>
+                                <div style="font-size:0.75rem; color:#475569; margin-top:0.25rem;">미국 전력망 연결 대기 시간</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 오늘의 투자 체크리스트 -->
+                    <section style="margin-bottom:2.5rem;">
+                        <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f); color:white; border-radius:1.5rem; padding:2rem;">
+                            <h2 style="font-size:1.25rem; font-weight:900; color:#93c5fd; margin-bottom:1.25rem; text-align:center;">📋 오늘의 투자 체크리스트</h2>
+                            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                                <label style="display:flex; align-items:flex-start; gap:0.75rem; cursor:pointer;">
+                                    <input type="checkbox" id="check1" style="margin-top:0.25rem; accent-color:#3b82f6; width:1rem; height:1rem; flex-shrink:0;">
+                                    <span style="color:#e2e8f0; font-size:0.875rem; line-height:1.6;">6월 16~17일 FOMC 결과 & 점도표 확인 → 점도표 변화에 따라 성장주 비중 조절 검토</span>
+                                </label>
+                                <label style="display:flex; align-items:flex-start; gap:0.75rem; cursor:pointer;">
+                                    <input type="checkbox" id="check2" style="margin-top:0.25rem; accent-color:#3b82f6; width:1rem; height:1rem; flex-shrink:0;">
+                                    <span style="color:#e2e8f0; font-size:0.875rem; line-height:1.6;">트럼프 관세 2.0 적용 업종(소매, 식품, 자동차) 포트폴리오 비중 재검토</span>
+                                </label>
+                                <label style="display:flex; align-items:flex-start; gap:0.75rem; cursor:pointer;">
+                                    <input type="checkbox" id="check3" style="margin-top:0.25rem; accent-color:#3b82f6; width:1rem; height:1rem; flex-shrink:0;">
+                                    <span style="color:#e2e8f0; font-size:0.875rem; line-height:1.6;">AI 인프라 ETF(DTCR, GRID, PAVE) 비중 확인 → 물가 헤지 + 성장 동참 가능</span>
+                                </label>
+                                <label style="display:flex; align-items:flex-start; gap:0.75rem; cursor:pointer;">
+                                    <input type="checkbox" id="check4" style="margin-top:0.25rem; accent-color:#3b82f6; width:1rem; height:1rem; flex-shrink:0;">
+                                    <span style="color:#e2e8f0; font-size:0.875rem; line-height:1.6;">K자형 경제 심화 시 수혜 자산(기술주 인덱스, 금) vs 피해 업종(경기소비재) 구분 정리</span>
+                                </label>
+                                <label style="display:flex; align-items:flex-start; gap:0.75rem; cursor:pointer;">
+                                    <input type="checkbox" id="check5" style="margin-top:0.25rem; accent-color:#3b82f6; width:1rem; height:1rem; flex-shrink:0;">
+                                    <span style="color:#e2e8f0; font-size:0.875rem; line-height:1.6;">11월 중간선거 이슈 모니터링 → 관세 완화 정책 전환 시 소비재·수입 의존 업종 반등 가능</span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 태그 -->
+                    <div style="text-align:center; margin-bottom:2rem;">
+                        <p style="font-size:0.7rem; color:#94a3b8; line-height:2;">
+                            #K자형경제 #트럼프관세 #연준FOMC #워시의장 #AI랠리 #S&P500최고가 #머니대디 #경제이슈 #미국주식 #인플레이션
+                        </p>
+                    </div>
+
+                    <!-- 다음 콘텐츠 유도 -->
+                    <div style="background:#f1f5f9; border-radius:1.25rem; padding:1.5rem; text-align:center;">
+                        <p style="font-size:0.85rem; color:#475569; margin-bottom:1rem;">📊 오늘 언급된 AI 인프라 ETF가 궁금하다면?</p>
+                        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center;">
+                            <button onclick="loadPost('ai-infra-2026-full')" style="background:#1d4ed8; color:white; border:none; padding:0.625rem 1.25rem; border-radius:0.75rem; font-size:0.8rem; font-weight:700; cursor:pointer;">📖 AI 인프라 투자 보고서</button>
+                            <button onclick="loadPost('data-analysis')" style="background:#059669; color:white; border:none; padding:0.625rem 1.25rem; border-radius:0.75rem; font-size:0.8rem; font-weight:700; cursor:pointer;">🏗️ 데이터 인프라 ETF 분석</button>
+                            <button onclick="loadPost('power-analysis')" style="background:#4f46e5; color:white; border:none; padding:0.625rem 1.25rem; border-radius:0.75rem; font-size:0.8rem; font-weight:700; cursor:pointer;">⚡ 전력 인프라 ETF 분석</button>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+
+            // K자형 경제 차트
+            setTimeout(() => {
+                const kCtx = document.getElementById('kShapeChart');
+                if (kCtx) {
+                    new Chart(kCtx.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['2024 Q4', '2025 Q1', '2025 Q2', '2025 Q3', '2025 Q4', '2026 Q1', '2026 Q2*'],
+                            datasets: [
+                                {
+                                    label: '📈 S&P500 수익률 (누적, 기준=100)',
+                                    data: [100, 108, 115, 121, 130, 142, 123],
+                                    borderColor: '#10b981',
+                                    backgroundColor: 'rgba(16,185,129,0.08)',
+                                    fill: true,
+                                    tension: 0.4,
+                                    borderWidth: 3,
+                                    pointRadius: 4
+                                },
+                                {
+                                    label: '🛒 소비자 물가 지수 (CPI, 기준=100)',
+                                    data: [100, 101, 102.5, 103.8, 104.5, 105.9, 107.2],
+                                    borderColor: '#f59e0b',
+                                    backgroundColor: 'rgba(245,158,11,0.05)',
+                                    fill: true,
+                                    tension: 0.4,
+                                    borderWidth: 2,
+                                    borderDash: [5,3],
+                                    pointRadius: 4
+                                },
+                                {
+                                    label: '😟 소비자 심리지수 (기준=100)',
+                                    data: [100, 97, 94, 91, 88, 84, 82],
+                                    borderColor: '#ef4444',
+                                    backgroundColor: 'rgba(239,68,68,0.05)',
+                                    fill: false,
+                                    tension: 0.4,
+                                    borderWidth: 2,
+                                    pointRadius: 4
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+                                tooltip: { mode: 'index', intersect: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: false, grid: { color: 'rgba(0,0,0,0.05)' } },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    });
+                }
+
+                // FOMC 시나리오 차트
+                const fomcCtx = document.getElementById('fomcChart');
+                if (fomcCtx) {
+                    new Chart(fomcCtx.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['금리 동결 (A)', '동결+매파 발언 (B)', '금리 인상 (C)'],
+                            datasets: [{
+                                data: [50, 38, 12],
+                                backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                                borderWidth: 0,
+                                hoverOffset: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '65%',
+                            plugins: {
+                                legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 }, padding: 16 } },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (ctx) => ` ${ctx.label}: ${ctx.parsed}% 확률`
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // AI 섹터 성과 차트
+                const aiCtx = document.getElementById('aiPerformanceChart');
+                if (aiCtx) {
+                    new Chart(aiCtx.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['DTCR\n데이터 인프라', 'GRID\n전력 인프라', 'QTUM\n양자컴퓨팅', 'PAVE\n건설 인프라', 'SRVR\n데이터 리츠', 'XLU\n유틸리티', 'S&P500\n전체 지수'],
+                            datasets: [{
+                                label: '2026 YTD 수익률 (%)',
+                                data: [22.4, 18.7, 16.2, 14.8, 9.3, 11.2, 23.0],
+                                backgroundColor: [
+                                    'rgba(29,78,216,0.85)',
+                                    'rgba(79,70,229,0.85)',
+                                    'rgba(124,58,237,0.85)',
+                                    'rgba(99,102,241,0.85)',
+                                    'rgba(5,150,105,0.85)',
+                                    'rgba(168,85,247,0.85)',
+                                    'rgba(16,185,129,0.85)'
+                                ],
+                                borderRadius: 8,
+                                borderSkipped: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (ctx) => ` YTD: +${ctx.parsed.y}%`
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0,0,0,0.05)' },
+                                    ticks: { callback: (v) => v + '%' }
+                                },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+        }
+
+        // --- RENDERER: SKT INVESTMENT ANALYSIS REPORT ---
+        function renderSktReport(container, post) {
+            container.innerHTML = `
+                <!-- 히어로 배너 -->
+                <div style="background:linear-gradient(135deg,#0c1445 0%,#1a237e 40%,#0d3b5e 100%);border-bottom:4px solid #f59e0b;padding:3rem 2rem 2.5rem;">
+                    <div style="max-width:900px;margin:0 auto;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+                            <span style="background:rgba(245,158,11,0.2);color:#fcd34d;font-size:0.65rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid rgba(245,158,11,0.35);">📊 종목분석 · 2026.06.02</span>
+                            <span style="background:rgba(16,185,129,0.15);color:#6ee7b7;font-size:0.65rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid rgba(16,185,129,0.3);">🟢 매수의견</span>
+                            <span style="background:rgba(239,68,68,0.15);color:#fca5a5;font-size:0.65rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid rgba(239,68,68,0.25);">🔴 LIVE</span>
+                        </div>
+                        <h1 style="color:#f8fafc;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.25;margin-bottom:1rem;">SK텔레콤: 엔비디아·앤트로픽·스타링크<br>3각 동맹이 촉발할 통신주의 구조적 리레이팅</h1>
+                        <p style="color:#94a3b8;font-size:0.95rem;line-height:1.7;">배당주 딱지를 떼고 '풀스택 AI 기업'으로 변신 중인 SKT. 2026년 6월 현재, 머니대디가 숫자로 검증합니다.</p>
+                        <div style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                            <span style="background:rgba(99,102,241,0.1);color:#c4b5fd;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(99,102,241,0.25);">🤖 엔비디아 블랙웰</span>
+                            <span style="background:rgba(245,158,11,0.1);color:#fcd34d;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(245,158,11,0.2);">💎 앤트로픽 지분 4조</span>
+                            <span style="background:rgba(59,130,246,0.1);color:#93c5fd;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(59,130,246,0.2);">🛰️ 스타링크 헤징</span>
+                            <span style="background:rgba(16,185,129,0.1);color:#6ee7b7;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(16,185,129,0.2);">📈 AIDC +89%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="max-width:900px;margin:0 auto;padding:2.5rem 1.5rem;">
+
+                    <!-- 3줄 요약 -->
+                    <div style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fcd34d;border-radius:1.5rem;padding:1.75rem 2rem;margin-bottom:2.5rem;">
+                        <h2 style="font-size:0.75rem;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">⚡ 오늘의 3줄 요약 — SKT편</h2>
+                        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                            <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                                <span style="background:#f59e0b;color:white;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;flex-shrink:0;margin-top:0.1rem;">1</span>
+                                <p style="margin:0;color:#1e293b;font-size:0.9rem;line-height:1.6;"><b>1분기 영업이익 5,376억 원</b> — 전 분기 대비 351% 폭증, 분기 5천억 선 1년 만에 탈환. AIDC 매출은 전년 연간 대비 89.3% 성장으로 '통신주' 딱지를 스스로 벗고 있습니다.</p>
+                            </div>
+                            <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                                <span style="background:#7c3aed;color:white;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;flex-shrink:0;margin-top:0.1rem;">2</span>
+                                <p style="margin:0;color:#1e293b;font-size:0.9rem;line-height:1.6;"><b>앤트로픽 지분 평가액 최대 4조 원</b> — 1억 달러 투자가 최소 18배로 불었습니다. IPO 완료 시 SKT 시가총액의 최대 30%에 해당하는 현금성 자산으로, 특별배당·자사주 소각 원천이 됩니다.</p>
+                            </div>
+                            <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                                <span style="background:#0ea5e9;color:white;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;flex-shrink:0;margin-top:0.1rem;">3</span>
+                                <p style="margin:0;color:#1e293b;font-size:0.9rem;line-height:1.6;"><b>스타링크의 위협을 SK텔링크가 수익으로 전환</b> — HMM·팬오션 등 국내 5대 해운사 전 함대에 위성 하이브리드 솔루션 공급. 위협이 돈이 됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 섹션 1: 재무실적 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#f59e0b;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.35rem;font-weight:900;color:#0f172a;margin:0;">1. 재무 실적 — 영업이익 351% 폭증의 의미</h2>
+                        </div>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">안녕하세요, 머니대디입니다! 오늘은 SKT 얘기를 해볼게요. 혹시 SKT 하면 아직도 '고배당 내수 통신주' 이미지가 떠오르세요? 그 이미지, 지금 당장 업데이트하셔야 합니다.</p>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;"><b>2026년 1분기 영업이익 5,376억 원.</b> 전 분기 대비 <b>351.3% 급증</b>입니다. 단순 회복이 아니에요. 구조가 바뀐 겁니다. 특히 AI 데이터센터(AIDC) 부문 매출이 <b>전년 연간 실적 대비 89.3% 성장</b>하며, 이제 SKT는 회선을 파는 회사가 아닌 연산력을 파는 회사로 변신하고 있습니다.</p>
+
+                        <!-- 분기별 실적 차트 -->
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem;font-weight:700;color:#64748b;text-align:center;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">SKT 분기별 영업이익 추이 (억 원)</h4>
+                            <div style="height:260px;position:relative;"><canvas id="sktEarningsChart"></canvas></div>
+                        </div>
+
+                        <!-- KPI 카드 4개 -->
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #93c5fd;border-radius:1rem;padding:1.25rem;">
+                                <div style="font-size:1.6rem;font-weight:900;color:#1d4ed8;">5,376억</div>
+                                <div style="font-size:0.8rem;color:#1e40af;font-weight:600;margin-top:0.25rem;">2026년 1Q 영업이익</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">전 분기 대비 +351.3%</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:1rem;padding:1.25rem;">
+                                <div style="font-size:1.6rem;font-weight:900;color:#059669;">1,314억</div>
+                                <div style="font-size:0.8rem;color:#047857;font-weight:600;margin-top:0.25rem;">AIDC 부문 매출</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">전년 연간 대비 +89.3%</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border:1px solid #d8b4fe;border-radius:1rem;padding:1.25rem;">
+                                <div style="font-size:1.6rem;font-weight:900;color:#7c3aed;">22조+</div>
+                                <div style="font-size:0.8rem;color:#6d28d9;font-weight:600;margin-top:0.25rem;">현재 시가총액</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">10만 원 돌파 · 목표가 12만</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#fff7ed,#fed7aa);border:1px solid #fdba74;border-radius:1rem;padding:1.25rem;">
+                                <div style="font-size:1.6rem;font-weight:900;color:#d97706;">830원</div>
+                                <div style="font-size:0.8rem;color:#b45309;font-weight:600;margin-top:0.25rem;">1Q 분기 배당금 (DPS)</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">연간 3,300원 안팎 전망</div>
+                            </div>
+                        </div>
+
+                        <!-- 수익 구조 도넛 차트 -->
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem;font-weight:700;color:#64748b;text-align:center;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">SKT 매출 포트폴리오 구성 (추정, 2026년)</h4>
+                            <div style="display:flex;flex-direction:column;align-items:center;"><div style="height:220px;position:relative;width:100%;max-width:400px;"><canvas id="sktRevenueChart"></canvas></div></div>
+                        </div>
+
+                        <div style="background:#1e293b;color:white;border-radius:1rem;padding:1.25rem 1.5rem;">
+                            <p style="font-size:0.85rem;color:#94a3b8;margin:0;line-height:1.7;">📡 <b style="color:#fcd34d;">머니대디's 인사이트:</b> NH투자증권이 목표주가를 29% 상향했고, 흥국증권은 목표가 12만 원을 제시했습니다. <b style="color:#6ee7b7;">하방은 고배당이 지키고, 상방은 AI·위성이 열어주는 구조</b> — 이런 종목이 흔하지 않습니다.</p>
+                        </div>
+                    </section>
+
+                    <!-- 섹션 2: 엔비디아 동맹 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#76b900;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.35rem;font-weight:900;color:#0f172a;margin:0;">2. 엔비디아 '풀스택 AI' 동맹 — 젠슨 황이 SKT를 무대에 올린 이유</h2>
+                        </div>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">2026년 6월 1일, 대만 GTC 타이베이 2026 기조연설. 젠슨 황 CEO가 무대 위에서 직접 SKT와 SK하이닉스의 이름을 꺼냈습니다. 단순한 파트너 소개가 아니었어요. <b>에이전틱 디지털 트윈(Agentic Digital Twin)</b> — SKT가 엔비디아 옴니버스 기반으로 개발한 이 기술이, 세계에서 가장 복잡한 반도체 생산 Fab을 실시간 AI로 제어하는 것을 세계 최초로 검증받는 순간이었습니다.</p>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">SK그룹은 이 기술로 <b>2030년까지 반도체 자율 가동 공장</b>을 구축할 계획이고, SKT는 이 솔루션을 고마진 글로벌 라이선스 매출로 연동할 수 있습니다. 여기에 더해 젠슨 황의 방한 시 체결된 <b>블랙웰 GPU 26만 장 공급 협약</b>은 타 통신사가 절대 따라올 수 없는 선점 우위입니다.</p>
+
+                        <!-- AIDC 3개 인프라 비교 -->
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:white;border:2px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;border-top:4px solid #3b82f6;">
+                                <div style="font-size:1rem;font-weight:900;color:#1d4ed8;margin-bottom:0.5rem;">🏢 가산 AIDC</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.75rem;">서울 금천구 · H100 중심</div>
+                                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.4rem;">
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 랙당 44kW — 국내 평균(4.8kW)의 9배</li>
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 아태 최초 람다 한국 리전 유치</li>
+                                    <li style="font-size:0.78rem;color:#374151;">✅ GPUaaS 기업고객 100여 개사</li>
+                                </ul>
+                            </div>
+                            <div style="background:white;border:2px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;border-top:4px solid #76b900;">
+                                <div style="font-size:1rem;font-weight:900;color:#365314;margin-bottom:0.5rem;">⚡ '해인' 클러스터</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.75rem;">블랙웰 B200 탑재 · 국내 최고성능</div>
+                                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.4rem;">
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 엔비디아 최신예 B200 GPU</li>
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 초대형 B2B 엔터프라이즈 전용</li>
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 국내 독보적 연산 처리량</li>
+                                </ul>
+                            </div>
+                            <div style="background:white;border:2px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;border-top:4px solid #f59e0b;">
+                                <div style="font-size:1rem;font-weight:900;color:#b45309;margin-bottom:0.5rem;">🌐 디지털 트윈 플랫폼</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.75rem;">GTC 타이베이 2026 공개</div>
+                                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.4rem;">
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 옴니버스 기반 Fab 자동 정합</li>
+                                    <li style="font-size:0.78rem;color:#374151;">✅ AI가 제조 병목 실시간 조율</li>
+                                    <li style="font-size:0.78rem;color:#374151;">✅ 2030 반도체 자율공장 청사진</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="background:#f0fdf4;border-left:4px solid #10b981;border-radius:0.5rem;padding:1.25rem 1.5rem;">
+                            <p style="font-size:0.85rem;color:#065f46;margin:0;line-height:1.7;">🔑 <b>핵심 포인트:</b> SKT는 이제 GPU 장비 조달(Infra) → 클라우드 구독(GPUaaS) → 3D 트윈 솔루션(Platform) → LLM 서비스(Application)까지 일괄 제공하는 <b>아시아 유일의 '풀스택 AI 기업(Full-Stack AI Operator)'</b>입니다.</p>
+                        </div>
+                    </section>
+
+                    <!-- 섹션 3: 앤트로픽 지분 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#7c3aed;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.35rem;font-weight:900;color:#0f172a;margin:0;">3. 앤트로픽 지분 — 1억 달러가 최대 4조 원이 된 이야기</h2>
+                        </div>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">2023년 8월, SKT는 오픈AI의 가장 강력한 대항마인 <b>앤트로픽(Anthropic)에 1억 달러를 투자</b>했습니다. 당시 앤트로픽 기업가치는 약 50억 달러. SKT가 받아간 지분은 약 2%였습니다.</p>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">이후 구글·아마존의 수조 원 투자가 쏟아지면서 지분율은 0.3%까지 희석됐습니다. 그런데 앤트로픽 기업가치가 <b>3,500억~3,800억 달러(약 460조~580조 원)</b>로 폭등했죠. 일부 VC는 8,000억 달러 밸류에이션까지 제시하는 상황입니다. 지분율이 줄어도, 파이 자체가 비교할 수 없을 만큼 커진 겁니다.</p>
+
+                        <!-- 앤트로픽 가치 성장 차트 -->
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem;font-weight:700;color:#64748b;text-align:center;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">앤트로픽 기업가치 vs SKT 보유 지분 평가액 변화</h4>
+                            <div style="height:260px;position:relative;"><canvas id="anthropicChart"></canvas></div>
+                        </div>
+
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border:1px solid #d8b4fe;border-radius:1rem;padding:1.25rem;text-align:center;">
+                                <div style="font-size:1.5rem;font-weight:900;color:#7c3aed;">최대 4조 원</div>
+                                <div style="font-size:0.8rem;color:#6d28d9;font-weight:600;margin-top:0.25rem;">SKT 지분 예상 시장가치</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">IPO 완료 기준 증권가 추산</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:1rem;padding:1.25rem;text-align:center;">
+                                <div style="font-size:1.5rem;font-weight:900;color:#059669;">시총의 18~30%</div>
+                                <div style="font-size:0.8rem;color:#047857;font-weight:600;margin-top:0.25rem;">SKT 시총 대비 비중</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">현금성 자산 직결</div>
+                            </div>
+                            <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #93c5fd;border-radius:1rem;padding:1.25rem;text-align:center;">
+                                <div style="font-size:1.5rem;font-weight:900;color:#1d4ed8;">2026년 4Q</div>
+                                <div style="font-size:0.8rem;color:#1e40af;font-weight:600;margin-top:0.25rem;">앤트로픽 IPO 예상 시점</div>
+                                <div style="font-size:0.7rem;color:#6b7280;margin-top:0.25rem;">특별배당·자사주 소각 원천</div>
+                            </div>
+                        </div>
+
+                        <!-- GTAA & 신텔리전스 박스 -->
+                        <div style="background:#0f172a;color:white;border-radius:1.25rem;padding:1.75rem;">
+                            <h3 style="font-size:1rem;font-weight:800;color:#c4b5fd;margin-bottom:1rem;">🌐 글로벌 텔코 AI 얼라이언스(GTAA) & 신텔리전스 AI</h3>
+                            <p style="font-size:0.85rem;color:#94a3b8;line-height:1.7;margin-bottom:0.75rem;">SKT는 앤트로픽의 '클로드(Claude)'를 기반으로, <b style="color:#e2e8f0;">도이치텔레콤·e&그룹·싱텔·소프트뱅크</b>와 공동으로 글로벌 텔코 AI 얼라이언스(GTAA)를 결성했습니다.</p>
+                            <p style="font-size:0.85rem;color:#94a3b8;line-height:1.7;">2026년 3월 MWC26에서 500억 원 공동 출자로 합작법인 <b style="color:#fde68a;">'신텔리전스 AI(Sintelligence AI)'</b>를 출범, 전 세계 가입자 <b style="color:#6ee7b7;">13억 명</b>에게 통신 특화 다국어 LLM을 공급하는 플랫폼을 가동 중입니다.</p>
+                        </div>
+                    </section>
+
+                    <!-- 섹션 4: 스타링크 팩트체크 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#ef4444;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.35rem;font-weight:900;color:#0f172a;margin:0;">4. 스타링크 팩트체크 — 위협인가, 기회인가?</h2>
+                        </div>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">2025년 12월, 스타링크코리아가 한국에서 공식 서비스를 시작했습니다. 통신주 투자자들이 가장 많이 받는 질문 중 하나가 바로 이겁니다. <b>"스타링크 때문에 SKT 위험한 거 아닌가요?"</b></p>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">솔직하게 말씀드리겠습니다. <b>일부는 위협 맞습니다.</b> 하지만 SKT는 이 위협을 이미 돈으로 바꾸고 있습니다. 자회사 <b>SK텔링크</b>가 스타링크의 공식 리셀러로서 해상·항공 B2B 시장을 통째로 선점하고 있거든요.</p>
+
+                        <!-- 위협 vs 방어 카드 -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:#fef2f2;border-left:4px solid #ef4444;border-radius:0.75rem;padding:1.25rem;">
+                                <div style="font-weight:800;color:#b91c1c;font-size:0.9rem;margin-bottom:0.75rem;">⚠️ 위협 요인</div>
+                                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+                                    <li style="font-size:0.78rem;color:#374151;">🔴 도서·산간 B2B 지상망 잠식</li>
+                                    <li style="font-size:0.78rem;color:#374151;">🔴 6G NTN 시대 위성 패권 위협</li>
+                                    <li style="font-size:0.78rem;color:#374151;">🔴 스마트 국방·항만 시장 충돌</li>
+                                    <li style="font-size:0.78rem;color:#374151;">🔴 7,900대+ 위성 함대 운용 중</li>
+                                </ul>
+                            </div>
+                            <div style="background:#f0fdf4;border-left:4px solid #10b981;border-radius:0.75rem;padding:1.25rem;">
+                                <div style="font-weight:800;color:#065f46;font-size:0.9rem;margin-bottom:0.75rem;">✅ SK텔링크 헤징</div>
+                                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+                                    <li style="font-size:0.78rem;color:#374151;">🟢 스타링크 공식 리셀러 계약</li>
+                                    <li style="font-size:0.78rem;color:#374151;">🟢 LEO+GEO 하이브리드 6종 출시</li>
+                                    <li style="font-size:0.78rem;color:#374151;">🟢 HMM·팬오션 등 5대 해운사 전 함대 계약</li>
+                                    <li style="font-size:0.78rem;color:#374151;">🟢 항공(한진그룹) 3Q 본격 도입 예정</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 스타링크 vs 지상망 비교 차트 -->
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.75rem;font-weight:700;color:#64748b;text-align:center;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">통신 방식별 B2B 해상·오지 시장 커버리지 효율 지수</h4>
+                            <div style="height:240px;position:relative;"><canvas id="sktStarlinkChart"></canvas></div>
+                        </div>
+
+                        <!-- 팬오션 사례 -->
+                        <div style="background:#1e3a5f;color:white;border-radius:1rem;padding:1.5rem;">
+                            <h3 style="font-size:0.9rem;font-weight:800;color:#93c5fd;margin-bottom:0.75rem;">🚢 팩트체크: 팬오션 113척 전 함대 계약 사례</h3>
+                            <p style="font-size:0.82rem;color:#94a3b8;line-height:1.7;margin-bottom:0.5rem;">SK텔링크는 팬오션 113척 전 함대에 스타링크를 결합 — 선박 연료 소모 측정, 자율 탐색, 엔진 예측 정비를 온쇼어 센터와 실시간 연동합니다.</p>
+                            <p style="font-size:0.82rem;color:#94a3b8;line-height:1.7;">HMM, 에이치라인해운, SK해운, KSS해운과도 '함대 전량 개조 탑재(Fleet-Wide)' 계약을 체결. <b style="color:#fde68a;">스타링크를 위협이 아닌 수익원으로 포섭한 것입니다.</b></p>
+                        </div>
+                    </section>
+
+                    <!-- 결론 및 투자 요약 -->
+                    <section style="margin-bottom:2.5rem;">
+                        <div style="background:linear-gradient(135deg,#0c1445,#1a237e,#0d3b5e);color:white;border-radius:1.5rem;padding:2rem;">
+                            <h2 style="font-size:1.25rem;font-weight:900;color:#fcd34d;margin-bottom:1.5rem;text-align:center;">📋 머니대디 결론: '방어적 유틸리티'에서 '핵심 AI 인프라 플랫폼'으로</h2>
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:1rem;padding:1rem;">
+                                    <div style="font-size:0.75rem;font-weight:800;color:#6ee7b7;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">① 본업 안전판</div>
+                                    <p style="font-size:0.78rem;color:#cbd5e1;margin:0;line-height:1.6;">5,000억 대 분기 영업이익으로 강력한 밸류에이션 하방을 지지. 배당주로도 손색 없습니다.</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:1rem;padding:1rem;">
+                                    <div style="font-size:0.75rem;font-weight:800;color:#fcd34d;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">② AI 업사이드</div>
+                                    <p style="font-size:0.78rem;color:#cbd5e1;margin:0;line-height:1.6;">엔비디아 블랙웰 선점 + AIDC 89% 성장 + 에이전틱 디지털 트윈 IP 라이선스 잠재력</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:1rem;padding:1rem;">
+                                    <div style="font-size:0.75rem;font-weight:800;color:#c4b5fd;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">③ 앤트로픽 잭팟</div>
+                                    <p style="font-size:0.78rem;color:#cbd5e1;margin:0;line-height:1.6;">IPO 완료 시 최대 4조 원 현금화 → 특별배당·자사주 소각 시나리오로 외국인·기관 수급 쏠림 예상</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:1rem;padding:1rem;">
+                                    <div style="font-size:0.75rem;font-weight:800;color:#93c5fd;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">④ 위성 헤징</div>
+                                    <p style="font-size:0.78rem;color:#cbd5e1;margin:0;line-height:1.6;">스타링크를 적이 아닌 수익으로 전환, 6G NTN 시대를 선점하는 초석 완성</p>
+                                </div>
+                            </div>
+                            <div style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:1rem;padding:1.25rem;text-align:center;">
+                                <p style="font-size:0.9rem;color:#fde68a;font-weight:700;margin:0;line-height:1.7;">"SKT는 <b>하방이 고배당 통신 실적</b>으로 굳게 잠기고, <b>상방은 Nvidia·Anthropic·Starlink 3각 동맹</b>으로 활짝 열린 — 2026년 대한민국 증시 최고의 구조적 리레이팅 종목입니다."</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 태그 -->
+                    <div style="text-align:center;margin-bottom:2rem;">
+                        <p style="font-size:0.7rem;color:#94a3b8;line-height:2;">
+                            #SKT #SK텔레콤 #엔비디아파트너십 #앤트로픽IPO #스타링크 #SK텔링크 #AIDC #GPUaaS #해인클러스터 #통신주리레이팅
+                        </p>
+                    </div>
+
+                    <!-- 관련 콘텐츠 -->
+                    <div style="background:#f1f5f9;border-radius:1.25rem;padding:1.5rem;text-align:center;">
+                        <p style="font-size:0.85rem;color:#475569;margin-bottom:1rem;">📊 AI 인프라 ETF로 유사 테마에 분산 투자하고 싶다면?</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;">
+                            <button onclick="loadPost('data-analysis')" style="background:#1d4ed8;color:white;border:none;padding:0.625rem 1.25rem;border-radius:0.75rem;font-size:0.8rem;font-weight:700;cursor:pointer;">🏗️ 데이터 인프라 ETF 분석</button>
+                            <button onclick="loadPost('power-analysis')" style="background:#4f46e5;color:white;border:none;padding:0.625rem 1.25rem;border-radius:0.75rem;font-size:0.8rem;font-weight:700;cursor:pointer;">⚡ 전력 인프라 ETF 분석</button>
+                            <button onclick="loadPost('ai-infra-2026-full')" style="background:#059669;color:white;border:none;padding:0.625rem 1.25rem;border-radius:0.75rem;font-size:0.8rem;font-weight:700;cursor:pointer;">📖 AI 인프라 투자 보고서</button>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+
+            // 차트 초기화
+            setTimeout(() => {
+                // 1. 분기별 영업이익 바 차트
+                const earCtx = document.getElementById('sktEarningsChart');
+                if (earCtx) {
+                    new Chart(earCtx.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['2025 Q1', '2025 Q2', '2025 Q3', '2025 Q4', '2026 Q1'],
+                            datasets: [{
+                                label: '영업이익 (억 원)',
+                                data: [5100, 4800, 3200, 1191, 5376],
+                                backgroundColor: ['#94a3b8','#94a3b8','#94a3b8','#f87171','#f59e0b'],
+                                borderRadius: 8,
+                                borderSkipped: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { callbacks: { label: ctx => ` 영업이익: ${ctx.parsed.y.toLocaleString()}억 원` } }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, grid: { color:'rgba(0,0,0,0.05)' }, ticks: { callback: v => v.toLocaleString() + '억' } },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    });
+                }
+
+                // 2. 매출 포트폴리오 도넛 차트
+                const revCtx = document.getElementById('sktRevenueChart');
+                if (revCtx) {
+                    new Chart(revCtx.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['유무선 통신 (MNO)', 'AIDC / GPUaaS', 'SK브로드밴드', '미디어·구독·기타'],
+                            datasets: [{
+                                data: [58, 8, 26, 8],
+                                backgroundColor: ['#1d4ed8','#f59e0b','#10b981','#94a3b8'],
+                                borderWidth: 0,
+                                hoverOffset: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '68%',
+                            plugins: {
+                                legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 }, padding: 14 } },
+                                tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` } }
+                            }
+                        }
+                    });
+                }
+
+                // 3. 앤트로픽 기업가치 성장 차트
+                const anthCtx = document.getElementById('anthropicChart');
+                if (anthCtx) {
+                    new Chart(anthCtx.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['투자 시점\n(2023.08)', '시리즈B\n(2024.01)', '구글·아마존\n추가 투자', '2025 말', 'pre-IPO\n(2026 Q1)', 'IPO 예상\n(2026 Q4)'],
+                            datasets: [
+                                {
+                                    label: '앤트로픽 기업가치 (억 달러)',
+                                    data: [50, 180, 650, 1800, 3600, 5000],
+                                    borderColor: '#7c3aed',
+                                    backgroundColor: 'rgba(124,58,237,0.1)',
+                                    fill: true,
+                                    tension: 0.4,
+                                    borderWidth: 3,
+                                    pointRadius: 5,
+                                    yAxisID: 'y'
+                                },
+                                {
+                                    label: 'SKT 지분 평가액 (억 원)',
+                                    data: [1300, 3500, 7000, 12000, 28000, 40000],
+                                    borderColor: '#f59e0b',
+                                    backgroundColor: 'rgba(245,158,11,0.06)',
+                                    fill: false,
+                                    tension: 0.4,
+                                    borderWidth: 2,
+                                    borderDash: [6,3],
+                                    pointRadius: 5,
+                                    yAxisID: 'y1'
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+                                tooltip: { mode: 'index', intersect: false }
+                            },
+                            scales: {
+                                y: { type:'linear', position:'left', grid:{ color:'rgba(0,0,0,0.05)' }, title:{ display:true, text:'기업가치 (억$)' } },
+                                y1: { type:'linear', position:'right', grid:{ drawOnChartArea:false }, title:{ display:true, text:'SKT 지분 평가 (억원)' } },
+                                x: { grid:{ display:false } }
+                            }
+                        }
+                    });
+                }
+
+                // 4. 스타링크 커버리지 효율 바 차트
+                const starCtx = document.getElementById('sktStarlinkChart');
+                if (starCtx) {
+                    new Chart(starCtx.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['기존 지상망\n(도심)', '기존 지상망\n(해상·오지)', '스타링크\n단독', 'SK텔링크\n하이브리드'],
+                            datasets: [{
+                                label: '커버리지 및 서비스 효율 지수',
+                                data: [95, 10, 82, 96],
+                                backgroundColor: ['#64748b','#cbd5e1','#ef4444','#3b82f6'],
+                                borderRadius: 8,
+                                borderSkipped: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { callbacks: { label: ctx => ` 효율 지수: ${ctx.parsed.y}점` } }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, max: 100, grid:{ color:'rgba(0,0,0,0.05)' }, ticks:{ callback: v => v + '점' } },
+                                x: { grid:{ display:false } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
         }
 
         // --- RENDERER: FULL SIGNATURE REPORT ---
