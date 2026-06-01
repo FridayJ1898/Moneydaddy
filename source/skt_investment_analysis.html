@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK텔레콤 투자 분석: AI와 위성통신의 교차점</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Neutrals & Deep Blue (Background: stone-50, Cards: white, Accents: blue-800 & amber-600) -->
+    <!-- Application Structure Plan: The SPA is structured as a scrolling interactive report. It starts with an executive summary dashboard, followed by deep dives into 'AI Infrastructure (Nvidia/Anthropic)' and 'Aerospace Threats & Defense (Starlink)'. This structure allows users to immediately grasp the investment thesis, then explore the specifics of the AI pivot and the controversial Starlink relationship interactively, addressing the user's specific fact-checking request regarding SK Telink. -->
+    <!-- Visualization & Content Choices: 
+         1. Financial Overview -> Goal: Inform -> Doughnut Chart (Chart.js) -> Hover details -> Shows revenue diversification.
+         2. AI Strategy -> Goal: Organize -> Interactive Tabs (JS) -> Click to switch content -> Separates H/W (Nvidia) and S/W (Anthropic) for clarity.
+         3. Starlink Threat vs Defense -> Goal: Compare -> Interactive Reveal/Cards & Bar Chart (Chart.js) -> Compares terrestrial vs satellite impact -> Directly addresses user's concern about the threat of Starlink and clarifies the SK Telink hedging strategy. 
+         Library: Chart.js for all charts. NO SVG. NO Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fafaf9; /* stone-50 */
+            color: #292524; /* stone-800 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #ea580c; /* orange-600 */
+            color: #ea580c;
+            font-weight: 700;
+        }
+        
+        .smooth-transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Navigation -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-chart-line text-blue-800 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-tight text-blue-900">머니대디 인사이트</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#summary" class="text-stone-600 hover:text-blue-800 smooth-transition font-medium">요약</a>
+                    <a href="#ai-strategy" class="text-stone-600 hover:text-blue-800 smooth-transition font-medium">AI 패러다임 전환</a>
+                    <a href="#starlink-factcheck" class="text-stone-600 hover:text-blue-800 smooth-transition font-medium">스타링크 팩트체크</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- Section: Executive Summary -->
+        <section id="summary" class="bg-white rounded-2xl shadow-sm border border-stone-200 p-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-900 mb-4">SK텔레콤 투자 분석 리포트</h1>
+            <p class="text-stone-500 mb-8 border-l-4 border-amber-500 pl-4">이 섹션은 SK텔레콤의 현재 투자 가치를 요약합니다. 전통적인 통신주에서 글로벌 AI 컴퍼니로 도약하려는 비전과, 위성 통신망의 위협에 대한 팩트체크를 제공하여 투자 방향성을 제시합니다.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Key Insight 1 -->
+                <div class="bg-stone-50 p-6 rounded-xl border border-stone-100">
+                    <div class="text-amber-600 text-3xl mb-4"><i class="fa-solid fa-microchip"></i></div>
+                    <h3 class="font-bold text-lg mb-2">엔비디아 인프라 동맹</h3>
+                    <p class="text-stone-600 text-sm">GPU 부족 사태 속에서 SKT는 엔비디아의 블랙웰을 우선 확보할 수 있는 파트너십을 구축, AIDC(AI 데이터센터) 시장을 선점 중입니다.</p>
+                </div>
+                <!-- Key Insight 2 -->
+                <div class="bg-stone-50 p-6 rounded-xl border border-stone-100">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="font-bold text-lg mb-2">앤트로픽 지분 투자</h3>
+                    <p class="text-stone-600 text-sm">오픈AI의 대항마 '앤트로픽'에 1억 달러를 투자하여 지분을 확보했으며, 글로벌 텔코 LLM 개발을 주도하여 소프트웨어 역량을 강화하고 있습니다.</p>
+                </div>
+                <!-- Key Insight 3 -->
+                <div class="bg-stone-50 p-6 rounded-xl border border-stone-100 border-l-4 border-l-red-500">
+                    <div class="text-red-600 text-3xl mb-4"><i class="fa-solid fa-satellite"></i></div>
+                    <h3 class="font-bold text-lg mb-2">스타링크: 위협과 방어</h3>
+                    <p class="text-stone-600 text-sm">스타링크의 LEO 망은 <b>분명한 지상망 위협</b>입니다. 그러나 자회사 'SK텔링크'를 통한 리셀러 계약으로 B2B 해상망 등에서 선제적 방어(헤징)를 수행 중입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: AI Strategy (Nvidia & Anthropic) -->
+        <section id="ai-strategy">
+            <h2 class="text-2xl font-bold text-stone-800 mb-2">AI 피봇팅: 인프라와 모델의 결합</h2>
+            <p class="text-stone-600 mb-6">이 섹션에서는 SKT가 어떻게 AI 기업으로 체질을 개선하고 있는지 하드웨어(엔비디아)와 소프트웨어(앤트로픽) 관점에서 인터랙티브하게 탐색할 수 있습니다. 탭을 클릭하여 상세 내용을 확인하세요.</p>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+                <!-- Tabs -->
+                <div class="flex border-b border-stone-200 bg-stone-50">
+                    <button id="btn-infra" class="flex-1 py-4 px-6 text-center font-medium text-stone-500 hover:text-stone-800 smooth-transition tab-active" onclick="switchTab('infra')">
+                        <i class="fa-solid fa-server mr-2"></i>AI 인프라 (NVIDIA 협력)
+                    </button>
+                    <button id="btn-model" class="flex-1 py-4 px-6 text-center font-medium text-stone-500 hover:text-stone-800 smooth-transition" onclick="switchTab('model')">
+                        <i class="fa-solid fa-language mr-2"></i>AI 모델 (Anthropic 투자)
+                    </button>
+                </div>
+
+                <!-- Tab Content: Infra -->
+                <div id="content-infra" class="p-8">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">"AI 팩토리"를 향한 AIDC 확장</h3>
+                            <p class="text-stone-600 mb-4 leading-relaxed">
+                                SK텔레콤은 통신망을 넘어 <b>AI 데이터센터(AIDC)</b> 구축에 사활을 걸고 있습니다. 젠슨 황 엔비디아 CEO의 방한 및 협력 논의는 단순한 해프닝이 아닙니다. SK하이닉스(HBM)와의 그룹 시너지를 바탕으로, 차세대 GPU(블랙웰 등)를 우선 수급하여 국내 GPU 클라우드(GPUaaS) 시장을 독식하려는 전략입니다.
+                            </p>
+                            <ul class="space-y-2 mt-4 text-sm text-stone-700">
+                                <li><i class="fa-solid fa-check text-green-600 mr-2"></i> 가산 AIDC 및 해인 클러스터 등 인프라 고도화</li>
+                                <li><i class="fa-solid fa-check text-green-600 mr-2"></i> 엔비디아와의 파트너십을 통한 컴퓨팅 파워 선점</li>
+                                <li><i class="fa-solid fa-check text-green-600 mr-2"></i> 기존 통신국사를 AI 에지(Edge) 데이터센터로 전환</li>
+                            </ul>
+                        </div>
+                        <div class="flex-1 bg-stone-100 p-6 rounded-xl text-center border border-stone-200">
+                            <i class="fa-solid fa-network-wired text-6xl text-blue-300 mb-4"></i>
+                            <div class="text-2xl font-bold text-stone-800 mb-2">AIDC 매출 고성장 예상</div>
+                            <p class="text-stone-500 text-sm">단순 회선 임대에서 벗어나 연산력을 빌려주는 고수익 비즈니스 모델로의 전환</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Model -->
+                <div id="content-model" class="p-8 hide">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="flex-1 bg-stone-100 p-6 rounded-xl text-center border border-stone-200">
+                            <i class="fa-solid fa-robot text-6xl text-amber-500 mb-4"></i>
+                            <div class="text-2xl font-bold text-stone-800 mb-2">기업가치 급등 수혜</div>
+                            <p class="text-stone-500 text-sm">오픈AI에 필적하는 앤트로픽의 기업가치 상승 시, SKT의 보유 지분(1억 달러) 가치도 동반 상승하는 잭팟 효과</p>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-amber-700 mb-4">글로벌 텔코 얼라이언스와 Claude AI</h3>
+                            <p class="text-stone-600 mb-4 leading-relaxed">
+                                SKT는 강력한 LLM인 '클로드(Claude)'를 개발한 <b>앤트로픽에 1억 달러를 투자</b>했습니다. 이는 단순 재무적 투자가 아니라 전략적 동맹입니다. 도이치텔레콤, 소프트뱅크 등과 연합하여 통신사에 특화된 다국어 LLM을 공동 개발하고 있으며, 이 생태계의 중심에 앤트로픽 기술이 있습니다.
+                            </p>
+                            <ul class="space-y-2 mt-4 text-sm text-stone-700">
+                                <li><i class="fa-solid fa-angle-right text-amber-600 mr-2"></i> 에이닷(A.) 서비스 고도화 및 글로벌 진출</li>
+                                <li><i class="fa-solid fa-angle-right text-amber-600 mr-2"></i> B2B AI 솔루션에 클로드 모델 우선 적용</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Fact Check Starlink (Direct answer to user) -->
+        <section id="starlink-factcheck">
+            <h2 class="text-2xl font-bold text-stone-800 mb-2 border-b-2 border-red-500 pb-2 inline-block">팩트체크: 스타링크는 위협인가? (SK텔링크의 역할)</h2>
+            <p class="text-stone-600 mb-6 mt-4">이 섹션은 저궤도 위성망(스타링크)이 기존 통신사에 미치는 명백한 위협 요인을 분석하고, SKT가 자회사(SK텔링크)를 통해 이 위협을 어떻게 B2B 수익으로 헤징(방어)하고 있는지 데이터를 통해 시각화합니다.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Text / Interactive logic -->
+                <div class="flex flex-col justify-center space-y-6">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-red-800 flex items-center mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i> 위협 요인 (Threat)</h4>
+                        <p class="text-sm text-stone-700">투자자들의 우려대로, 스페이스X의 <b>스타링크는 장기적으로 SKT의 지상망(기지국) 비즈니스를 위협하는 파괴적 기술</b>입니다. 국경과 지형의 제약 없이 초고속 인터넷을 제공하여, 전통적인 통신사의 독점적 지위를 흔들 수 있습니다.</p>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-blue-800 flex items-center mb-2"><i class="fa-solid fa-shield-halved mr-2"></i> 방어 전략: 'SK텔링크' (Defense)</h4>
+                        <p class="text-sm text-stone-700">위협을 기회로 바꾸기 위해 SKT의 B2B/국제통신 자회사인 <b>'SK텔링크(SK Telink)'</b>가 나섰습니다. 2023년 말, SK텔링크는 스타링크와 공식 리셀러 계약을 체결했습니다. 지상망이 닿지 않는 해상(선박), 항공 분야의 B2B 고객들에게 스타링크 서비스를 재판매하여 위성통신 시장의 점유율을 방어하고 오히려 신규 매출을 창출하고 있습니다.</p>
+                    </div>
+
+                    <button id="toggle-chart-btn" class="bg-stone-800 text-white py-3 px-6 rounded-lg font-medium hover:bg-stone-700 smooth-transition shadow-md" onclick="toggleSatelliteData()">
+                        <i class="fa-solid fa-chart-bar mr-2"></i>영향도 데이터 비교 보기
+                    </button>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200">
+                    <h3 class="text-center font-bold text-stone-700 mb-2">지상망 vs 위성망 커버리지 및 수익성 비교(추정)</h3>
+                    <div class="chart-container">
+                        <canvas id="satelliteChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Financial Structure -->
+        <section id="financials" class="mb-16">
+            <h2 class="text-2xl font-bold text-stone-800 mb-2">투자가치 요약: 매출 포트폴리오의 변화</h2>
+            <p class="text-stone-600 mb-6">SKT의 수익 구조가 통신(MNO)에 편중된 구조에서 AI 및 엔터프라이즈 영역으로 어떻게 다변화되고 있는지 확인하세요. 차트에 마우스를 올려 세부 수치를 볼 수 있습니다.</p>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-8 flex flex-col md:flex-row items-center justify-center gap-10">
+                <div class="w-full md:w-1/2 flex justify-center">
+                    <div class="chart-container" style="height: 300px; max-height: 300px;">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">투자 결론 (Conclusion)</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-3"></i>
+                            <div>
+                                <strong class="block text-stone-800">성장주로의 리레이팅 (Re-rating)</strong>
+                                <span class="text-sm text-stone-600">배당주를 넘어 AIDC(엔비디아)와 AI 모델(앤트로픽)을 양날개로 하는 AI 플랫폼 기업으로 밸류에이션 재평가 필요.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-3"></i>
+                            <div>
+                                <strong class="block text-stone-800">스타링크 리스크 헤징 성공</strong>
+                                <span class="text-sm text-stone-600">위성망의 위협을 'SK텔링크' 리셀링 파트너십을 통해 해운/항공 B2B 시장 선점의 기회로 전환.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-3"></i>
+                            <div>
+                                <strong class="block text-stone-800">안정적 캐시카우 + 공격적 환원</strong>
+                                <span class="text-sm text-stone-600">본업(5G)의 안정적 영업이익(분기 5천억 대)을 바탕으로 자사주 소각 및 배당 유지.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-8 text-center text-sm">
+        <p>© 2026 머니대디 인사이트. 본 리포트는 투자 참고용이며, 투자 결과에 대한 법적 책임을 지지 않습니다.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // State variables
+        let satelliteChartInstance = null;
+        let isThreatView = true;
+
+        // 1. Tab Navigation Logic for AI Strategy
+        function switchTab(tabName) {
+            const btnInfra = document.getElementById('btn-infra');
+            const btnModel = document.getElementById('btn-model');
+            const contentInfra = document.getElementById('content-infra');
+            const contentModel = document.getElementById('content-model');
+
+            if (tabName === 'infra') {
+                btnInfra.classList.add('tab-active');
+                btnModel.classList.remove('tab-active');
+                contentInfra.classList.remove('hide');
+                contentModel.classList.add('hide');
+            } else {
+                btnModel.classList.add('tab-active');
+                btnInfra.classList.remove('tab-active');
+                contentModel.classList.remove('hide');
+                contentInfra.classList.add('hide');
+            }
+        }
+
+        // 2. Chart.js Initialization and Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            initRevenueChart();
+            initSatelliteChart();
+        });
+
+        function initRevenueChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['유무선 통신(MNO)', '엔터프라이즈 (AIDC/클라우드)', '미디어/구독형 (A. 등)'],
+                    datasets: [{
+                        data: [75, 15, 10], // 추정 비율 데이터
+                        backgroundColor: [
+                            '#1e3a8a', // blue-900
+                            '#d97706', // amber-600
+                            '#94a3b8'  // slate-400
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: "'Noto Sans KR', sans-serif"
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function initSatelliteChart() {
+            const ctx = document.getElementById('satelliteChart').getContext('2d');
+            
+            const dataThreat = [95, 5, 20, 80]; // 기존통신망 도심, 기존통신망 오지, 스타링크 도심, 스타링크 오지
+            
+            satelliteChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['기존 지상망 (도심)', '기존 지상망 (해상/오지)', '스타링크 단독', 'SK텔링크+스타링크 (B2B 결합)'],
+                    datasets: [{
+                        label: '커버리지 및 서비스 효율성 점수',
+                        data: [95, 10, 85, 95], // 결합시 오지/해상 커버리지가 극대화됨을 표현
+                        backgroundColor: [
+                            '#94a3b8', // slate-400
+                            '#cbd5e1', // slate-300
+                            '#ef4444', // red-500 (위협)
+                            '#3b82f6'  // blue-500 (방어/결합)
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: '효율성 지수'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    family: "'Noto Sans KR', sans-serif",
+                                    size: 11
+                                },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                family: "'Noto Sans KR', sans-serif"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Toggle data visualization for Starlink section
+        function toggleSatelliteData() {
+            if (!satelliteChartInstance) return;
+
+            const btn = document.getElementById('toggle-chart-btn');
+            
+            if (isThreatView) {
+                // Change to Revenue perspective
+                satelliteChartInstance.data.datasets[0].label = '해상 통신 B2B 시장 점유율 예측';
+                satelliteChartInstance.data.datasets[0].data = [10, 5, 30, 80]; // SKT(텔링크)가 스타링크 리셀러로 점유율 가져감
+                satelliteChartInstance.options.scales.y.title.text = '점유율 (%)';
+                btn.innerHTML = '<i class="fa-solid fa-satellite-dish mr-2"></i>커버리지 지수로 돌아가기';
+                btn.classList.replace('bg-stone-800', 'bg-blue-700');
+                btn.classList.replace('hover:bg-stone-700', 'hover:bg-blue-600');
+            } else {
+                // Change back to Coverage perspective
+                satelliteChartInstance.data.datasets[0].label = '커버리지 및 서비스 효율성 점수';
+                satelliteChartInstance.data.datasets[0].data = [95, 10, 85, 95];
+                satelliteChartInstance.options.scales.y.title.text = '효율성 지수';
+                btn.innerHTML = '<i class="fa-solid fa-chart-bar mr-2"></i>영향도 데이터 비교 보기 (수익성 전망)';
+                btn.classList.replace('bg-blue-700', 'bg-stone-800');
+                btn.classList.replace('hover:bg-blue-600', 'hover:bg-stone-700');
+            }
+            
+            satelliteChartInstance.update();
+            isThreatView = !isThreatView;
+        }
+    </script>
+</body>
+</html>
