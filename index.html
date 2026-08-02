@@ -68,6 +68,47 @@
 
         /* ── 모바일 하단 탭 안전 영역 ── */
         @media (max-width: 1023px) { #main-content { padding-bottom: 5rem; } }
+
+        /* ── 다크 오버라이드 — 인라인 스타일 일괄 쪼습니다 ── */
+        .article-wrap { background: #0b0f19 !important; color: #94a3b8 !important; }
+        .article-wrap * { color: inherit; }
+        .article-wrap h1, .article-wrap h2 { color: #f1f5f9 !important; }
+        .article-wrap p  { color: #94a3b8 !important; }
+        .article-wrap b, .article-wrap strong { color: #e2e8f0 !important; }
+        .article-wrap li { color: #94a3b8 !important; }
+        /* 테이블 다크 오버라이드 */
+        .article-wrap table  { border-color: rgba(255,255,255,.08) !important; }
+        .article-wrap thead  { background: rgba(255,255,255,.05) !important; }
+        .article-wrap th     { color: #64748b !important; }
+        .article-wrap td     { border-color: rgba(255,255,255,.05) !important; color: #94a3b8 !important; }
+        .article-wrap tr:nth-child(even) { background: rgba(255,255,255,.02) !important; }
+        /* 요약 카드 다크 */
+        .article-wrap .summary-card { background: rgba(255,255,255,.05) !important; border-color: rgba(255,255,255,.1) !important; }
+        .article-wrap .summary-card p { color: #94a3b8 !important; }
+        /* 관련 콘텐츠 유도 다크 */
+        .article-wrap .related-block { background: rgba(255,255,255,.04) !important; border-radius: .75rem; }
+
+        /* ── 브레드크럼 ── */
+        .breadcrumb-bar {
+            position: sticky; top: 0; z-index: 30;
+            background: rgba(11,15,25,.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+            padding: .75rem 1.25rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        }
+        .breadcrumb-bar .back-btn {
+            display: flex; align-items: center; gap: .5rem;
+            font-size: .75rem; font-weight: 700; color: #64748b;
+            cursor: pointer; transition: color .15s;
+            background: none; border: none; padding: 0;
+        }
+        .breadcrumb-bar .back-btn:hover { color: #f1f5f9; }
+        .breadcrumb-bar .post-cat {
+            font-size: .65rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .08em; padding: .25rem .625rem;
+            border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+            color: var(--theme-color);
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
@@ -335,55 +376,49 @@
 
         function loadPost(id) {
             currentPostId = id;
-            renderSidebar();
-            
-            // 모바일 탭 바 활성화 상태 표시 업데이트
-            const tabs = {
-                'macro-2026-06-28': 'tab-macro',
-                'ai-infra-2026-full': 'tab-report',
-                'etf-dictionary': 'tab-dict',
-                'power-analysis': 'tab-etf',
-                'data-analysis': 'tab-etf',
-                'quantum-analysis': 'tab-etf',
-                'finance-analysis': 'tab-etf'
-            };
-            
-            // 모든 탭 초기화
-            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
-                btn.classList.remove('text-blue-500');
-                btn.classList.add('text-slate-400');
-            });
-            
-            // 현재 활성화된 포스트에 맞는 탭 활성화
-            const activeTabId = tabs[id];
-            if (activeTabId) {
-                const activeBtn = document.getElementById(activeTabId);
-                if (activeBtn) {
-                    activeBtn.classList.remove('text-slate-400');
-                    activeBtn.classList.add('text-blue-500');
-                }
-            }
+            renderSidebar(); // 사이드바 active 표시 업데이트
 
             const post = POSTS_DATABASE.find(p => p.id === id);
-            
-            // Automatically switch category based on post type
+            if (!post) return;
+
+            // 카테고리 자동 연동
             let postCategory = 'macro';
-            if (post.type === 'ionq-joby' || post.type === 'skt' || post.type === 'interactive') {
-                postCategory = 'tech';
-            } else if (post.type === 'dictionary') {
-                postCategory = 'essay';
-            }
-            
-            // Set active category and update CSS variable before rendering post content
+            if (post.type === 'ionq-joby' || post.type === 'skt' || post.type === 'interactive') postCategory = 'tech';
+            else if (post.type === 'dictionary') postCategory = 'essay';
             activeCategory = postCategory;
-            const theme = CATEGORY_THEMES[activeCategory];
-            document.documentElement.style.setProperty('--theme-color', theme.color);
-            document.documentElement.style.setProperty('--theme-color-rgb', theme.rgb);
+            applyTheme(CATEGORY_THEMES[activeCategory].color);
+
+            // 모바일 탭 활성화 동기화
+            document.querySelectorAll('.mob-tab').forEach(b => {
+                const active = b.id === `mob-tab-${postCategory}`;
+                b.style.color = active ? CATEGORY_THEMES[postCategory].color : '';
+            });
+            document.querySelectorAll('.cat-tab').forEach(b => {
+                const active = b.dataset.category === postCategory;
+                b.classList.toggle('text-white', active);
+                b.classList.toggle('bg-white/10', active);
+                b.classList.toggle('text-slate-500', !active);
+            });
 
             const container = document.getElementById('main-content');
             container.innerHTML = '';
+
+            // ─ 브레드크럼 헤더 ─
+            const catLabel = CATEGORY_THEMES[postCategory].label;
+            const bc = document.createElement('div');
+            bc.className = 'breadcrumb-bar';
+            bc.innerHTML = `
+                <button class="back-btn" onclick="switchCategory('${postCategory}')">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                    ${catLabel} 목록
+                </button>
+                <span class="post-cat">${post.category}</span>
+            `;
+            container.appendChild(bc);
+
+            // ─ 콘텐츠 래퍼 ─
             const wrapper = document.createElement('div');
-            wrapper.className = 'fade-in';
+            wrapper.className = 'fade-in article-wrap';
             container.appendChild(wrapper);
 
             if (post.type === 'macro') renderMacroReport(wrapper, post);
@@ -393,8 +428,73 @@
             else if (post.type === 'report') renderFullReport(wrapper);
             else if (post.type === 'dictionary') renderDictionary(wrapper);
             else if (post.type === 'interactive') renderInteractiveDashboard(wrapper, post);
-            
+
+            // ─ 다크 오버라이드 쪼라지 후 DOM 정제 ─
+            requestAnimationFrame(() => applyDarkOverride(wrapper));
+
             container.scrollTop = 0;
+        }
+
+        // ── 다크 테마 DOM 정제 ──
+        // CSS!important로 쪼이지 안는 인라인 스타일만 선택적으로 쪼습니다.
+        function applyDarkOverride(root) {
+            // 1. 다크 bg로 바꿴야 할 하이라이트 패턴
+            const BRIGHT_BG = ['#ffffff','#f8fafc','#f1f5f9','#f0f9ff','#eff6ff','#fafafa','#fbf7ff'];
+            const BRIGHT_TEXT = ['#0f172a','#1e293b','#1e3a5f','#0a0f1d','#374151','#111827'];
+
+            root.querySelectorAll('[style]').forEach(el => {
+                const s = el.style;
+
+                // 밝은 bg 제거
+                if (s.background && BRIGHT_BG.some(c => s.background.toLowerCase().includes(c.toLowerCase()))) {
+                    s.removeProperty('background');
+                    s.removeProperty('background-color');
+                }
+                if (s.backgroundColor && BRIGHT_BG.some(c => s.backgroundColor.toLowerCase().includes(c.toLowerCase()))) {
+                    s.removeProperty('background-color');
+                }
+
+                // 어두운 텍스트 색상 지우기 (히어로 배너의 다크 텍스트 제외)
+                if (s.color && BRIGHT_TEXT.some(c => s.color.toLowerCase() === c.toLowerCase())) {
+                    s.removeProperty('color');
+                }
+
+                // 브라이트 border-color
+                if (s.borderColor && (s.borderColor.includes('#e2e8f0') || s.borderColor.includes('#f1f5f9'))) {
+                    el.style.borderColor = 'rgba(255,255,255,.08)';
+                }
+            });
+
+            // 2. 테이블 구체 순환
+            root.querySelectorAll('table').forEach(t => {
+                t.style.background = 'transparent';
+                t.querySelectorAll('thead').forEach(th => { th.style.background = 'rgba(255,255,255,.05)'; });
+                t.querySelectorAll('tr').forEach((tr, i) => {
+                    tr.style.background = i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,.02)';
+                    tr.style.borderColor = 'rgba(255,255,255,.06)';
+                });
+                t.querySelectorAll('td, th').forEach(cell => {
+                    if (!cell.style.color || BRIGHT_TEXT.some(c => cell.style.color.toLowerCase() === c.toLowerCase())) {
+                        cell.style.removeProperty('color');
+                    }
+                });
+            });
+
+            // 3. 요약 카드 (summary card) 직접 지정
+            root.querySelectorAll('div').forEach(d => {
+                const bg = (d.style.background || '').toLowerCase();
+                if (bg.includes('eff6ff') || bg.includes('fbf7ff') || bg.includes('f8fafc') || bg.includes('f1f5f9')) {
+                    d.style.background = 'rgba(255,255,255,.05)';
+                    d.style.borderColor = 'rgba(255,255,255,.1)';
+                    d.classList.add('summary-card');
+                }
+            });
+
+            // 4. 관련콘텐츠 튜더/영역 다크
+            root.querySelectorAll('[style*="background:#f1f5f9"]').forEach(d => {
+                d.style.background = 'rgba(255,255,255,.04)';
+                d.classList.add('related-block');
+            });
         }
 
         // --- RENDERER: MACRO ECONOMIC & AI/SEMICONDUCTOR REPORT ---
