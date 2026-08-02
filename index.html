@@ -438,9 +438,11 @@
         }
 
         function closeDrawer() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('mobile-overlay').classList.remove('open');
-            document.body.classList.remove('overflow-hidden');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
         }
 
         function toggleMobileMenu() {
@@ -448,7 +450,7 @@
             const overlay = document.getElementById('mobile-overlay');
             sidebar.classList.toggle('open');
             overlay.classList.toggle('open');
-            document.body.classList.toggle('overflow-hidden');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
         }
 
         function handleSearch(val) {
@@ -906,20 +908,18 @@
                 if (d.id === 'dynamic-paywall' || d.classList.contains('author-hero')) return; // 페이월 및 프로필 카드 오버라이드 방지
                 
                 const bg = (d.style.background || '').toLowerCase();
-                const isGradient = bg.includes('gradient');
                 
+                // 밝은 요약 카드가 감지되면 다크 테마에 맞는 고급스러운 반투명 어두운 그라데이션으로 덮어씀
                 if (bg.includes('eff6ff') || bg.includes('fbf7ff') || bg.includes('f8fafc') || bg.includes('f1f5f9')) {
-                    if (!isGradient) {
-                        d.style.background = 'rgba(255,255,255,.03)';
-                        d.style.borderColor = 'rgba(255,255,255,.08)';
-                        d.style.color = '#f8fafc';
-                        d.classList.add('summary-card');
-                        
-                        // 하위 모든 요소 글씨색 강제 전환
-                        d.querySelectorAll('p, span, b, li, h2, h3, h4').forEach(child => {
-                            child.style.color = '#f8fafc';
-                        });
-                    }
+                    d.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)';
+                    d.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    d.style.color = '#f8fafc';
+                    d.classList.add('summary-card');
+                    
+                    // 하위 모든 요소 글씨색 강제 전환 (검정 글씨 차단)
+                    d.querySelectorAll('p, span, b, li, h2, h3, h4').forEach(child => {
+                        child.style.color = '#f8fafc';
+                    });
                 }
             });
 
