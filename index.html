@@ -69,13 +69,13 @@
         /* ── 모바일 하단 탭 안전 영역 ── */
         @media (max-width: 1023px) { #main-content { padding-bottom: 5rem; } }
 
-        /* ── 다크 오버라이드 — 인라인 스타일 일괄 쪼습니다 ── */
+        /* ── 다크 오버라이드 ── */
         .article-wrap { background: #0b0f19 !important; color: #94a3b8 !important; }
         .article-wrap * { color: inherit; }
         .article-wrap h1, .article-wrap h2 { color: #f1f5f9 !important; }
-        .article-wrap p  { color: #94a3b8 !important; }
-        .article-wrap b, .article-wrap strong { color: #e2e8f0 !important; }
-        .article-wrap li { color: #94a3b8 !important; }
+        .article-wrap p  { color: #cbd5e1 !important; }
+        .article-wrap b, .article-wrap strong { color: #f1f5f9 !important; }
+        .article-wrap li { color: #cbd5e1 !important; }
         /* 테이블 다크 오버라이드 */
         .article-wrap table  { border-color: rgba(255,255,255,.08) !important; }
         .article-wrap thead  { background: rgba(255,255,255,.05) !important; }
@@ -84,7 +84,7 @@
         .article-wrap tr:nth-child(even) { background: rgba(255,255,255,.02) !important; }
         /* 요약 카드 다크 */
         .article-wrap .summary-card { background: rgba(255,255,255,.05) !important; border-color: rgba(255,255,255,.1) !important; }
-        .article-wrap .summary-card p { color: #94a3b8 !important; }
+        .article-wrap .summary-card p { color: #cbd5e1 !important; }
         /* 관련 콘텐츠 유도 다크 */
         .article-wrap .related-block { background: rgba(255,255,255,.04) !important; border-radius: .75rem; }
 
@@ -109,6 +109,45 @@
             border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
             color: var(--theme-color);
         }
+
+        /* ── 모바일 가독성 최적화 패치 (0.9rem -> 1rem) ── */
+        @media (max-width: 768px) {
+            .article-wrap p, .article-wrap li {
+                font-size: 1rem !important;
+                line-height: 1.85 !important;
+            }
+            .article-wrap table {
+                display: block;
+                width: 100% !important;
+            }
+            .article-wrap thead {
+                display: none;
+            }
+            .article-wrap tbody, .article-wrap tr, .article-wrap td {
+                display: block;
+                width: 100% !important;
+            }
+            .article-wrap tr {
+                margin-bottom: 1rem;
+                border: 1px solid rgba(255,255,255,.08) !important;
+                border-radius: 0.75rem;
+                padding: 0.75rem !important;
+                background: rgba(255,255,255,.02) !important;
+            }
+            .article-wrap td {
+                border: none !important;
+                padding: 0.4rem 0.2rem !important;
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.875rem !important;
+            }
+            .article-wrap td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #64748b;
+                margin-right: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
@@ -126,13 +165,22 @@
     <div id="mobile-overlay" class="mobile-menu-overlay lg:hidden" onclick="toggleMobileMenu()"></div>
 
     <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full lg:h-screen border-r border-white/[.06] bg-[#0b0f19]">
-        <div class="px-5 py-5 border-b border-white/[.06] flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-sm shadow-lg shadow-blue-600/40">M</span>
-                <div>
-                    <p class="font-extrabold text-white text-sm leading-none">머니대디 Insight</p>
-                    <p class="t-caption mt-0.5">경제 · 테크 · 에세이</p>
+        <!-- 작성자 프로필 카드 -->
+        <div class="p-4 border-b border-white/[.06] bg-white/[0.02]">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-md">MD</div>
+                <div class="flex-grow">
+                    <div class="flex items-center justify-between">
+                        <p class="font-bold text-slate-100 text-xs">머니대디</p>
+                        <span class="text-[9px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded-full font-bold">15년차 금융인</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-0.5 leading-snug">아빠의 시선으로 짚는 진짜 투자</p>
                 </div>
+            </div>
+            <div class="flex justify-between mt-3 text-[10px] text-slate-400 gap-1.5 border-t border-white/[0.04] pt-2">
+                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex-1 text-center py-1 bg-white/[0.04] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">📺 유튜브</a>
+                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex-1 text-center py-1 bg-white/[0.04] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">📸 블로그</a>
+                <button onclick="alert('카카오톡 오픈챗은 곧 공개됩니다!')" class="flex-1 text-center py-1 bg-white/[0.04] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">💬 카톡</button>
             </div>
         </div>
 
@@ -143,13 +191,21 @@
             <button onclick="switchCategory('essay')" data-category="essay" class="cat-tab flex-1 py-2 rounded-md text-[11px] font-semibold transition-all text-slate-500 hover:text-white">📚 백과·에세이</button>
         </div>
 
+        <!-- 검색창 및 필터 정렬 -->
+        <div class="px-3 py-2 border-b border-white/[.06] flex flex-col gap-1.5">
+            <input type="search" id="search-input" placeholder="🔍 키워드 검색 (예: ETF, 금리)" oninput="handleSearch(this.value)" class="w-full h-8 bg-white/[0.05] border border-white/[0.08] rounded-md px-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all">
+            <select id="sort-select" onchange="handleSort(this.value)" class="w-full h-8 bg-[#0b0f19] border border-white/[0.08] rounded-md px-2 text-xs text-slate-400 focus:outline-none focus:border-blue-500 transition-all">
+                <option value="latest">최신순</option>
+                <option value="views">인기 조회순</option>
+            </select>
+        </div>
+
         <nav class="flex-grow overflow-y-auto custom-scrollbar py-2" id="sidebar-menu"></nav>
 
         <div class="px-4 py-3 border-t border-white/[.06] flex items-center gap-2">
-            <button onclick="openB2BModal()" class="flex-1 h-9 rounded-lg text-[11px] font-bold text-white bg-blue-600/90 hover:bg-blue-600 transition-all">💼 B2B 문의</button>
-            <button onclick="triggerAPIAccess()" class="flex-1 h-9 rounded-lg text-[11px] font-bold text-slate-400 border border-white/[.08] hover:border-white/20 transition-all">&lt;/&gt; API</button>
+            <button onclick="openB2BModal()" class="flex-grow h-9 rounded-lg text-[11px] font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 transition-all shadow-md">💎 Pro / B2B 멤버십 가입</button>
         </div>
-        <p class="text-center t-caption py-3 border-t border-white/[.04]">Since 2024 머니대디</p>
+        <p class="text-center t-caption py-2.5 border-t border-white/[.04]">Since 2024 머니대디</p>
     </aside>
 
     <!-- 모바일 하단 탭 (3개로 단순화) -->
@@ -238,6 +294,9 @@
 
         // ── 카테고리 & 테마 상태 ──
         let activeCategory = 'macro';
+        let searchKeyword = '';
+        let sortOption = 'latest';
+
         const CATEGORY_THEMES = {
             macro: { color: '#10b981', label: '거시금융 · 데일리', emoji: '📈' },
             tech:  { color: '#818cf8', label: '테크 · ETF 분석',   emoji: '⚙️' },
@@ -263,32 +322,57 @@
             document.getElementById('mobile-overlay').classList.toggle('open');
         }
 
+        function handleSearch(val) {
+            searchKeyword = val.toLowerCase().trim();
+            renderSidebar();
+        }
+
+        function handleSort(val) {
+            sortOption = val;
+            renderSidebar();
+        }
+
         // ── 사이드바 글 목록 렌더 ──
         function renderSidebar() {
             const menu = document.getElementById('sidebar-menu');
             menu.innerHTML = '';
 
-            // 현재 카테고리에 해당하는 글만
             const typeMap = {
-                macro: ['macro','daily','report'],
+                macro: ['macro','daily','report','quick-tip'],
                 tech:  ['ionq-joby','skt','interactive'],
                 essay: ['dictionary']
             };
             const allowed = typeMap[activeCategory] || [];
-            const posts = POSTS_DATABASE.filter(p => allowed.includes(p.type));
+            
+            // 필터링 및 정렬
+            let posts = POSTS_DATABASE.filter(p => allowed.includes(p.type));
+            
+            if (searchKeyword) {
+                posts = posts.filter(p => p.title.toLowerCase().includes(searchKeyword) || p.category.toLowerCase().includes(searchKeyword));
+            }
+
+            if (sortOption === 'views') {
+                posts.sort((a, b) => (b.views || 0) - (a.views || 0));
+            } else {
+                posts.sort((a, b) => b.date.localeCompare(a.date));
+            }
 
             if (!posts.length) {
-                menu.innerHTML = `<p class="px-5 py-8 text-center t-caption">곧 업데이트 예정입니다.</p>`;
+                menu.innerHTML = `<p class="px-5 py-8 text-center t-caption">검색 결과가 없습니다.</p>`;
                 return;
             }
 
             posts.forEach(post => {
                 const isActive = post.id === currentPostId;
+                const isHot = (post.views || 0) > 1000;
                 const btn = document.createElement('button');
                 btn.className = `post-item w-full text-left px-5 py-3.5 ${isActive ? 'active' : ''}`;
                 btn.innerHTML = `
                     <div class="flex items-center justify-between mb-1">
-                        <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
+                            ${isHot ? `<span class="text-[8px] font-black text-red-400 bg-red-500/10 px-1 rounded">🔥 HOT</span>` : ''}
+                        </div>
                         <span class="t-caption">${post.date}</span>
                     </div>
                     <p class="text-[13px] font-semibold text-slate-200 leading-snug line-clamp-2">${post.title}</p>
@@ -327,7 +411,7 @@
             const container = document.getElementById('main-content');
             const theme = CATEGORY_THEMES[activeCategory];
             const typeMap = {
-                macro: ['macro','daily','report'],
+                macro: ['macro','daily','report','quick-tip'],
                 tech:  ['ionq-joby','skt','interactive'],
                 essay: ['dictionary']
             };
@@ -337,33 +421,73 @@
             const wrap = document.createElement('div');
             wrap.className = 'fade-in max-w-3xl mx-auto px-5 pt-8 pb-6';
 
+            // 1. 데일리 펄스 (오늘의 한마디 & 시장 실시간 정보) - 거시금융 카테고리 진입 시 최상단 노출
+            let pulseHtml = '';
+            if (activeCategory === 'macro') {
+                pulseHtml = `
+                    <section class="mb-8 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] shadow-xl">
+                        <div class="flex items-center justify-between mb-3.5">
+                            <span class="flex items-center gap-1.5 text-[10px] font-bold text-red-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                LIVE 브리핑 (2026.08.02 오후 1시)
+                            </span>
+                            <span class="text-[10px] text-slate-500 font-bold">운영자: 머니대디</span>
+                        </div>
+                        <h3 class="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">💡 오늘의 한마디</h3>
+                        <p class="text-[13.5px] font-semibold text-slate-200 leading-relaxed mb-4 bg-white/[0.02] p-3 rounded-lg border border-white/[0.03]">
+                            "케빈 워시 신임 연준의장 체제에서는 단기 베팅보다 장기 국고채 분할 매수가 답입니다. 4.16%는 매력적인 1차 진입대입니다."
+                        </p>
+                        <div class="grid grid-cols-3 gap-2.5 pt-3 border-t border-white/[0.04] text-center">
+                            <div class="py-2 bg-white/[0.01] rounded border border-white/[0.02]">
+                                <p class="text-[9px] font-bold text-slate-500">S&P 500</p>
+                                <p class="text-xs font-bold text-emerald-400 mt-0.5">+0.34%</p>
+                            </div>
+                            <div class="text-center py-2 bg-white/[0.01] rounded border border-white/[0.02]">
+                                <p class="text-[9px] font-bold text-slate-500">미 국채 10년</p>
+                                <p class="text-xs font-bold text-slate-300 mt-0.5">4.37%</p>
+                            </div>
+                            <div class="text-center py-2 bg-white/[0.01] rounded border border-white/[0.02]">
+                                <p class="text-[9px] font-bold text-slate-500">비트코인</p>
+                                <p class="text-xs font-bold text-red-400 mt-0.5">$66,512</p>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+
             // 섹션 헤더
             wrap.innerHTML = `
+                ${pulseHtml}
                 <header class="mb-6">
                     <p class="t-label mb-1" style="color:var(--theme-color)">${theme.emoji} ${theme.label}</p>
-                    <h2 class="text-[22px] font-extrabold text-slate-100 leading-tight">최신 인사이트</h2>
+                    <h2 class="text-[20px] font-extrabold text-slate-100 leading-tight">최신 인사이트 아카이브</h2>
                 </header>
             `;
 
             if (!posts.length) {
-                wrap.innerHTML += `<div class="py-16 text-center"><p class="t-sub">곧 업데이트됩니다.</p></div>`;
+                wrap.innerHTML += `<div class="py-16 text-center"><p class="t-sub">검색 결과가 없습니다.</p></div>`;
             } else {
                 const grid = document.createElement('div');
                 grid.className = 'flex flex-col gap-3';
                 posts.forEach((post, i) => {
-                    const isLatest = i === 0;
+                    const isLatest = i === 0 && activeCategory === 'macro';
                     const card = document.createElement('button');
                     card.className = `post-card w-full text-left rounded-xl p-5 cursor-pointer ${isLatest ? 'ring-1' : ''}`;
                     if (isLatest) card.style.ringColor = theme.color;
+                    
+                    const isHot = (post.views || 0) > 1000;
+                    
                     card.innerHTML = `
                         <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-2">
                                 <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
-                                ${isLatest ? `<span class="text-[9px] font-black px-1.5 py-0.5 rounded" style="background:var(--theme-color);color:#0b0f19">NEW</span>` : ''}
+                                ${isLatest ? `<span class="text-[8px] font-black px-1.5 py-0.5 rounded" style="background:var(--theme-color);color:#0b0f19">NEW</span>` : ''}
+                                ${isHot ? `<span class="text-[8px] font-bold px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">🔥 HOT</span>` : ''}
                             </div>
                             <span class="t-caption">${post.date}</span>
                         </div>
                         <p class="text-[14px] font-semibold text-slate-100 leading-snug line-clamp-2">${post.title}</p>
+                        ${post.type === 'quick-tip' ? `<p class="text-xs text-slate-400 mt-2 line-clamp-2">${post.summary}</p>` : ''}
                     `;
                     card.onclick = () => loadPost(post.id);
                     grid.appendChild(card);
@@ -428,11 +552,66 @@
             else if (post.type === 'report') renderFullReport(wrapper);
             else if (post.type === 'dictionary') renderDictionary(wrapper);
             else if (post.type === 'interactive') renderInteractiveDashboard(wrapper, post);
+            else if (post.type === 'quick-tip') renderQuickTip(wrapper, post);
+
+            // ─ 인터랙션 액션 바 (북마크/공유/조회자수) 추가 ─
+            const ab = document.createElement('div');
+            ab.className = 'max-w-[860px] mx-auto px-6 py-6 mt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 bg-white/[0.01] rounded-xl';
+            ab.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleBookmark('${post.id}')" id="btn-bm-${post.id}" class="flex items-center gap-1.5 py-1.5 px-3 rounded bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white transition-all">📌 북마크</button>
+                    <button onclick="sharePost('${post.title}')" class="flex items-center gap-1.5 py-1.5 px-3 rounded bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white transition-all">🔗 공유하기</button>
+                </div>
+                <div class="flex items-center gap-4 text-[11px] text-slate-500">
+                    <span>이 글을 <b class="text-slate-300">${post.views || 450}명</b>이 함께 읽었습니다.</span>
+                    <span>평균 독서 시간: <b class="text-slate-300">${post.readTime || '5분'}</b></span>
+                </div>
+            `;
+            container.appendChild(ab);
 
             // ─ 다크 오버라이드 쪼라지 후 DOM 정제 ─
             requestAnimationFrame(() => applyDarkOverride(wrapper));
 
             container.scrollTop = 0;
+        }
+
+        // ── 1분 팁 렌더러 ──
+        function renderQuickTip(container, post) {
+            container.innerHTML = `
+                <div style="max-width:720px; margin:0 auto; padding:3rem 1.5rem;">
+                    <header class="text-center mb-8">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 px-2.5 py-1 rounded bg-amber-400/10 border border-amber-400/20 inline-block mb-3">💡 1분 지식 브리핑</span>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight leading-tight">${post.title}</h1>
+                        <p class="text-xs text-slate-500 mt-3">게시일: ${post.date} · 읽기 시간: ${post.readTime || '1분'}</p>
+                    </header>
+                    <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] shadow-2xl">
+                        <h2 class="text-sm font-bold text-slate-300 mb-3 border-b border-white/[0.04] pb-2">🎯 핵심 브리핑 요약</h2>
+                        <p class="text-sm leading-relaxed text-slate-300 mb-4 whitespace-pre-line">${post.summary}</p>
+                        <div class="p-4 rounded bg-amber-400/5 border border-amber-400/10 text-xs leading-relaxed text-amber-300/80">
+                            <b>머니대디 조언:</b> "복리 효과는 비용을 최소화하는 데서 시작합니다. 특히 직장인 연금저축이나 IRP 계좌처럼 수십 년을 묻어두는 계좌일수록, ETF 운용 수수료의 단 0.1% 차이도 무시해서는 안 됩니다. 오늘 즉시 보유 중인 ETF의 TER(총보수율)을 점검해 보세요."
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ── 북마크 / 공유 모조 함수 ──
+        function toggleBookmark(id) {
+            const btn = document.getElementById(`btn-bm-${id}`);
+            if (btn.classList.contains('text-amber-400')) {
+                btn.classList.remove('text-amber-400');
+                btn.innerHTML = '📌 북마크';
+                alert('북마크가 해제되었습니다.');
+            } else {
+                btn.classList.add('text-amber-400');
+                btn.innerHTML = '⭐ 북마크됨';
+                alert('이 글이 내 관심 기사로 저장되었습니다.');
+            }
+        }
+
+        function sharePost(title) {
+            navigator.clipboard.writeText(window.location.href);
+            alert(`클립보드에 링크가 복사되었습니다:\n"${title}"`);
         }
 
         // ── 다크 테마 DOM 정제 ──
