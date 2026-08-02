@@ -1,22 +1,41 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>머니대디 경제 인사이트 포털</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-    <style>
-        /* ── 기본 ── */
-        :root { --theme-color: #10b981; --theme-rgb: 16,185,129; }
+        /* ── 모던 디자인 토큰 시스템 ── */
+        :root {
+            --md-primary: #0ea5e9;
+            --md-primary-dark: #0284c7;
+            --md-primary-light: #7dd3fc;
+            --md-accent: #f59e0b;
+            --md-accent-dark: #d97706;
+            --md-success: #10b981;
+            --md-danger: #ef4444;
+            
+            --md-bg-base: #0a0e17;
+            --md-bg-elevated: #141824;
+            --md-bg-card: rgba(255, 255, 255, 0.03);
+            
+            --md-text-primary: #f1f5f9;
+            --md-text-secondary: #cbd5e1;
+            --md-text-tertiary: #94a3b8;
+
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-full: 999px;
+
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --shadow-card-hover: 0 12px 28px rgba(14, 165, 233, 0.15);
+            --shadow-glow: 0 0 25px rgba(14, 165, 233, 0.2);
+            --shadow-warm-glow: 0 0 30px rgba(245, 158, 11, 0.08);
+
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; background-color: #0b0f19; color: #cbd5e1; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; background-color: var(--md-bg-base); color: var(--md-text-secondary); overflow-x: hidden; }
         .font-serif-essay { font-family: 'Lora', Georgia, Cambria, serif; }
 
         /* ── 사이드바 ── */
         .sidebar-fixed-width { width: 280px; min-width: 280px; max-width: 280px; flex-shrink: 0; }
-        .sidebar-drawer { transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); position: fixed; inset-y: 0; left: 0; z-index: 50; width: 280px; background: #0b0f19; }
+        .sidebar-drawer { transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); position: fixed; inset-y: 0; left: 0; z-index: 50; width: 280px; background: var(--md-bg-base); }
         .sidebar-drawer.open { transform: translateX(0); }
         @media (min-width: 1024px) { .sidebar-drawer { transform: none; position: static; } }
 
@@ -26,15 +45,18 @@
         .post-item.active { border-color: var(--theme-color); background: rgba(255,255,255,.05); }
 
         /* ── 메인 컨텐츠 카드 ── */
-        .post-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); transition: border-color .2s, transform .2s; }
-        .post-card:hover { border-color: var(--theme-color); transform: translateY(-2px); }
+        .post-card { background: var(--md-bg-card); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius-md); transition: all var(--transition-base); }
+        .post-card:hover { border-color: var(--theme-color); transform: translateY(-3px) scale(1.01); box-shadow: var(--shadow-card-hover); }
 
         /* ── 타이포 계층 ── */
-        .t-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; }
-        .t-title { font-size: 1.5rem; font-weight: 800; line-height: 1.25; color: #f1f5f9; }
-        .t-sub { font-size: .875rem; font-weight: 500; color: #94a3b8; line-height: 1.6; }
-        .t-body { font-size: .9rem; line-height: 1.85; color: #94a3b8; }
-        .t-caption { font-size: .75rem; color: #475569; }
+        .t-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--md-text-tertiary); }
+        .t-title { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.25; color: var(--md-text-primary); }
+        .t-sub { font-size: .875rem; font-weight: 500; color: var(--md-text-secondary); line-height: 1.6; }
+        .t-body { font-size: .9rem; line-height: 1.85; color: var(--md-text-secondary); }
+        .t-caption { font-size: .75rem; color: var(--md-text-tertiary); }
+
+        /* 숫자 강조용 */
+        .numeric-emphasis { font-family: 'JetBrains Mono', 'Roboto Mono', monospace; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 
         /* ── 테마 트랜지션 ── */
         .theme-transition { transition: color .4s ease, border-color .4s ease, background-color .4s ease; }
@@ -44,13 +66,13 @@
         @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
         /* ── 모바일 오버레이 ── */
-        .mobile-menu-overlay { background: rgba(11,15,25,.8); backdrop-filter: blur(8px); display: none; position: fixed; inset: 0; z-index: 40; }
+        .mobile-menu-overlay { background: rgba(10,14,23,.85); backdrop-filter: blur(8px); display: none; position: fixed; inset: 0; z-index: 40; }
         .mobile-menu-overlay.open { display: block; }
 
         /* ── 스크롤바 ── */
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
 
         /* ── 채널 컬러 ── */
         .youtube-color { background: #FF0000; }
@@ -61,48 +83,48 @@
         @media (min-width: 768px) { .chart-container { height: 360px; } }
 
         /* ── 리포트 본문 (다크 통일) ── */
-        .report-content { color: #94a3b8; }
+        .report-content { color: var(--md-text-secondary); }
         .report-content p { margin-bottom: 1.2rem; line-height: 1.85; }
-        .report-content h3 { margin-top: 2rem; margin-bottom: .75rem; font-weight: 700; color: #e2e8f0; border-left: 3px solid var(--theme-color); padding-left: .75rem; font-size: 1rem; }
-        .report-content b, .report-content strong { color: #f1f5f9; }
+        .report-content h3 { margin-top: 2.2rem; margin-bottom: .75rem; font-weight: 700; color: var(--md-text-primary); border-left: 3px solid var(--theme-color); padding-left: .75rem; font-size: 1.05rem; }
+        .report-content b, .report-content strong { color: var(--md-text-primary); }
 
         /* ── 모바일 하단 탭 안전 영역 ── */
         @media (max-width: 1023px) { #main-content { padding-bottom: 5rem; } }
 
         /* ── 다크 오버라이드 ── */
-        .article-wrap { background: #0b0f19 !important; color: #94a3b8 !important; }
+        .article-wrap { background: var(--md-bg-base) !important; color: var(--md-text-secondary) !important; }
         .article-wrap * { color: inherit; }
-        .article-wrap h1, .article-wrap h2 { color: #f1f5f9 !important; }
-        .article-wrap p  { color: #cbd5e1 !important; }
-        .article-wrap b, .article-wrap strong { color: #f1f5f9 !important; }
-        .article-wrap li { color: #cbd5e1 !important; }
+        .article-wrap h1, .article-wrap h2 { color: var(--md-text-primary) !important; }
+        .article-wrap p  { color: var(--md-text-secondary) !important; }
+        .article-wrap b, .article-wrap strong { color: var(--md-text-primary) !important; }
+        .article-wrap li { color: var(--md-text-secondary) !important; }
         /* 테이블 다크 오버라이드 */
-        .article-wrap table  { border-color: rgba(255,255,255,.08) !important; }
-        .article-wrap thead  { background: rgba(255,255,255,.05) !important; }
-        .article-wrap th     { color: #64748b !important; }
-        .article-wrap td     { border-color: rgba(255,255,255,.05) !important; color: #94a3b8 !important; }
-        .article-wrap tr:nth-child(even) { background: rgba(255,255,255,.02) !important; }
+        .article-wrap table  { border-color: rgba(255,255,255,.06) !important; }
+        .article-wrap thead  { background: rgba(255,255,255,.04) !important; }
+        .article-wrap th     { color: var(--md-text-tertiary) !important; }
+        .article-wrap td     { border-color: rgba(255,255,255,.04) !important; color: var(--md-text-secondary) !important; }
+        .article-wrap tr:nth-child(even) { background: rgba(255,255,255,.01) !important; }
         /* 요약 카드 다크 */
-        .article-wrap .summary-card { background: rgba(255,255,255,.05) !important; border-color: rgba(255,255,255,.1) !important; }
-        .article-wrap .summary-card p { color: #cbd5e1 !important; }
+        .article-wrap .summary-card { background: rgba(255,255,255,.03) !important; border-color: rgba(255,255,255,.08) !important; border-radius: var(--radius-lg); }
+        .article-wrap .summary-card p { color: var(--md-text-secondary) !important; }
         /* 관련 콘텐츠 유도 다크 */
-        .article-wrap .related-block { background: rgba(255,255,255,.04) !important; border-radius: .75rem; }
+        .article-wrap .related-block { background: rgba(255,255,255,.03) !important; border-radius: var(--radius-md); }
 
         /* ── 브레드크럼 ── */
         .breadcrumb-bar {
             position: sticky; top: 0; z-index: 30;
-            background: rgba(11,15,25,.95); backdrop-filter: blur(12px);
+            background: rgba(10,14,23,.95); backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,.06);
             padding: .75rem 1.25rem;
             display: flex; align-items: center; justify-content: space-between; gap: 1rem;
         }
         .breadcrumb-bar .back-btn {
             display: flex; align-items: center; gap: .5rem;
-            font-size: .75rem; font-weight: 700; color: #64748b;
+            font-size: .75rem; font-weight: 700; color: var(--md-text-tertiary);
             cursor: pointer; transition: color .15s;
             background: none; border: none; padding: 0;
         }
-        .breadcrumb-bar .back-btn:hover { color: #f1f5f9; }
+        .breadcrumb-bar .back-btn:hover { color: var(--md-text-primary); }
         .breadcrumb-bar .post-cat {
             font-size: .65rem; font-weight: 800; text-transform: uppercase;
             letter-spacing: .08em; padding: .25rem .625rem;
@@ -130,7 +152,7 @@
             .article-wrap tr {
                 margin-bottom: 1rem;
                 border: 1px solid rgba(255,255,255,.08) !important;
-                border-radius: 0.75rem;
+                border-radius: var(--radius-md);
                 padding: 0.75rem !important;
                 background: rgba(255,255,255,.02) !important;
             }
@@ -144,18 +166,76 @@
             .article-wrap td::before {
                 content: attr(data-label);
                 font-weight: 700;
-                color: #64748b;
+                color: var(--md-text-tertiary);
                 margin-right: 1rem;
             }
+        }
+
+        /* 프로필 영웅화 및 감성 글로우 */
+        .author-hero {
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(245, 158, 11, 0.1);
+            box-shadow: var(--shadow-warm-glow);
+        }
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--md-accent);
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+            transition: all var(--transition-base);
+        }
+        .author-avatar:hover {
+            transform: rotate(5deg) scale(1.08);
+        }
+
+        /* 브랜드 로고 */
+        .logo-enhanced {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            filter: drop-shadow(0 2px 6px rgba(245, 158, 11, 0.3));
+        }
+        .brand-main {
+            font-size: 16px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--md-primary), var(--md-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 페이월 오버레이 동적 스크롤 트리거 */
+        .paywall-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--md-bg-base) 40%, rgba(10, 14, 23, 0.95) 75%, transparent 100%);
+            z-index: 20;
+            align-items: center;
+            justify-content: center;
+        }
+        .paywall-overlay.active {
+            display: flex;
         }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
 
-    <header class="lg:hidden bg-[#0b0f19]/95 backdrop-blur-md border-b border-white/[.06] px-5 h-14 flex items-center justify-between sticky top-0 z-40">
-        <div class="flex items-center gap-2.5">
-            <span class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-white text-xs font-black shadow-lg shadow-blue-600/40">M</span>
-            <span class="font-bold text-white text-sm tracking-tight">머니대디 Insight</span>
+    <header class="lg:hidden bg-[#0a0e17]/95 backdrop-blur-md border-b border-white/[.06] px-5 h-14 flex items-center justify-between sticky top-0 z-40">
+        <div class="logo-enhanced">
+            <svg viewBox="0 0 40 40" class="logo-icon">
+                <path d="M10,30 L10,15 L20,25 L30,15 L30,30" stroke="#f59e0b" stroke-width="3" fill="none"/>
+                <circle cx="20" cy="12" r="5" fill="#0ea5e9" opacity="0.4"/>
+            </svg>
+            <div class="flex flex-col">
+                <span class="brand-main">머니대디</span>
+                <span class="text-[7px] tracking-widest text-slate-500 font-bold leading-none">MONEY DADDY</span>
+            </div>
         </div>
         <button onclick="toggleMobileMenu()" aria-label="전체 목록" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -164,23 +244,38 @@
 
     <div id="mobile-overlay" class="mobile-menu-overlay lg:hidden" onclick="toggleMobileMenu()"></div>
 
-    <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full lg:h-screen border-r border-white/[.06] bg-[#0b0f19]">
-        <!-- 작성자 프로필 카드 -->
-        <div class="p-4 border-b border-white/[.06] bg-white/[0.02]">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-md">MD</div>
-                <div class="flex-grow">
-                    <div class="flex items-center justify-between">
-                        <p class="font-bold text-slate-100 text-xs">머니대디</p>
-                        <span class="text-[9px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded-full font-bold">15년차 금융인</span>
-                    </div>
-                    <p class="text-[10px] text-slate-400 mt-0.5 leading-snug">아빠의 시선으로 짚는 진짜 투자</p>
+    <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full lg:h-screen border-r border-white/[.06] bg-[#0a0e17]">
+        <!-- 브랜드 및 로고 헤더 -->
+        <div class="px-5 py-4.5 border-b border-white/[0.06] hidden lg:block">
+            <div class="logo-enhanced">
+                <svg viewBox="0 0 40 40" class="logo-icon">
+                    <path d="M10,30 L10,15 L20,25 L30,15 L30,30" stroke="#f59e0b" stroke-width="3" fill="none"/>
+                    <circle cx="20" cy="12" r="5" fill="#0ea5e9" opacity="0.4"/>
+                </svg>
+                <div class="flex flex-col">
+                    <span class="brand-main">머니대디 Insight</span>
+                    <span class="text-[7px] tracking-widest text-slate-500 font-bold leading-none mt-0.5">TRUST & INVESTMENT</span>
                 </div>
             </div>
-            <div class="flex justify-between mt-3 text-[10px] text-slate-400 gap-1.5 border-t border-white/[0.04] pt-2">
-                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex-1 text-center py-1 bg-white/[0.04] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">📺 유튜브</a>
-                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex-1 text-center py-1 bg-white/[0.04] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">📸 블로그</a>
-                <button onclick="alert('카카오톡 오픈챗은 곧 공개됩니다!')" class="flex-1 text-center py-1 bg-white/[0.04] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">💬 카톡</button>
+        </div>
+
+        <!-- 작성자 프로필 영웅화 -->
+        <div class="p-4 border-b border-white/[.06]">
+            <div class="author-hero">
+                <div class="flex items-center gap-3">
+                    <div class="author-avatar rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-black text-xs shadow-md">MD</div>
+                    <div class="flex-grow">
+                        <div class="flex items-center justify-between">
+                            <p class="font-black text-slate-100 text-xs">머니대디</p>
+                            <span class="text-[8px] px-1.5 py-0.5 bg-amber-500/10 text-amber-400 rounded-full font-bold">금융 15년</span>
+                        </div>
+                        <p class="text-[9.5px] text-slate-400 mt-0.5 leading-snug">아빠가 되며 깨달은 '진짜 투자 철학'</p>
+                    </div>
+                </div>
+                <div class="flex justify-between mt-3 text-[10px] text-slate-400 gap-1.5 pt-2 border-t border-white/[0.04]">
+                    <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex-1 text-center py-1 bg-white/[0.03] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">📺 유튜브</a>
+                    <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex-1 text-center py-1 bg-white/[0.03] hover:bg-white/[0.08] hover:text-slate-200 rounded transition-all">📝 블로그</a>
+                </div>
             </div>
         </div>
 
@@ -194,7 +289,7 @@
         <!-- 검색창 및 필터 정렬 -->
         <div class="px-3 py-2 border-b border-white/[.06] flex flex-col gap-1.5">
             <input type="search" id="search-input" placeholder="🔍 키워드 검색 (예: ETF, 금리)" oninput="handleSearch(this.value)" class="w-full h-8 bg-white/[0.05] border border-white/[0.08] rounded-md px-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all">
-            <select id="sort-select" onchange="handleSort(this.value)" class="w-full h-8 bg-[#0b0f19] border border-white/[0.08] rounded-md px-2 text-xs text-slate-400 focus:outline-none focus:border-blue-500 transition-all">
+            <select id="sort-select" onchange="handleSort(this.value)" class="w-full h-8 bg-[#0a0e17] border border-white/[0.08] rounded-md px-2 text-xs text-slate-400 focus:outline-none focus:border-blue-500 transition-all">
                 <option value="latest">최신순</option>
                 <option value="views">인기 조회순</option>
             </select>
@@ -205,11 +300,11 @@
         <div class="px-4 py-3 border-t border-white/[.06] flex items-center gap-2">
             <button onclick="openB2BModal()" class="flex-grow h-9 rounded-lg text-[11px] font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 transition-all shadow-md">💎 Pro / B2B 멤버십 가입</button>
         </div>
-        <p class="text-center t-caption py-2.5 border-t border-white/[.04]">Since 2024 머니대디</p>
+        <p class="text-center t-caption py-2.5 border-t border-white/[0.04]">Since 2024 머니대디</p>
     </aside>
 
     <!-- 모바일 하단 탭 (3개로 단순화) -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0b0f19]/95 backdrop-blur-xl border-t border-white/[.06] grid grid-cols-3 z-40" aria-label="모바일 탐색">
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0a0e17]/95 backdrop-blur-xl border-t border-white/[.06] grid grid-cols-3 z-40" aria-label="모바일 탐색">
         <button onclick="switchCategory('macro');closeDrawer()" id="mob-tab-macro" class="mob-tab flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-white transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 12l3-3 3 3 4-4M3 4h18v2H3z"/></svg>
             <span class="text-[10px] font-semibold">거시금융</span>
@@ -224,7 +319,7 @@
         </button>
     </nav>
 
-    <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar bg-[#0b0f19]" id="main-content">
+    <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar bg-[var(--md-bg-base)]" id="main-content">
         <!-- Report Content / Dashboards Injected here -->
     </main>
 
@@ -545,6 +640,9 @@
             wrapper.className = 'fade-in article-wrap';
             container.appendChild(wrapper);
 
+            // ─ 로컬 조회수 증가 ─
+            incrementViews(post.id);
+
             if (post.type === 'macro') renderMacroReport(wrapper, post);
             else if (post.type === 'ionq-joby') renderIonqJobyReport(wrapper, post);
             else if (post.type === 'skt') renderSktReport(wrapper, post);
@@ -569,10 +667,67 @@
             `;
             container.appendChild(ab);
 
-            // ─ 다크 오버라이드 쪼라지 후 DOM 정제 ─
+            // ─ 동적 페이월 오버레이 컨테이너 생성 및 삽입 ─
+            const paywallOverlay = document.createElement('div');
+            paywallOverlay.id = 'dynamic-paywall';
+            paywallOverlay.className = 'paywall-overlay';
+            paywallOverlay.innerHTML = `
+                <div class="w-full max-w-xl mx-auto px-6">
+                    <div class="relative py-12 px-6 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 backdrop-blur-[6px] text-center shadow-2xl warmth-glow">
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-amber-500">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Pro 멤버십 전용 지식 잠금 해제</h3>
+                            <p class="text-xs text-slate-400 mb-6 leading-relaxed">머니대디가 엄선한 프리미엄 실전 투자 시나리오의 전문 및 대응 모델은 Pro 구독 회원에게만 제공됩니다.</p>
+                            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                                <button onclick="alert('Pro 멤버십 서비스는 현재 준비 중입니다.')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md">Pro 9,900원 가입하고 읽기</button>
+                                <button onclick="openB2BModal()" class="bg-white/5 hover:bg-white/10 text-white font-bold text-xs px-5 py-2.5 rounded-xl border border-white/10 transition-all">B2B / 제휴 문의</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(paywallOverlay);
+
+            // ─ 다크 오버라이드 후 DOM 정제 ─
             requestAnimationFrame(() => applyDarkOverride(wrapper));
 
+            // ─ 스크롤 페이월 트리거 장착 ─
+            initScrollPaywall(container, paywallOverlay);
+
             container.scrollTop = 0;
+        }
+
+        // ── localStorage 기반 조회수 증가 로직 ──
+        function incrementViews(postId) {
+            const key = `viewed_${postId}`;
+            if (!localStorage.getItem(key)) {
+                localStorage.setItem(key, 'true');
+                const post = POSTS_DATABASE.find(p => p.id === postId);
+                if (post) {
+                    post.views = (post.views || 0) + 1;
+                }
+            }
+        }
+
+        // ── 70% 스크롤 감지 페이월 트리거 ──
+        function initScrollPaywall(scrollEl, paywallEl) {
+            let paywallShown = false;
+            
+            // 기존 스크롤 이벤트 해제 후 재장착
+            scrollEl.onscroll = () => {
+                const scrolled = scrollEl.scrollTop / (scrollEl.scrollHeight - scrollEl.clientHeight);
+                if (scrolled > 0.7 && !paywallShown) {
+                    paywallEl.classList.add('active');
+                    // 글 아래 절반 블러 처리
+                    const wrapEl = scrollEl.querySelector('.article-wrap');
+                    if (wrapEl) {
+                        wrapEl.classList.add('filter', 'blur-[2px]', 'pointer-events-none', 'select-none', 'opacity-30');
+                    }
+                    paywallShown = true;
+                }
+            };
         }
 
         // ── 1분 팁 렌더러 ──
