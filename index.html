@@ -234,15 +234,15 @@
         /* 페이월 오버레이 동적 스크롤 트리거 */
         .paywall-overlay {
             display: none;
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, var(--md-bg-base) 40%, rgba(10, 14, 23, 0.95) 75%, transparent 100%);
+            width: 100%;
+            margin-top: -150px;
+            position: relative;
             z-index: 20;
-            align-items: center;
-            justify-content: center;
+            background: linear-gradient(to top, var(--md-bg-base) 60%, transparent 100%);
+            padding: 6rem 0 3rem;
         }
         .paywall-overlay.active {
-            display: flex;
+            display: block;
         }
     </style>
 </head>
@@ -433,11 +433,15 @@
         function closeDrawer() {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('mobile-overlay').classList.remove('open');
+            document.body.classList.remove('overflow-hidden');
         }
 
         function toggleMobileMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('mobile-overlay').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            document.body.classList.toggle('overflow-hidden');
         }
 
         function handleSearch(val) {
@@ -476,7 +480,7 @@
             }
 
             if (!posts.length) {
-                menu.innerHTML = `<p class="px-5 py-8 text-center t-caption">검색 결과가 없습니다.</p>`;
+                menu.innerHTML = `<p class="px-5 py-8 text-center text-slate-500 text-xs">검색 결과가 없습니다.</p>`;
                 return;
             }
 
@@ -506,6 +510,11 @@
             const theme = CATEGORY_THEMES[cat];
             applyTheme(theme.color);
 
+            // 검색어 초기화 (UX 개선)
+            searchKeyword = '';
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) searchInput.value = '';
+
             // 사이드바 탭 상태 (데스크톱)
             document.querySelectorAll('.cat-tab').forEach(b => {
                 const active = b.dataset.category === cat;
@@ -514,10 +523,14 @@
                 b.classList.toggle('text-slate-500', !active);
             });
 
-            // 모바일 탭 상태
+            // 모바일 탭 및 아이콘 색상 동시 활성화
             document.querySelectorAll('.mob-tab').forEach(b => {
                 const active = b.id === `mob-tab-${cat}`;
                 b.style.color = active ? theme.color : '';
+                const svg = b.querySelector('svg');
+                if (svg) {
+                    svg.style.color = active ? theme.color : '';
+                }
             });
 
             renderSidebar();
@@ -590,8 +603,11 @@
                 posts.forEach((post, i) => {
                     const isLatest = i === 0 && activeCategory === 'macro';
                     const card = document.createElement('button');
-                    card.className = `post-card w-full text-left rounded-xl p-5 cursor-pointer ${isLatest ? 'ring-1' : ''}`;
-                    if (isLatest) card.style.ringColor = theme.color;
+                    card.className = `post-card w-full text-left rounded-xl p-5 cursor-pointer`;
+                    if (isLatest) {
+                        card.style.boxShadow = `0 0 0 1.5px ${theme.color}`;
+                        card.style.borderColor = theme.color;
+                    }
                     
                     const isHot = (post.views || 0) > 1000;
                     
@@ -738,12 +754,14 @@
         function initScrollPaywall(scrollEl, paywallEl) {
             let paywallShown = false;
             
-            // 기존 스크롤 이벤트 해제 후 재장착
             scrollEl.onscroll = () => {
-                const scrolled = scrollEl.scrollTop / (scrollEl.scrollHeight - scrollEl.clientHeight);
-                if (scrolled > 0.7 && !paywallShown) {
+                const totalScrollable = scrollEl.scrollHeight - scrollEl.clientHeight;
+                if (totalScrollable <= 100) return; // 스크롤할 분량이 극히 적은 글은 우회
+                
+                const scrolled = scrollEl.scrollTop / totalScrollable;
+                if (scrolled > 0.65 && !paywallShown) {
                     paywallEl.classList.add('active');
-                    // 글 아래 절반 블러 처리
+                    // 글 아래 본문 블러 처리
                     const wrapEl = scrollEl.querySelector('.article-wrap');
                     if (wrapEl) {
                         wrapEl.classList.add('filter', 'blur-[2px]', 'pointer-events-none', 'select-none', 'opacity-30');
@@ -793,7 +811,7 @@
         }
 
         // ── 다크 테마 DOM 정제 ──
-        // CSS!important로 쪼이지 안는 인라인 스타일만 선택적으로 쪼습니다.
+        // CSS!important로 쪼이지 않는 인라인 스타일만 선택적으로 쪼습니다.
         function applyDarkOverride(root) {
             // 1. 다크 bg로 바꿴야 할 하이라이트 패턴
             const BRIGHT_BG = ['#ffffff','#f8fafc','#f1f5f9','#f0f9ff','#eff6ff','#fafafa','#fbf7ff'];
@@ -802,13 +820,19 @@
             root.querySelectorAll('[style]').forEach(el => {
                 const s = el.style;
 
-                // 밝은 bg 제거
-                if (s.background && BRIGHT_BG.some(c => s.background.toLowerCase().includes(c.toLowerCase()))) {
-                    s.removeProperty('background');
-                    s.removeProperty('background-color');
-                }
-                if (s.backgroundColor && BRIGHT_BG.some(c => s.backgroundColor.toLowerCase().includes(c.toLowerCase()))) {
-                    s.removeProperty('background-color');
+                // 그라데이션(gradient)을 포함하는 배경 스타일은 삭제하지 않고 우회 보존
+                const bgText = (s.background || '').toLowerCase();
+                const isGradient = bgText.includes('gradient') || bgText.includes('linear-');
+
+                if (!isGradient) {
+                    // 밝은 bg 제거
+                    if (s.background && BRIGHT_BG.some(c => s.background.toLowerCase().includes(c.toLowerCase()))) {
+                        s.removeProperty('background');
+                        s.removeProperty('background-color');
+                    }
+                    if (s.backgroundColor && BRIGHT_BG.some(c => s.backgroundColor.toLowerCase().includes(c.toLowerCase()))) {
+                        s.removeProperty('background-color');
+                    }
                 }
 
                 // 어두운 텍스트 색상 지우기 (히어로 배너의 다크 텍스트 제외)
@@ -839,11 +863,17 @@
 
             // 3. 요약 카드 (summary card) 직접 지정
             root.querySelectorAll('div').forEach(d => {
+                if (d.id === 'dynamic-paywall' || d.classList.contains('author-hero')) return; // 페이월 및 프로필 카드 오버라이드 방지
+                
                 const bg = (d.style.background || '').toLowerCase();
+                const isGradient = bg.includes('gradient');
+                
                 if (bg.includes('eff6ff') || bg.includes('fbf7ff') || bg.includes('f8fafc') || bg.includes('f1f5f9')) {
-                    d.style.background = 'rgba(255,255,255,.05)';
-                    d.style.borderColor = 'rgba(255,255,255,.1)';
-                    d.classList.add('summary-card');
+                    if (!isGradient) {
+                        d.style.background = 'rgba(255,255,255,.05)';
+                        d.style.borderColor = 'rgba(255,255,255,.1)';
+                        d.classList.add('summary-card');
+                    }
                 }
             });
 
@@ -922,29 +952,29 @@
                                 </thead>
                                 <tbody>
                                     <tr style="border-top:1px solid #f1f5f9;">
-                                        <td style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">기준금리</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#1d4ed8; font-weight:600;">3.50% ~ 3.75%</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#059669; font-weight:600;">2.50%</td>
+                                        <td data-label="거시경제 지표" style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">기준금리</td>
+                                        <td data-label="미국 (US)" style="padding:0.8rem 1rem; text-align:center; color:#1d4ed8; font-weight:600;">3.50% ~ 3.75%</td>
+                                        <td data-label="한국 (South Korea)" style="padding:0.8rem 1rem; text-align:center; color:#059669; font-weight:600;">2.50%</td>
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9; background:#fafafa;">
-                                        <td style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">장기 국채금리 (10년물 기준 현황)</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; font-weight:700; color:#1d4ed8;">4.37%</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; font-weight:700; color:#059669;">4.16% ~ 4.18%</td>
+                                        <td data-label="거시경제 지표" style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">장기 국채금리 (10년물 기준 현황)</td>
+                                        <td data-label="미국 (US)" style="padding:0.8rem 1rem; text-align:center; font-weight:700; color:#1d4ed8;">4.37%</td>
+                                        <td data-label="한국 (South Korea)" style="padding:0.8rem 1rem; text-align:center; font-weight:700; color:#059669;">4.16% ~ 4.18%</td>
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9;">
-                                        <td style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">연말 기준금리 대안적 전망 경로</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#475569;">3.75% ~ 4.00% (매파적 가중)</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#475569;">3.00% ~ 3.50% (금통위 인상 기조 반영)</td>
+                                        <td data-label="거시경제 지표" style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">연말 기준금리 대안적 전망 경로</td>
+                                        <td data-label="미국 (US)" style="padding:0.8rem 1rem; text-align:center; color:#475569;">3.75% ~ 4.00% (매파적 가중)</td>
+                                        <td data-label="한국 (South Korea)" style="padding:0.8rem 1rem; text-align:center; color:#475569;">3.00% ~ 3.50% (금통위 인상 기조 반영)</td>
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9; background:#fafafa;">
-                                        <td style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">2026년 실질 GDP 성장률 전망</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#475569;">2.2%</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; font-weight:700; color:#059669;">3.2% (교역 조건 충격 반영 상향)</td>
+                                        <td data-label="거시경제 지표" style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">2026년 실질 GDP 성장률 전망</td>
+                                        <td data-label="미국 (US)" style="padding:0.8rem 1rem; text-align:center; color:#475569;">2.2%</td>
+                                        <td data-label="한국 (South Korea)" style="padding:0.8rem 1rem; text-align:center; font-weight:700; color:#059669;">3.2% (교역 조건 충격 반영 상향)</td>
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9;">
-                                        <td style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">2026년 소비자 물가 전망</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#475569;">3.6% (PCE 기준 급상향)</td>
-                                        <td style="padding:0.8rem 1rem; text-align:center; color:#475569;">2.7% (연고점 3.4% ~ 3.6% 예상)</td>
+                                        <td data-label="거시경제 지표" style="padding:0.8rem 1rem; font-weight:700; color:#0f172a;">2026년 소비자 물가 전망</td>
+                                        <td data-label="미국 (US)" style="padding:0.8rem 1rem; text-align:center; color:#475569;">3.6% (PCE 기준 급상향)</td>
+                                        <td data-label="한국 (South Korea)" style="padding:0.8rem 1rem; text-align:center; color:#475569;">2.7% (연고점 3.4% ~ 3.6% 예상)</td>
                                     </tr>
                                 </tbody>
                             </table>
