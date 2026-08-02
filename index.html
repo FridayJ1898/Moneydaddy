@@ -8,154 +8,126 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <style>
-        /* 기본 레이아웃 및 폰트 */
-        body { font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; background-color: #0f172a; color: #f8fafc; overflow-x: hidden; }
+        /* ── 기본 ── */
+        :root { --theme-color: #10b981; --theme-rgb: 16,185,129; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; background-color: #0b0f19; color: #cbd5e1; overflow-x: hidden; }
         .font-serif-essay { font-family: 'Lora', Georgia, Cambria, serif; }
-        
-        /* 사이드바 너비 고정 (320px) */
-        .sidebar-fixed-width { width: 320px; min-width: 320px; max-width: 320px; flex-shrink: 0; }
-        
-        /* 차트 컨테이너 */
-        .chart-container { position: relative; width: 100%; height: 280px; margin: 0 auto; }
-        @media (min-width: 768px) { .chart-container { height: 380px; } }
-        
-        /* 메뉴 활성화 효과 */
-        .sidebar-item.active { background-color: rgba(30, 41, 59, 0.8); border-left: 4px solid #3b82f6; color: #3b82f6; font-weight: 700; }
-        
-        /* 애니메이션 */
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* 모바일 드로어 및 오버레이 */
-        .mobile-menu-overlay { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); display: none; position: fixed; inset: 0; z-index: 40; }
-        .mobile-menu-overlay.open { display: block; }
-        
-        .sidebar-drawer { transform: translateX(-100%); transition: transform 0.3s ease-in-out; position: fixed; inset-y: 0; left: 0; z-index: 50; width: 280px; background: #0f172a; }
-        @media (min-width: 1024px) {
-            .sidebar-drawer { transform: none; position: static; width: 320px; }
-        }
-        .sidebar-drawer.open { transform: translateX(0); }
 
-        /* 채널 아이덴티티 컬러 */
+        /* ── 사이드바 ── */
+        .sidebar-fixed-width { width: 280px; min-width: 280px; max-width: 280px; flex-shrink: 0; }
+        .sidebar-drawer { transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); position: fixed; inset-y: 0; left: 0; z-index: 50; width: 280px; background: #0b0f19; }
+        .sidebar-drawer.open { transform: translateX(0); }
+        @media (min-width: 1024px) { .sidebar-drawer { transform: none; position: static; } }
+
+        /* ── 글 목록 항목 ── */
+        .post-item { border-left: 2px solid transparent; transition: border-color .2s, background .2s; }
+        .post-item:hover { border-color: var(--theme-color); background: rgba(255,255,255,.03); }
+        .post-item.active { border-color: var(--theme-color); background: rgba(255,255,255,.05); }
+
+        /* ── 메인 컨텐츠 카드 ── */
+        .post-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); transition: border-color .2s, transform .2s; }
+        .post-card:hover { border-color: var(--theme-color); transform: translateY(-2px); }
+
+        /* ── 타이포 계층 ── */
+        .t-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; }
+        .t-title { font-size: 1.5rem; font-weight: 800; line-height: 1.25; color: #f1f5f9; }
+        .t-sub { font-size: .875rem; font-weight: 500; color: #94a3b8; line-height: 1.6; }
+        .t-body { font-size: .9rem; line-height: 1.85; color: #94a3b8; }
+        .t-caption { font-size: .75rem; color: #475569; }
+
+        /* ── 테마 트랜지션 ── */
+        .theme-transition { transition: color .4s ease, border-color .4s ease, background-color .4s ease; }
+
+        /* ── 애니메이션 ── */
+        .fade-in { animation: fadeIn .35s ease-out; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ── 모바일 오버레이 ── */
+        .mobile-menu-overlay { background: rgba(11,15,25,.8); backdrop-filter: blur(8px); display: none; position: fixed; inset: 0; z-index: 40; }
+        .mobile-menu-overlay.open { display: block; }
+
+        /* ── 스크롤바 ── */
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+        /* ── 채널 컬러 ── */
         .youtube-color { background: #FF0000; }
         .blog-color { background: #03C75A; }
-        
-        /* 스크롤바 커스텀 */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
 
-        /* 리포트 텍스트 스타일 */
-        .report-content p { margin-bottom: 1.25rem; line-height: 1.8; }
-        .report-content h3 { margin-top: 2rem; margin-bottom: 1rem; font-weight: 700; color: #0f172a; border-left: 4px solid #1d4ed8; padding-left: 0.75rem; }
+        /* ── 차트 ── */
+        .chart-container { position: relative; width: 100%; height: 260px; }
+        @media (min-width: 768px) { .chart-container { height: 360px; } }
+
+        /* ── 리포트 본문 (다크 통일) ── */
+        .report-content { color: #94a3b8; }
+        .report-content p { margin-bottom: 1.2rem; line-height: 1.85; }
+        .report-content h3 { margin-top: 2rem; margin-bottom: .75rem; font-weight: 700; color: #e2e8f0; border-left: 3px solid var(--theme-color); padding-left: .75rem; font-size: 1rem; }
+        .report-content b, .report-content strong { color: #f1f5f9; }
+
+        /* ── 모바일 하단 탭 안전 영역 ── */
+        @media (max-width: 1023px) { #main-content { padding-bottom: 5rem; } }
     </style>
-    <!-- Chosen Palette: Slate (Professional), Navy (Authority), Emerald (Growth) -->
-    <!-- Application Structure Plan:
-        1. Fixed Sidebar (320px): Ensures layout stability across all sections.
-        2. Detailed Report Integration: Expanded renderReport function to include the full user-provided text.
-        3. Persona Optimization: Applied "Money Daddy" spoken-style and SEO best practices (short paragraphs, bold text).
-        4. Mobile Fidelity: Maintained drawer system and responsive tables/charts.
-        5. Chronological Accuracy: Finance (Jan 18), Quantum (Jan 19), AI Infra & Dictionary (Jan 22).
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
-<body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden bg-[#0f172a] text-slate-100">
+<body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
 
-    <!-- Mobile Top Navigation -->
-    <header class="lg:hidden bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 px-4 h-16 flex items-center justify-between sticky top-0 z-40">
-        <button onclick="toggleMobileMenu()" class="p-2 text-slate-200" aria-label="메뉴">
-            <div class="w-6 h-0.5 bg-current mb-1.5"></div>
-            <div class="w-6 h-0.5 bg-current mb-1.5"></div>
-            <div class="w-6 h-0.5 bg-current"></div>
-        </button>
-        <div class="flex items-center gap-2">
-            <span class="w-7 h-7 bg-blue-600 rounded flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-blue-500/30">M</span>
+    <header class="lg:hidden bg-[#0b0f19]/95 backdrop-blur-md border-b border-white/[.06] px-5 h-14 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-white text-xs font-black shadow-lg shadow-blue-600/40">M</span>
             <span class="font-bold text-white text-sm tracking-tight">머니대디 Insight</span>
         </div>
-        <div class="flex gap-2">
-            <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="w-8 h-8 rounded-full youtube-color flex items-center justify-center text-white text-[10px] font-bold shadow-md shadow-red-500/20">Y</a>
-            <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="w-8 h-8 rounded-full blog-color flex items-center justify-center text-white text-[10px] font-bold shadow-md shadow-green-500/20">B</a>
-        </div>
+        <button onclick="toggleMobileMenu()" aria-label="전체 목록" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
     </header>
 
-    <!-- Mobile Overlay -->
     <div id="mobile-overlay" class="mobile-menu-overlay lg:hidden" onclick="toggleMobileMenu()"></div>
 
-    <!-- Sidebar (Fixed Width) - Dark Theme Premium -->
-    <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full border-r border-white/10 bg-[#0b0f19]">
-        <!-- Sidebar Brand (Desktop) -->
-        <div class="p-6 border-b border-white/10 bg-[#0f1424] hidden lg:block">
-            <h1 class="text-xl font-extrabold text-white flex items-center gap-2.5 mb-4">
-                <span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm shadow-lg shadow-blue-500/30">M</span>
-                머니대디 Insight
-            </h1>
-            <div class="grid grid-cols-2 gap-2">
-                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold blog-color hover:opacity-90 transition-opacity">블로그</a>
-                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold youtube-color hover:opacity-90 transition-opacity">유튜브</a>
-            </div>
-            <!-- Category Filter Tabs -->
-            <div class="px-6 py-4 border-b border-white/10 flex flex-col gap-2 bg-[#0d111f]">
-                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">인사이트 카테고리</span>
-                <div class="flex flex-col gap-1.5">
-                    <button onclick="switchCategory('macro')" class="cat-nav-btn w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-category="macro">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 거시금융 & 데일리
-                    </button>
-                    <button onclick="switchCategory('tech')" class="cat-nav-btn w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-category="tech">
-                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> 테크 & 수급분석
-                    </button>
-                    <button onclick="switchCategory('essay')" class="cat-nav-btn w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-category="essay">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 백과사전 & 에세이
-                    </button>
+    <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full lg:h-screen border-r border-white/[.06] bg-[#0b0f19]">
+        <div class="px-5 py-5 border-b border-white/[.06] flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-sm shadow-lg shadow-blue-600/40">M</span>
+                <div>
+                    <p class="font-extrabold text-white text-sm leading-none">머니대디 Insight</p>
+                    <p class="t-caption mt-0.5">경제 · 테크 · 에세이</p>
                 </div>
             </div>
-            
-            <!-- Navigation -->
-        <div class="flex-grow overflow-y-auto custom-scrollbar p-4 space-y-2" id="sidebar-menu">
-            <!-- Sidebar Items Injected by JS -->
         </div>
 
-        <div class="px-4 py-3 border-t border-white/10 flex flex-col gap-2 bg-[#0d111f]">
-            <button onclick="openB2BModal()" class="w-full py-2.5 px-3 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                B2B Solutions 문의
-            </button>
-            <button onclick="triggerAPIAccess()" class="w-full py-2.5 px-3 rounded-xl text-xs font-bold text-slate-300 bg-slate-800 hover:bg-slate-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-white/5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                API Access
-            </button>
+        <!-- 데스크톱 카테고리 탭 -->
+        <div class="hidden lg:flex px-3 py-2 border-b border-white/[.06] gap-1">
+            <button onclick="switchCategory('macro')" data-category="macro" class="cat-tab flex-1 py-2 rounded-md text-[11px] font-semibold transition-all text-slate-500 hover:text-white">📈 거시금융</button>
+            <button onclick="switchCategory('tech')" data-category="tech" class="cat-tab flex-1 py-2 rounded-md text-[11px] font-semibold transition-all text-slate-500 hover:text-white">⚙️ 테크·ETF</button>
+            <button onclick="switchCategory('essay')" data-category="essay" class="cat-tab flex-1 py-2 rounded-md text-[11px] font-semibold transition-all text-slate-500 hover:text-white">📚 백과·에세이</button>
         </div>
 
-        <div class="p-4 border-t border-white/10 bg-[#0f1424]">
-            <p class="text-[10px] text-slate-500 text-center uppercase tracking-widest font-bold">Since 2024 머니대디</p>
+        <nav class="flex-grow overflow-y-auto custom-scrollbar py-2" id="sidebar-menu"></nav>
+
+        <div class="px-4 py-3 border-t border-white/[.06] flex items-center gap-2">
+            <button onclick="openB2BModal()" class="flex-1 h-9 rounded-lg text-[11px] font-bold text-white bg-blue-600/90 hover:bg-blue-600 transition-all">💼 B2B 문의</button>
+            <button onclick="triggerAPIAccess()" class="flex-1 h-9 rounded-lg text-[11px] font-bold text-slate-400 border border-white/[.08] hover:border-white/20 transition-all">&lt;/&gt; API</button>
         </div>
+        <p class="text-center t-caption py-3 border-t border-white/[.04]">Since 2024 머니대디</p>
     </aside>
 
-    <!-- Mobile Bottom Tab Bar -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0f172a]/90 backdrop-blur-lg border-t border-white/10 flex items-center justify-around px-4 z-40 pb-safe shadow-2xl">
-        <button onclick="loadPost('macro-2026-06-28')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-macro">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 4a2 2 0 00-2-2v3m2 3V9m0 0l-3-3m3 3h-3"/></svg>
-            <span class="text-[9px] font-bold">데일리</span>
+    <!-- 모바일 하단 탭 (3개로 단순화) -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0b0f19]/95 backdrop-blur-xl border-t border-white/[.06] grid grid-cols-3 z-40" aria-label="모바일 탐색">
+        <button onclick="switchCategory('macro');closeDrawer()" id="mob-tab-macro" class="mob-tab flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 12l3-3 3 3 4-4M3 4h18v2H3z"/></svg>
+            <span class="text-[10px] font-semibold">거시금융</span>
         </button>
-        <button onclick="loadPost('ai-infra-2026-full')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-report">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            <span class="text-[9px] font-bold">리포트</span>
+        <button onclick="switchCategory('tech');closeDrawer()" id="mob-tab-tech" class="mob-tab flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span class="text-[10px] font-semibold">테크·ETF</span>
         </button>
-        <button onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            <span class="text-[9px] font-bold">전체메뉴</span>
+        <button onclick="switchCategory('essay');closeDrawer()" id="mob-tab-essay" class="mob-tab flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="text-[10px] font-semibold">백과·에세이</span>
         </button>
-        <button onclick="loadPost('etf-dictionary')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-dict">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            <span class="text-[9px] font-bold">백과사전</span>
-        </button>
-        <button onclick="loadPost('power-analysis')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-etf">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            <span class="text-[9px] font-bold">ETF분석</span>
-        </button>
-    </div>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar relative bg-white pb-16 lg:pb-0" id="main-content">
+    <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar bg-[#0b0f19]" id="main-content">
         <!-- Report Content / Dashboards Injected here -->
     </main>
 
@@ -223,9 +195,26 @@
                 });
         };
 
+        // ── 카테고리 & 테마 상태 ──
+        let activeCategory = 'macro';
+        const CATEGORY_THEMES = {
+            macro: { color: '#10b981', label: '거시금융 · 데일리', emoji: '📈' },
+            tech:  { color: '#818cf8', label: '테크 · ETF 분석',   emoji: '⚙️' },
+            essay: { color: '#fbbf24', label: '백과사전 · 에세이',  emoji: '📚' }
+        };
+
+        function applyTheme(color) {
+            document.documentElement.style.setProperty('--theme-color', color);
+        }
+
         function initializePage() {
             renderSidebar();
             switchCategory('macro');
+        }
+
+        function closeDrawer() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('mobile-overlay').classList.remove('open');
         }
 
         function toggleMobileMenu() {
@@ -233,183 +222,115 @@
             document.getElementById('mobile-overlay').classList.toggle('open');
         }
 
+        // ── 사이드바 글 목록 렌더 ──
         function renderSidebar() {
             const menu = document.getElementById('sidebar-menu');
             menu.innerHTML = '';
-            POSTS_DATABASE.forEach(post => {
+
+            // 현재 카테고리에 해당하는 글만
+            const typeMap = {
+                macro: ['macro','daily','report'],
+                tech:  ['ionq-joby','skt','interactive'],
+                essay: ['dictionary']
+            };
+            const allowed = typeMap[activeCategory] || [];
+            const posts = POSTS_DATABASE.filter(p => allowed.includes(p.type));
+
+            if (!posts.length) {
+                menu.innerHTML = `<p class="px-5 py-8 text-center t-caption">곧 업데이트 예정입니다.</p>`;
+                return;
+            }
+
+            posts.forEach(post => {
                 const isActive = post.id === currentPostId;
-                const item = document.createElement('div');
-                item.className = `sidebar-item p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5 text-slate-300 hover:text-white ${isActive ? 'active' : ''}`;
-                item.onclick = () => { loadPost(post.id); if (window.innerWidth < 1024) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); } };
-                item.innerHTML = `
-                    <div class="flex justify-between items-start"><span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-400 uppercase">${post.category}</span><span class="text-[10px] text-slate-500">${post.date}</span></div>
-                    <h3 class="text-sm font-bold mt-2 line-clamp-2">${post.title}</h3>
+                const btn = document.createElement('button');
+                btn.className = `post-item w-full text-left px-5 py-3.5 ${isActive ? 'active' : ''}`;
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
+                        <span class="t-caption">${post.date}</span>
+                    </div>
+                    <p class="text-[13px] font-semibold text-slate-200 leading-snug line-clamp-2">${post.title}</p>
                 `;
-                menu.appendChild(item);
+                btn.onclick = () => { loadPost(post.id); closeDrawer(); };
+                menu.appendChild(btn);
             });
         }
 
-        // --- CATEGORY & THEME STATE MANAGEMENT ---
-        let activeCategory = 'macro'; // 'macro', 'tech', 'essay'
-        
-        // CSS Custom Properties & Transition style Injection
-        const styleEl = document.createElement('style');
-        styleEl.innerHTML = `
-            :root {
-                --theme-color: #10b981; /* Emerald green default for macro */
-                --theme-color-rgb: 16, 185, 129;
-            }
-            .theme-transition {
-                transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
-            }
-            .theme-border { border-color: var(--theme-color) !important; }
-            .theme-text { color: var(--theme-color) !important; }
-            .theme-bg { background-color: var(--theme-color) !important; }
-            .theme-fill { fill: var(--theme-color) !important; }
-        `;
-        document.head.appendChild(styleEl);
+        // ── 카테고리 전환 ──
+        function switchCategory(cat) {
+            activeCategory = cat;
+            const theme = CATEGORY_THEMES[cat];
+            applyTheme(theme.color);
 
-        const CATEGORY_THEMES = {
-            macro: { color: '#10b981', rgb: '16, 185, 129' }, // Emerald Green
-            tech: { color: '#6366f1', rgb: '99, 102, 241' },   // Indigo
-            essay: { color: '#f59e0b', rgb: '245, 158, 11' }    // Warm Amber
-        };
-
-        function switchCategory(category) {
-            if (!CATEGORY_THEMES[category]) return;
-            activeCategory = category;
-            
-            const theme = CATEGORY_THEMES[category];
-            document.documentElement.style.setProperty('--theme-color', theme.color);
-            document.documentElement.style.setProperty('--theme-color-rgb', theme.rgb);
-            
-            // UI elements color updates (Apply transition effect)
-            document.querySelectorAll('.dynamic-theme-target').forEach(el => {
-                el.classList.add('theme-transition');
-                
-                // border theme update
-                if (el.classList.contains('border-[var(--theme-color)]') || el.classList.contains('theme-border-dynamic')) {
-                    el.style.borderColor = theme.color;
-                }
-                // text theme update
-                if (el.classList.contains('text-[var(--theme-color)]') || el.classList.contains('theme-text-dynamic')) {
-                    el.style.color = theme.color;
-                }
-                // bg theme update
-                if (el.classList.contains('bg-[var(--theme-color)]') || el.classList.contains('theme-bg-dynamic')) {
-                    el.style.backgroundColor = theme.color;
-                }
+            // 사이드바 탭 상태 (데스크톱)
+            document.querySelectorAll('.cat-tab').forEach(b => {
+                const active = b.dataset.category === cat;
+                b.classList.toggle('text-white', active);
+                b.classList.toggle('bg-white/10', active);
+                b.classList.toggle('text-slate-500', !active);
             });
-            
-            // Re-render sidebar/main list to filter posts matching the chosen category if requested
+
+            // 모바일 탭 상태
+            document.querySelectorAll('.mob-tab').forEach(b => {
+                const active = b.id === `mob-tab-${cat}`;
+                b.style.color = active ? theme.color : '';
+            });
+
+            renderSidebar();
             renderMainContent();
         }
 
+        // ── 메인 영역 렌더 (카드 목록) ──
         function renderMainContent() {
             const container = document.getElementById('main-content');
+            const theme = CATEGORY_THEMES[activeCategory];
+            const typeMap = {
+                macro: ['macro','daily','report'],
+                tech:  ['ionq-joby','skt','interactive'],
+                essay: ['dictionary']
+            };
+            const posts = POSTS_DATABASE.filter(p => typeMap[activeCategory].includes(p.type));
+
             container.innerHTML = '';
-            
-            const wrapper = document.createElement('div');
-            wrapper.className = 'fade-in p-6 max-w-5xl mx-auto';
-            container.appendChild(wrapper);
-            
-            // Filter database posts matching activeCategory mapping
-            let filteredPosts = [];
-            if (activeCategory === 'macro') {
-                filteredPosts = POSTS_DATABASE.filter(p => p.type === 'macro' || p.type === 'daily' || p.type === 'report');
-            } else if (activeCategory === 'tech') {
-                filteredPosts = POSTS_DATABASE.filter(p => p.type === 'ionq-joby' || p.type === 'skt' || p.type === 'interactive');
-            } else if (activeCategory === 'essay') {
-                filteredPosts = POSTS_DATABASE.filter(p => p.type === 'dictionary');
-            }
-            
-            let categoryDisplayName = activeCategory === 'macro' ? '거시경제 & 데일리 리포트' : (activeCategory === 'tech' ? '테크 & 핵심 기업 수급 분석' : '에세이 & 지식 백과사전');
-            let themeClass = activeCategory === 'macro' ? 'text-emerald-500' : (activeCategory === 'tech' ? 'text-indigo-500' : 'text-amber-500');
-            
-            // 🔥 오늘의 신규 인사이트 배너 위젯 동적 생성
-            let bannerHtml = '';
-            if (POSTS_DATABASE.length > 0) {
-                const sorted = [...POSTS_DATABASE].sort((a, b) => b.date.localeCompare(a.date));
-                const latestPost = sorted[0];
-                if (latestPost) {
-                    bannerHtml = `
-                        <div onclick="loadPost('${latestPost.id}')" class="mb-8 p-6 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 border border-white/20 shadow-2xl hover:scale-[1.01] transition-all cursor-pointer relative overflow-hidden group">
-                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
-                            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div class="flex-grow">
-                                    <div class="flex items-center gap-2 mb-2 flex-wrap">
-                                        <span class="bg-red-500 text-white font-extrabold text-[10px] px-2.5 py-1 rounded-full animate-pulse flex items-center gap-1">
-                                            🔥 오늘의 신규 인사이트
-                                        </span>
-                                        <span class="text-[10px] text-white/80 font-bold bg-white/10 px-2.5 py-1 rounded-full border border-white/10">
-                                            ${latestPost.category}
-                                        </span>
-                                        <span class="text-xs text-white/60 ml-1">
-                                            ${latestPost.date}
-                                        </span>
-                                    </div>
-                                    <h3 class="text-lg md:text-xl font-extrabold text-white leading-snug drop-shadow-md mb-1 line-clamp-1">
-                                        ${latestPost.title}
-                                    </h3>
-                                    <p class="text-xs text-white/70">가장 최신 업데이트된 수급/거시 인사이트를 확인해 보세요.</p>
-                                </div>
-                                <div class="flex-shrink-0 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white p-3 rounded-full border border-white/20 transition-all">
-                                    <svg class="w-6 h-6 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                </div>
+            const wrap = document.createElement('div');
+            wrap.className = 'fade-in max-w-3xl mx-auto px-5 pt-8 pb-6';
+
+            // 섹션 헤더
+            wrap.innerHTML = `
+                <header class="mb-6">
+                    <p class="t-label mb-1" style="color:var(--theme-color)">${theme.emoji} ${theme.label}</p>
+                    <h2 class="text-[22px] font-extrabold text-slate-100 leading-tight">최신 인사이트</h2>
+                </header>
+            `;
+
+            if (!posts.length) {
+                wrap.innerHTML += `<div class="py-16 text-center"><p class="t-sub">곧 업데이트됩니다.</p></div>`;
+            } else {
+                const grid = document.createElement('div');
+                grid.className = 'flex flex-col gap-3';
+                posts.forEach((post, i) => {
+                    const isLatest = i === 0;
+                    const card = document.createElement('button');
+                    card.className = `post-card w-full text-left rounded-xl p-5 cursor-pointer ${isLatest ? 'ring-1' : ''}`;
+                    if (isLatest) card.style.ringColor = theme.color;
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
+                                ${isLatest ? `<span class="text-[9px] font-black px-1.5 py-0.5 rounded" style="background:var(--theme-color);color:#0b0f19">NEW</span>` : ''}
                             </div>
+                            <span class="t-caption">${post.date}</span>
                         </div>
+                        <p class="text-[14px] font-semibold text-slate-100 leading-snug line-clamp-2">${post.title}</p>
                     `;
-                }
+                    card.onclick = () => loadPost(post.id);
+                    grid.appendChild(card);
+                });
+                wrap.appendChild(grid);
             }
 
-            let html = `
-                ${bannerHtml}
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-2xl font-extrabold tracking-tight text-white mb-2">머니대디 카테고리 아카이브</h2>
-                    <p class="text-sm text-slate-400">선택된 카테고리: <span class="font-bold ${themeClass}">${categoryDisplayName}</span></p>
-                </div>
-            `;
-            
-            if (filteredPosts.length > 0) {
-                html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
-                filteredPosts.forEach(post => {
-                    html += `
-                        <div onclick="loadPost('${post.id}')" class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[var(--theme-color)] cursor-pointer transition-all duration-300 dynamic-theme-target hover:scale-[1.02]">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-300 uppercase">${post.category}</span>
-                                <span class="text-[10px] text-slate-500">${post.date}</span>
-                            </div>
-                            <h3 class="text-base font-bold text-white mb-2 line-clamp-2">${post.title}</h3>
-                            <p class="text-xs text-slate-400">머니대디 인사이트 포스트 상세 내용을 보려면 클릭하세요.</p>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            } else {
-                html += `
-                    <div class="text-center py-20 bg-white/5 border border-white/10 rounded-3xl">
-                        <div class="text-4xl mb-4">✍️</div>
-                        <h3 class="text-lg font-bold text-white mb-1">포스트 준비 중</h3>
-                        <p class="text-xs text-slate-400">이 카테고리의 새로운 글이 곧 업데이트될 예정입니다.</p>
-                    </div>
-                `;
-            }
-            
-            wrapper.innerHTML = html;
-            
-            // Sync Category Nav buttons state
-            document.querySelectorAll('.cat-nav-btn').forEach(btn => {
-                const cat = btn.getAttribute('data-category');
-                if (cat === activeCategory) {
-                    btn.classList.remove('text-slate-400', 'bg-transparent');
-                    btn.classList.add('text-white', 'bg-white/10', 'font-extrabold', 'border-b-2', 'border-[var(--theme-color)]', 'dynamic-theme-target', 'theme-border-dynamic');
-                    btn.style.borderBottomColor = CATEGORY_THEMES[activeCategory].color;
-                } else {
-                    btn.classList.remove('text-white', 'bg-white/10', 'font-extrabold', 'border-b-2', 'border-[var(--theme-color)]', 'dynamic-theme-target', 'theme-border-dynamic');
-                    btn.classList.add('text-slate-400', 'bg-transparent');
-                    btn.style.borderBottomColor = 'transparent';
-                }
-            });
+            container.appendChild(wrap);
         }
 
         function loadPost(id) {
