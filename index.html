@@ -880,6 +880,12 @@
                             <b>머니대디 조언:</b> "복리 효과는 비용을 최소화하는 데서 시작합니다. 특히 직장인 연금저축이나 IRP 계좌처럼 수십 년을 묻어두는 계좌일수록, ETF 운용 수수료의 단 0.1% 차이도 무시해서는 안 됩니다. 오늘 즉시 보유 중인 ETF의 TER(총보수율)을 점검해 보세요."
                         </div>
                     </div>
+                    
+                    <!-- 북마크 및 공유 액션 바 (UX 일관성 부여) -->
+                    <div class="flex items-center justify-center gap-3 mt-8 pt-6 border-t border-white/[0.06]">
+                        <button onclick="toggleBookmark('${post.id}')" id="btn-bm-${post.id}" class="flex items-center gap-1.5 py-2 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs text-slate-300 hover:text-white transition-all">📌 북마크</button>
+                        <button onclick="sharePost('${post.title}')" class="flex items-center gap-1.5 py-2 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs text-slate-300 hover:text-white transition-all">🔗 공유하기</button>
+                    </div>
                 </div>
             `;
         }
@@ -907,7 +913,7 @@
         // CSS!important로 쪼이지 않는 인라인 스타일만 선택적으로 쪼습니다.
         function applyDarkOverride(root) {
             // 1. 다크 bg로 바꿴야 할 하이라이트 패턴
-            const BRIGHT_BG = ['#ffffff','#f8fafc','#f1f5f9','#f0f9ff','#eff6ff','#fafafa','#fbf7ff'];
+            const BRIGHT_BG = ['#ffffff','#f8fafc','#f1f5f9','#f0f9ff','#fafafa'];
             const BRIGHT_TEXT = ['#0f172a','#1e293b','#1e3a5f','#0a0f1d','#374151','#111827','#475569','#4b5563','#64748b'];
 
             root.querySelectorAll('[style]').forEach(el => {
