@@ -249,7 +249,7 @@
 <body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
 
     <header class="lg:hidden bg-[#0a0e17]/95 backdrop-blur-md border-b border-white/[.06] px-5 h-14 flex items-center justify-between sticky top-0 z-40">
-        <div class="logo-enhanced">
+        <div class="logo-enhanced cursor-pointer" onclick="goHome()">
             <svg viewBox="0 0 40 40" class="logo-icon">
                 <path d="M10,30 L10,15 L20,25 L30,15 L30,30" stroke="#f59e0b" stroke-width="3" fill="none"/>
                 <circle cx="20" cy="12" r="5" fill="#0ea5e9" opacity="0.4"/>
@@ -269,7 +269,7 @@
     <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full lg:h-screen border-r border-white/[.06] bg-[#0a0e17]">
         <!-- 브랜드 및 로고 헤더 -->
         <div class="px-5 py-4.5 border-b border-white/[0.06] hidden lg:block">
-            <div class="logo-enhanced">
+            <div class="logo-enhanced cursor-pointer" onclick="goHome()">
                 <svg viewBox="0 0 40 40" class="logo-icon">
                     <path d="M10,30 L10,15 L20,25 L30,15 L30,30" stroke="#f59e0b" stroke-width="3" fill="none"/>
                     <circle cx="20" cy="12" r="5" fill="#0ea5e9" opacity="0.4"/>
@@ -414,6 +414,7 @@
         let activeCategory = 'macro';
         let searchKeyword = '';
         let sortOption = 'latest';
+        let selectedDailyPulsePost = null; // 선택된 특정 데일리 글 정보 바인딩용
 
         const CATEGORY_THEMES = {
             macro: { color: '#10b981', label: '거시금융 · 데일리', emoji: '📈' },
@@ -423,6 +424,12 @@
 
         function applyTheme(color) {
             document.documentElement.style.setProperty('--theme-color', color);
+        }
+
+        function goHome() {
+            selectedDailyPulsePost = null;
+            currentPostId = '';
+            switchCategory('macro');
         }
 
         function initializePage() {
@@ -555,19 +562,29 @@
             // 1. 데일리 펄스 (오늘의 한마디 & 시장 실시간 정보) - 거시금융 카테고리 진입 시 최상단 노출
             let pulseHtml = '';
             if (activeCategory === 'macro') {
+                const targetPost = selectedDailyPulsePost || posts[0] || { title: "장기금리 흐름 전망", date: "2026.08.02" };
+                const displayQuote = targetPost.summary || "장기 국고채 분할 매수가 답입니다. 4.16%는 매력적인 1차 진입대입니다.";
+                const displayTitle = targetPost.title.replace(/\[.*?\]\s*/g, '');
+                
                 pulseHtml = `
                     <section class="mb-8 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] shadow-xl">
                         <div class="flex items-center justify-between mb-3.5">
                             <span class="flex items-center gap-1.5 text-[10px] font-bold text-red-400">
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                                LIVE 브리핑 (2026.08.02 오후 1시)
+                                LIVE 인사이트 연동 (${targetPost.date || '2026.08.02'})
                             </span>
-                            <span class="text-[10px] text-slate-500 font-bold">운영자: 머니대디</span>
+                            <span class="text-[10px] text-slate-500 font-bold">작성자: 머니대디</span>
                         </div>
-                        <h3 class="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">💡 오늘의 한마디</h3>
-                        <p class="quote-handwritten leading-relaxed mb-4 bg-white/[0.02] p-3 rounded-lg border border-white/[0.03]">
-                            "고금리가 길어질수록, AI 인프라 ETF는 더 저평가됩니다. 지금이 적립 타이밍."
+                        <h3 class="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">💡 연동된 오늘의 한마디</h3>
+                        <p class="quote-handwritten leading-relaxed mb-3 bg-white/[0.02] p-3 rounded-lg border border-white/[0.03]">
+                            "${displayQuote}"
                         </p>
+                        <div class="flex items-center justify-between gap-4 mb-4 pb-2">
+                            <span class="text-[11px] text-slate-400 font-medium truncate">연계 리포트: <b>${displayTitle}</b></span>
+                            <button onclick="loadPost('${targetPost.id}', true)" class="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 shrink-0 transition-colors flex items-center gap-1">
+                                👉 리포트 전문 읽기 <span class="text-xs">→</span>
+                            </button>
+                        </div>
                         <div class="grid grid-cols-3 gap-2.5 pt-3 border-t border-white/[0.04] text-center">
                             <div class="py-2 bg-white/[0.01] rounded border border-white/[0.02]">
                                 <p class="text-[9px] font-bold text-slate-500">S&P 500</p>
@@ -632,12 +649,34 @@
             container.appendChild(wrap);
         }
 
-        function loadPost(id) {
-            currentPostId = id;
-            renderSidebar(); // 사이드바 active 표시 업데이트
-
+        function loadPost(id, forceShow = false) {
             const post = POSTS_DATABASE.find(p => p.id === id);
             if (!post) return;
+
+            // 데일리/리포트 관련 2단계 탐색 (훑어보기 후 진입)
+            if ((post.type === 'macro' || post.type === 'daily' || post.type === 'quick-tip') && !forceShow) {
+                // 이미 한마디로 선택된 상태이거나 강제 표출 호출이 아니라면 한마디를 바인딩하고 메인 화면으로 이동
+                if (!selectedDailyPulsePost || selectedDailyPulsePost.id !== id) {
+                    selectedDailyPulsePost = post;
+                    currentPostId = id;
+                    switchCategory('macro');
+                    
+                    // 모바일의 경우 드로어 닫기
+                    closeDrawer();
+                    
+                    // 안내 얼럿 토스트 대신 화면 상단 알림 효과 제공
+                    const alertEl = document.createElement('div');
+                    alertEl.className = 'fixed top-16 left-1/2 transform -translate-x-1/2 z-50 bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-lg shadow-lg text-xs fade-in';
+                    alertEl.innerHTML = `💡 오늘의 한마디에 "${post.category}" 데이터가 연동되었습니다!`;
+                    document.body.appendChild(alertEl);
+                    setTimeout(() => alertEl.remove(), 2500);
+                    return;
+                }
+            }
+
+            currentPostId = id;
+            selectedDailyPulsePost = post; // 상세 진입 시에도 연동 유지
+            renderSidebar(); // 사이드바 active 표시 업데이트
 
             // 카테고리 자동 연동
             let postCategory = 'macro';
@@ -815,7 +854,7 @@
         function applyDarkOverride(root) {
             // 1. 다크 bg로 바꿴야 할 하이라이트 패턴
             const BRIGHT_BG = ['#ffffff','#f8fafc','#f1f5f9','#f0f9ff','#eff6ff','#fafafa','#fbf7ff'];
-            const BRIGHT_TEXT = ['#0f172a','#1e293b','#1e3a5f','#0a0f1d','#374151','#111827'];
+            const BRIGHT_TEXT = ['#0f172a','#1e293b','#1e3a5f','#0a0f1d','#374151','#111827','#475569','#4b5563','#64748b'];
 
             root.querySelectorAll('[style]').forEach(el => {
                 const s = el.style;
@@ -827,41 +866,42 @@
                 if (!isGradient) {
                     // 밝은 bg 제거
                     if (s.background && BRIGHT_BG.some(c => s.background.toLowerCase().includes(c.toLowerCase()))) {
-                        s.removeProperty('background');
-                        s.removeProperty('background-color');
+                        s.background = 'rgba(255,255,255,.02)';
+                        s.borderColor = 'rgba(255,255,255,.05)';
                     }
                     if (s.backgroundColor && BRIGHT_BG.some(c => s.backgroundColor.toLowerCase().includes(c.toLowerCase()))) {
-                        s.removeProperty('background-color');
+                        s.backgroundColor = 'rgba(255,255,255,.02)';
                     }
                 }
 
-                // 어두운 텍스트 색상 지우기 (히어로 배너의 다크 텍스트 제외)
-                if (s.color && BRIGHT_TEXT.some(c => s.color.toLowerCase() === c.toLowerCase())) {
-                    s.removeProperty('color');
+                // 어두운 텍스트 색상을 다크모드용 밝은 텍스트로 적극 치환
+                if (s.color && BRIGHT_TEXT.some(c => s.color.toLowerCase().includes(c))) {
+                    s.color = '#e2e8f0';
                 }
 
                 // 브라이트 border-color
-                if (s.borderColor && (s.borderColor.includes('#e2e8f0') || s.borderColor.includes('#f1f5f9'))) {
+                if (s.borderColor && (s.borderColor.includes('#e2e8f0') || s.borderColor.includes('#f1f5f9') || s.borderColor.includes('#e5e7eb'))) {
                     el.style.borderColor = 'rgba(255,255,255,.08)';
                 }
             });
 
-            // 2. 테이블 구체 순환
+            // 2. 테이블 구체 순환 (글자 가독성 집중 보정)
             root.querySelectorAll('table').forEach(t => {
                 t.style.background = 'transparent';
-                t.querySelectorAll('thead').forEach(th => { th.style.background = 'rgba(255,255,255,.05)'; });
+                t.style.borderColor = 'rgba(255,255,255,.08)';
+                t.querySelectorAll('thead').forEach(th => { 
+                    th.style.background = 'rgba(255,255,255,.04)'; 
+                });
                 t.querySelectorAll('tr').forEach((tr, i) => {
-                    tr.style.background = i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,.02)';
+                    tr.style.background = i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,.01)';
                     tr.style.borderColor = 'rgba(255,255,255,.06)';
                 });
-                t.querySelectorAll('td, th').forEach(cell => {
-                    if (!cell.style.color || BRIGHT_TEXT.some(c => cell.style.color.toLowerCase() === c.toLowerCase())) {
-                        cell.style.removeProperty('color');
-                    }
+                t.querySelectorAll('td, th, span, p').forEach(cell => {
+                    cell.style.color = '#e2e8f0';
                 });
             });
 
-            // 3. 요약 카드 (summary card) 직접 지정
+            // 3. 요약 카드 (summary card) 직접 지정 및 내부 자식 글꼴 전체 밝은 톤 전환
             root.querySelectorAll('div').forEach(d => {
                 if (d.id === 'dynamic-paywall' || d.classList.contains('author-hero')) return; // 페이월 및 프로필 카드 오버라이드 방지
                 
@@ -870,17 +910,35 @@
                 
                 if (bg.includes('eff6ff') || bg.includes('fbf7ff') || bg.includes('f8fafc') || bg.includes('f1f5f9')) {
                     if (!isGradient) {
-                        d.style.background = 'rgba(255,255,255,.05)';
-                        d.style.borderColor = 'rgba(255,255,255,.1)';
+                        d.style.background = 'rgba(255,255,255,.03)';
+                        d.style.borderColor = 'rgba(255,255,255,.08)';
+                        d.style.color = '#f8fafc';
                         d.classList.add('summary-card');
+                        
+                        // 하위 모든 요소 글씨색 강제 전환
+                        d.querySelectorAll('p, span, b, li, h2, h3, h4').forEach(child => {
+                            child.style.color = '#f8fafc';
+                        });
                     }
                 }
             });
 
             // 4. 관련콘텐츠 튜더/영역 다크
             root.querySelectorAll('[style*="background:#f1f5f9"]').forEach(d => {
-                d.style.background = 'rgba(255,255,255,.04)';
+                d.style.background = 'rgba(255,255,255,.03)';
+                d.style.borderColor = 'rgba(255,255,255,.06)';
                 d.classList.add('related-block');
+                d.querySelectorAll('p, span, b, button').forEach(child => {
+                    child.style.color = '#e2e8f0';
+                });
+            });
+            
+            // 5. 제목 텍스트 가독성 최우선 전환
+            root.querySelectorAll('h1, h2, h3, h4, h5').forEach(h => {
+                const col = h.style.color;
+                if (!col || BRIGHT_TEXT.some(c => col.toLowerCase().includes(c))) {
+                    h.style.color = '#ffffff';
+                }
             });
         }
 
