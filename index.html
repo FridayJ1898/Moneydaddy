@@ -438,7 +438,6 @@
         }
 
         function goHome() {
-            consumeTokens(800); // 홈 이동 연산
             selectedDailyPulsePost = null;
             currentPostId = '';
             switchCategory('macro');
@@ -447,7 +446,6 @@
         function initializePage() {
             renderSidebar();
             switchCategory('macro');
-            updateTokenDashboard(false); // 초기 대시보드 강제 렌더링
         }
 
         function closeDrawer() {
@@ -467,7 +465,6 @@
         }
 
         function handleSearch(val) {
-            consumeTokens(450); // 검색 토큰 연산 가산
             searchKeyword = val.toLowerCase().trim();
             renderSidebar();
         }
@@ -529,7 +526,6 @@
 
         // ── 카테고리 전환 ──
         function switchCategory(cat) {
-            consumeTokens(1200); // 카테고리 전환 연산 가산
             activeCategory = cat;
             const theme = CATEGORY_THEMES[cat];
             applyTheme(theme.color);
@@ -668,7 +664,6 @@
         }
 
         function loadPost(id, forceShow = false) {
-            consumeTokens(28000); // 상세 리포트 렌더링 연산 가산
             const post = POSTS_DATABASE.find(p => p.id === id);
             if (!post) return;
 
