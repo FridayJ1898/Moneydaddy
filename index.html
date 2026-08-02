@@ -93,9 +93,23 @@
                 <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold blog-color hover:opacity-90 transition-opacity">블로그</a>
                 <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold youtube-color hover:opacity-90 transition-opacity">유튜브</a>
             </div>
-        </div>
-        
-        <!-- Navigation -->
+            <!-- Category Filter Tabs -->
+            <div class="px-6 py-4 border-b border-white/10 flex flex-col gap-2 bg-[#0d111f]">
+                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">인사이트 카테고리</span>
+                <div class="flex flex-col gap-1.5">
+                    <button onclick="switchCategory('macro')" class="cat-nav-btn w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-category="macro">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 거시금융 & 데일리
+                    </button>
+                    <button onclick="switchCategory('tech')" class="cat-nav-btn w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-category="tech">
+                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> 테크 & 수급분석
+                    </button>
+                    <button onclick="switchCategory('essay')" class="cat-nav-btn w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-category="essay">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 백과사전 & 에세이
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
         <div class="flex-grow overflow-y-auto custom-scrollbar p-4 space-y-2" id="sidebar-menu">
             <!-- Sidebar Items Injected by JS -->
         </div>
@@ -174,7 +188,7 @@
         let lineChart = null;
         let pieChart = null;
 
-        window.onload = () => { renderSidebar(); loadPost(currentPostId); };
+        window.onload = () => { renderSidebar(); switchCategory('macro'); };
 
         function toggleMobileMenu() {
             document.getElementById('sidebar').classList.toggle('open');
@@ -194,6 +208,136 @@
                     <h3 class="text-sm font-bold mt-2 line-clamp-2">${post.title}</h3>
                 `;
                 menu.appendChild(item);
+            });
+        }
+
+        // --- CATEGORY & THEME STATE MANAGEMENT ---
+        let activeCategory = 'macro'; // 'macro', 'tech', 'essay'
+        
+        // CSS Custom Properties & Transition style Injection
+        const styleEl = document.createElement('style');
+        styleEl.innerHTML = `
+            :root {
+                --theme-color: #10b981; /* Emerald green default for macro */
+                --theme-color-rgb: 16, 185, 129;
+            }
+            .theme-transition {
+                transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+            }
+            .theme-border { border-color: var(--theme-color) !important; }
+            .theme-text { color: var(--theme-color) !important; }
+            .theme-bg { background-color: var(--theme-color) !important; }
+            .theme-fill { fill: var(--theme-color) !important; }
+        `;
+        document.head.appendChild(styleEl);
+
+        const CATEGORY_THEMES = {
+            macro: { color: '#10b981', rgb: '16, 185, 129' }, // Emerald Green
+            tech: { color: '#6366f1', rgb: '99, 102, 241' },   // Indigo
+            essay: { color: '#f59e0b', rgb: '245, 158, 11' }    // Warm Amber
+        };
+
+        function switchCategory(category) {
+            if (!CATEGORY_THEMES[category]) return;
+            activeCategory = category;
+            
+            const theme = CATEGORY_THEMES[category];
+            document.documentElement.style.setProperty('--theme-color', theme.color);
+            document.documentElement.style.setProperty('--theme-color-rgb', theme.rgb);
+            
+            // UI elements color updates (Apply transition effect)
+            document.querySelectorAll('.dynamic-theme-target').forEach(el => {
+                el.classList.add('theme-transition');
+                
+                // border theme update
+                if (el.classList.contains('border-[var(--theme-color)]') || el.classList.contains('theme-border-dynamic')) {
+                    el.style.borderColor = theme.color;
+                }
+                // text theme update
+                if (el.classList.contains('text-[var(--theme-color)]') || el.classList.contains('theme-text-dynamic')) {
+                    el.style.color = theme.color;
+                }
+                // bg theme update
+                if (el.classList.contains('bg-[var(--theme-color)]') || el.classList.contains('theme-bg-dynamic')) {
+                    el.style.backgroundColor = theme.color;
+                }
+            });
+            
+            // Re-render sidebar/main list to filter posts matching the chosen category if requested
+            renderMainContent();
+        }
+
+        function renderMainContent() {
+            const container = document.getElementById('main-content');
+            container.innerHTML = '';
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'fade-in p-6 max-w-5xl mx-auto';
+            container.appendChild(wrapper);
+            
+            // Filter database posts matching activeCategory mapping
+            // Mapping categories: 
+            // macro -> '📰 데일리', '리포트'
+            // tech -> '📊 수급분석', '📊 종목분석', 'ETF 분석'
+            // essay -> '백과사전' (Or empty placeholder fallback if none)
+            let filteredPosts = [];
+            if (activeCategory === 'macro') {
+                filteredPosts = POSTS_DATABASE.filter(p => p.type === 'macro' || p.type === 'daily' || p.type === 'report');
+            } else if (activeCategory === 'tech') {
+                filteredPosts = POSTS_DATABASE.filter(p => p.type === 'ionq-joby' || p.type === 'skt' || p.type === 'interactive');
+            } else if (activeCategory === 'essay') {
+                filteredPosts = POSTS_DATABASE.filter(p => p.type === 'dictionary');
+            }
+            
+            let categoryDisplayName = activeCategory === 'macro' ? '거시경제 & 데일리 리포트' : (activeCategory === 'tech' ? '테크 & 핵심 기업 수급 분석' : '에세이 & 지식 백과사전');
+            let themeClass = activeCategory === 'macro' ? 'text-emerald-500' : (activeCategory === 'tech' ? 'text-indigo-500' : 'text-amber-500');
+            
+            let html = `
+                <div class="mb-8 border-b border-white/10 pb-4">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-white mb-2">머니대디 카테고리 아카이브</h2>
+                    <p class="text-sm text-slate-400">선택된 카테고리: <span class="font-bold ${themeClass}">${categoryDisplayName}</span></p>
+                </div>
+            `;
+            
+            if (filteredPosts.length > 0) {
+                html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+                filteredPosts.forEach(post => {
+                    html += `
+                        <div onclick="loadPost('${post.id}')" class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[var(--theme-color)] cursor-pointer transition-all duration-300 dynamic-theme-target hover:scale-[1.02]">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-300 uppercase">${post.category}</span>
+                                <span class="text-[10px] text-slate-500">${post.date}</span>
+                            </div>
+                            <h3 class="text-base font-bold text-white mb-2 line-clamp-2">${post.title}</h3>
+                            <p class="text-xs text-slate-400">머니대디 인사이트 포스트 상세 내용을 보려면 클릭하세요.</p>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else {
+                html += `
+                    <div class="text-center py-20 bg-white/5 border border-white/10 rounded-3xl">
+                        <div class="text-4xl mb-4">✍️</div>
+                        <h3 class="text-lg font-bold text-white mb-1">포스트 준비 중</h3>
+                        <p class="text-xs text-slate-400">이 카테고리의 새로운 글이 곧 업데이트될 예정입니다.</p>
+                    </div>
+                `;
+            }
+            
+            wrapper.innerHTML = html;
+            
+            // Sync Category Nav buttons state
+            document.querySelectorAll('.cat-nav-btn').forEach(btn => {
+                const cat = btn.getAttribute('data-category');
+                if (cat === activeCategory) {
+                    btn.classList.remove('text-slate-400', 'bg-transparent');
+                    btn.classList.add('text-white', 'bg-white/10', 'font-extrabold', 'border-b-2', 'border-[var(--theme-color)]', 'dynamic-theme-target', 'theme-border-dynamic');
+                    btn.style.borderBottomColor = CATEGORY_THEMES[activeCategory].color;
+                } else {
+                    btn.classList.remove('text-white', 'bg-white/10', 'font-extrabold', 'border-b-2', 'border-[var(--theme-color)]', 'dynamic-theme-target', 'theme-border-dynamic');
+                    btn.classList.add('text-slate-400', 'bg-transparent');
+                    btn.style.borderBottomColor = 'transparent';
+                }
             });
         }
 
@@ -229,6 +373,21 @@
             }
 
             const post = POSTS_DATABASE.find(p => p.id === id);
+            
+            // Automatically switch category based on post type
+            let postCategory = 'macro';
+            if (post.type === 'ionq-joby' || post.type === 'skt' || post.type === 'interactive') {
+                postCategory = 'tech';
+            } else if (post.type === 'dictionary') {
+                postCategory = 'essay';
+            }
+            
+            // Set active category and update CSS variable before rendering post content
+            activeCategory = postCategory;
+            const theme = CATEGORY_THEMES[activeCategory];
+            document.documentElement.style.setProperty('--theme-color', theme.color);
+            document.documentElement.style.setProperty('--theme-color-rgb', theme.rgb);
+
             const container = document.getElementById('main-content');
             container.innerHTML = '';
             const wrapper = document.createElement('div');
