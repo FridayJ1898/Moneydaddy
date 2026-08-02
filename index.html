@@ -182,24 +182,51 @@
         };
 
         // --- POSTS CONFIG ---
-        const POSTS_DATABASE = [
-            { id: "macro-2026-06-28", category: "📰 데일리", title: "[2026.06.28] 2026년 글로벌 거시금융 환경의 전환점: 장기금리 흐름 전망과 AI·반도체 슈퍼사이클의 지속성 및 상호 상관관계 분석", date: "2026.06.28", type: "macro" },
-            { id: "ionq-joby-2026-06-23", category: "📊 수급분석", title: "[2026.06.23] 아이온큐(IONQ)·조비 에비에이션(JOBY) 수급 주도권 및 자금 흐름 종편 분석", date: "2026.06.23", type: "ionq-joby" },
-            { id: "skt-2026-06-02", category: "📊 종목분석", title: "[2026.06.02] SKT: 엔비디아·앤트로픽·스타링크 3각 동맹이 촉발할 통신주의 구조적 리레이팅", date: "2026.06.02", type: "skt" },
-            { id: "daily-2026-06-02", category: "📰 데일리", title: "[2026.06.02] 'K자형 분열': AI 랠리 속 관세의 그림자, 연준의 새 선장 워시", date: "2026.06.02", type: "daily" },
-            { id: "ai-infra-2026-full", category: "리포트", title: "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", date: "2026.01.22", type: "report" },
-            { id: "etf-dictionary", category: "백과사전", title: "📖 머니대디 ETF 백과사전", date: "2026.01.22", type: "dictionary" },
-            { id: "power-analysis", category: "ETF 분석", title: "전력 인프라 ETF (GRID, PAVE, XLU) 분석", date: "2026.01.22", type: "interactive", categoryKey: "power" },
-            { id: "data-analysis", category: "ETF 분석", title: "데이터 인프라 ETF (DTCR, SRVR, IDGT) 분석", date: "2026.01.22", type: "interactive", categoryKey: "data" },
-            { id: "quantum-analysis", category: "ETF 분석", title: "양자컴퓨터 ETF (QTUM, TEKZ, LOUP) 분석", date: "2026.01.19", type: "interactive", categoryKey: "quantum" },
-            { id: "finance-analysis", category: "ETF 분석", title: "금융주 ETF (XLF, KBE, KRE) 분석", date: "2026.01.18", type: "interactive", categoryKey: "finance" }
-        ];
-
-        let currentPostId = POSTS_DATABASE[0].id;
+        let POSTS_DATABASE = [];
+        let currentPostId = "";
         let lineChart = null;
         let pieChart = null;
 
-        window.onload = () => { renderSidebar(); switchCategory('macro'); };
+        window.onload = () => {
+            fetch('source/posts.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    POSTS_DATABASE = data;
+                    if (POSTS_DATABASE.length > 0) {
+                        currentPostId = POSTS_DATABASE[0].id;
+                    }
+                    initializePage();
+                })
+                .catch(error => {
+                    console.error('Failed to load posts, using fallback:', error);
+                    POSTS_DATABASE = [
+                        { "id": "macro-2026-06-28", "category": "📰 데일리", "title": "[2026.06.28] 2026년 글로벌 거시금융 환경의 전환점: 장기금리 흐름 전망과 AI·반도체 슈퍼사이클의 지속성 및 상호 상관관계 분석", "date": "2026.06.28", "type": "macro" },
+                        { "id": "ionq-joby-2026-06-23", "category": "📊 수급분석", "title": "[2026.06.23] 아이온큐(IONQ)·조비 에비에이션(JOBY) 수급 주도권 및 자금 흐름 종편 분석", "date": "2026.06.23", "type": "ionq-joby" },
+                        { "id": "skt-2026-06-02", "category": "📊 종목분석", "title": "[2026.06.02] SKT: 엔비디아·앤트로픽·스타링크 3각 동맹이 촉발할 통신주의 구조적 리레이팅", "date": "2026.06.02", "type": "skt" },
+                        { "id": "daily-2026-06-02", "category": "📰 데일리", "title": "[2026.06.02] 'K자형 분열': AI 랠리 속 관세의 그림자, 연준의 새 선장 워시", "date": "2026.06.02", "type": "daily" },
+                        { "id": "ai-infra-2026-full", "category": "리포트", "title": "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", "date": "2026.01.22", "type": "report" },
+                        { "id": "etf-dictionary", "category": "백과사전", "title": "📖 머니대디 ETF 백과사전", "date": "2026.01.22", "type": "dictionary" },
+                        { "id": "power-analysis", "category": "ETF 분석", "title": "전력 인프라 ETF (GRID, PAVE, XLU) 분석", "date": "2026.01.22", "type": "interactive", "categoryKey": "power" },
+                        { "id": "data-analysis", "category": "ETF 분석", "title": "데이터 인프라 ETF (DTCR, SRVR, IDGT) 분석", "date": "2026.01.22", "type": "interactive", "categoryKey": "data" },
+                        { "id": "quantum-analysis", "category": "ETF 분석", "title": "양자컴퓨터 ETF (QTUM, TEKZ, LOUP) 분석", "date": "2026.01.19", "type": "interactive", "categoryKey": "quantum" },
+                        { "id": "finance-analysis", "category": "ETF 분석", "title": "금융주 ETF (XLF, KBE, KRE) 분석", "date": "2026.01.18", "type": "interactive", "categoryKey": "finance" }
+                    ];
+                    if (POSTS_DATABASE.length > 0) {
+                        currentPostId = POSTS_DATABASE[0].id;
+                    }
+                    initializePage();
+                });
+        };
+
+        function initializePage() {
+            renderSidebar();
+            switchCategory('macro');
+        }
 
         function toggleMobileMenu() {
             document.getElementById('sidebar').classList.toggle('open');
@@ -287,10 +314,6 @@
             container.appendChild(wrapper);
             
             // Filter database posts matching activeCategory mapping
-            // Mapping categories: 
-            // macro -> '📰 데일리', '리포트'
-            // tech -> '📊 수급분석', '📊 종목분석', 'ETF 분석'
-            // essay -> '백과사전' (Or empty placeholder fallback if none)
             let filteredPosts = [];
             if (activeCategory === 'macro') {
                 filteredPosts = POSTS_DATABASE.filter(p => p.type === 'macro' || p.type === 'daily' || p.type === 'report');
@@ -303,7 +326,44 @@
             let categoryDisplayName = activeCategory === 'macro' ? '거시경제 & 데일리 리포트' : (activeCategory === 'tech' ? '테크 & 핵심 기업 수급 분석' : '에세이 & 지식 백과사전');
             let themeClass = activeCategory === 'macro' ? 'text-emerald-500' : (activeCategory === 'tech' ? 'text-indigo-500' : 'text-amber-500');
             
+            // 🔥 오늘의 신규 인사이트 배너 위젯 동적 생성
+            let bannerHtml = '';
+            if (POSTS_DATABASE.length > 0) {
+                const sorted = [...POSTS_DATABASE].sort((a, b) => b.date.localeCompare(a.date));
+                const latestPost = sorted[0];
+                if (latestPost) {
+                    bannerHtml = `
+                        <div onclick="loadPost('${latestPost.id}')" class="mb-8 p-6 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 border border-white/20 shadow-2xl hover:scale-[1.01] transition-all cursor-pointer relative overflow-hidden group">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+                            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="flex-grow">
+                                    <div class="flex items-center gap-2 mb-2 flex-wrap">
+                                        <span class="bg-red-500 text-white font-extrabold text-[10px] px-2.5 py-1 rounded-full animate-pulse flex items-center gap-1">
+                                            🔥 오늘의 신규 인사이트
+                                        </span>
+                                        <span class="text-[10px] text-white/80 font-bold bg-white/10 px-2.5 py-1 rounded-full border border-white/10">
+                                            ${latestPost.category}
+                                        </span>
+                                        <span class="text-xs text-white/60 ml-1">
+                                            ${latestPost.date}
+                                        </span>
+                                    </div>
+                                    <h3 class="text-lg md:text-xl font-extrabold text-white leading-snug drop-shadow-md mb-1 line-clamp-1">
+                                        ${latestPost.title}
+                                    </h3>
+                                    <p class="text-xs text-white/70">가장 최신 업데이트된 수급/거시 인사이트를 확인해 보세요.</p>
+                                </div>
+                                <div class="flex-shrink-0 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white p-3 rounded-full border border-white/20 transition-all">
+                                    <svg class="w-6 h-6 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
             let html = `
+                ${bannerHtml}
                 <div class="mb-8 border-b border-white/10 pb-4">
                     <h2 class="text-2xl font-extrabold tracking-tight text-white mb-2">머니대디 카테고리 아카이브</h2>
                     <p class="text-sm text-slate-400">선택된 카테고리: <span class="font-bold ${themeClass}">${categoryDisplayName}</span></p>

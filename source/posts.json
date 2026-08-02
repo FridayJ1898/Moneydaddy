@@ -1,0 +1,12 @@
+[
+    { "id": "macro-2026-06-28", "category": "📰 데일리", "title": "[2026.06.28] 2026년 글로벌 거시금융 환경의 전환점: 장기금리 흐름 전망과 AI·반도체 슈퍼사이클의 지속성 및 상호 상관관계 분석", "date": "2026.06.28", "type": "macro" },
+    { "id": "ionq-joby-2026-06-23", "category": "📊 수급분석", "title": "[2026.06.23] 아이온큐(IONQ)·조비 에비에이션(JOBY) 수급 주도권 및 자금 흐름 종편 분석", "date": "2026.06.23", "type": "ionq-joby" },
+    { "id": "skt-2026-06-02", "category": "📊 종목분석", "title": "[2026.06.02] SKT: 엔비디아·앤트로픽·스타링크 3각 동맹이 촉발할 통신주의 구조적 리레이팅", "date": "2026.06.02", "type": "skt" },
+    { "id": "daily-2026-06-02", "category": "📰 데일리", "title": "[2026.06.02] 'K자형 분열': AI 랠리 속 관세의 그림자, 연준의 새 선장 워시", "date": "2026.06.02", "type": "daily" },
+    { "id": "ai-infra-2026-full", "category": "리포트", "title": "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", "date": "2026.01.22", "type": "report" },
+    { "id": "etf-dictionary", "category": "백과사전", "title": "📖 머니대디 ETF 백과사전", "date": "2026.01.22", "type": "dictionary" },
+    { "id": "power-analysis", "category": "ETF 분석", "title": "전력 인프라 ETF (GRID, PAVE, XLU) 분석", "date": "2026.01.22", "type": "interactive", "categoryKey": "power" },
+    { "id": "data-analysis", "category": "ETF 분석", "title": "데이터 인프라 ETF (DTCR, SRVR, IDGT) 분석", "date": "2026.01.22", "type": "interactive", "categoryKey": "data" },
+    { "id": "quantum-analysis", "category": "ETF 분석", "title": "양자컴퓨터 ETF (QTUM, TEKZ, LOUP) 분석", "date": "2026.01.19", "type": "interactive", "categoryKey": "quantum" },
+    { "id": "finance-analysis", "category": "ETF 분석", "title": "금융주 ETF (XLF, KBE, KRE) 분석", "date": "2026.01.18", "type": "interactive", "categoryKey": "finance" }
+]
