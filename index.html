@@ -20,17 +20,17 @@
         @media (min-width: 768px) { .chart-container { height: 380px; } }
         
         /* 메뉴 활성화 효과 */
-        .sidebar-item.active { background-color: #eff6ff; border-left: 4px solid #1d4ed8; color: #1d4ed8; font-weight: 700; }
+        .sidebar-item.active { background-color: rgba(30, 41, 59, 0.8); border-left: 4px solid #3b82f6; color: #3b82f6; font-weight: 700; }
         
         /* 애니메이션 */
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         /* 모바일 드로어 및 오버레이 */
-        .mobile-menu-overlay { background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); display: none; position: fixed; inset: 0; z-index: 40; }
+        .mobile-menu-overlay { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); display: none; position: fixed; inset: 0; z-index: 40; }
         .mobile-menu-overlay.open { display: block; }
         
-        .sidebar-drawer { transform: translateX(-100%); transition: transform 0.3s ease-in-out; position: fixed; inset-y: 0; left: 0; z-index: 50; width: 280px; background: white; }
+        .sidebar-drawer { transform: translateX(-100%); transition: transform 0.3s ease-in-out; position: fixed; inset-y: 0; left: 0; z-index: 50; width: 280px; background: #0f172a; }
         @media (min-width: 1024px) {
             .sidebar-drawer { transform: none; position: static; width: 320px; }
         }
@@ -42,8 +42,8 @@
         
         /* 스크롤바 커스텀 */
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
 
         /* 리포트 텍스트 스타일 */
         .report-content p { margin-bottom: 1.25rem; line-height: 1.8; }
@@ -59,39 +59,39 @@
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
-<body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
+<body class="antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden bg-[#0f172a] text-slate-100">
 
     <!-- Mobile Top Navigation -->
-    <header class="lg:hidden bg-white border-b border-slate-200 px-4 h-16 flex items-center justify-between sticky top-0 z-40">
-        <button onclick="toggleMobileMenu()" class="p-2 text-slate-800" aria-label="메뉴">
+    <header class="lg:hidden bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 px-4 h-16 flex items-center justify-between sticky top-0 z-40">
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-200" aria-label="메뉴">
             <div class="w-6 h-0.5 bg-current mb-1.5"></div>
             <div class="w-6 h-0.5 bg-current mb-1.5"></div>
             <div class="w-6 h-0.5 bg-current"></div>
         </button>
         <div class="flex items-center gap-2">
-            <span class="w-7 h-7 bg-blue-700 rounded flex items-center justify-center text-white text-xs font-bold">M</span>
-            <span class="font-bold text-slate-900 text-sm">머니대디 Insight</span>
+            <span class="w-7 h-7 bg-blue-600 rounded flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-blue-500/30">M</span>
+            <span class="font-bold text-white text-sm tracking-tight">머니대디 Insight</span>
         </div>
         <div class="flex gap-2">
-            <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="w-8 h-8 rounded-full youtube-color flex items-center justify-center text-white text-[10px] font-bold">Y</a>
-            <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="w-8 h-8 rounded-full blog-color flex items-center justify-center text-white text-[10px] font-bold">B</a>
+            <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="w-8 h-8 rounded-full youtube-color flex items-center justify-center text-white text-[10px] font-bold shadow-md shadow-red-500/20">Y</a>
+            <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="w-8 h-8 rounded-full blog-color flex items-center justify-center text-white text-[10px] font-bold shadow-md shadow-green-500/20">B</a>
         </div>
     </header>
 
     <!-- Mobile Overlay -->
     <div id="mobile-overlay" class="mobile-menu-overlay lg:hidden" onclick="toggleMobileMenu()"></div>
 
-    <!-- Sidebar (Fixed Width) -->
-    <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full border-r border-slate-200">
+    <!-- Sidebar (Fixed Width) - Dark Theme Premium -->
+    <aside id="sidebar" class="sidebar-drawer lg:sidebar-fixed-width flex flex-col h-full border-r border-white/10 bg-[#0b0f19]">
         <!-- Sidebar Brand (Desktop) -->
-        <div class="p-6 border-b border-slate-100 bg-slate-50 hidden lg:block">
-            <h1 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
-                <span class="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center text-white text-sm">M</span>
+        <div class="p-6 border-b border-white/10 bg-[#0f1424] hidden lg:block">
+            <h1 class="text-xl font-extrabold text-white flex items-center gap-2.5 mb-4">
+                <span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm shadow-lg shadow-blue-500/30">M</span>
                 머니대디 Insight
             </h1>
             <div class="grid grid-cols-2 gap-2">
-                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold blog-color">블로그</a>
-                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold youtube-color">유튜브</a>
+                <a href="https://blog.naver.com/jasonmoneylogin" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold blog-color hover:opacity-90 transition-opacity">블로그</a>
+                <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="flex items-center justify-center text-white py-2 rounded-lg text-[10px] font-bold youtube-color hover:opacity-90 transition-opacity">유튜브</a>
             </div>
         </div>
         
@@ -100,13 +100,37 @@
             <!-- Sidebar Items Injected by JS -->
         </div>
 
-        <div class="p-4 border-t border-slate-100 bg-slate-50">
-            <p class="text-[10px] text-slate-400 text-center uppercase tracking-widest font-bold">Since 2024 머니대디</p>
+        <div class="p-4 border-t border-white/10 bg-[#0f1424]">
+            <p class="text-[10px] text-slate-500 text-center uppercase tracking-widest font-bold">Since 2024 머니대디</p>
         </div>
     </aside>
 
+    <!-- Mobile Bottom Tab Bar -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0f172a]/90 backdrop-blur-lg border-t border-white/10 flex items-center justify-around px-4 z-40 pb-safe shadow-2xl">
+        <button onclick="loadPost('macro-2026-06-28')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-macro">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 4a2 2 0 00-2-2v3m2 3V9m0 0l-3-3m3 3h-3"/></svg>
+            <span class="text-[9px] font-bold">데일리</span>
+        </button>
+        <button onclick="loadPost('ai-infra-2026-full')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-report">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span class="text-[9px] font-bold">리포트</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span class="text-[9px] font-bold">전체메뉴</span>
+        </button>
+        <button onclick="loadPost('etf-dictionary')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-dict">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="text-[9px] font-bold">백과사전</span>
+        </button>
+        <button onclick="loadPost('power-analysis')" class="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-blue-500 transition-colors" id="tab-etf">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span class="text-[9px] font-bold">ETF분석</span>
+        </button>
+    </div>
+
     <!-- Main Content -->
-    <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar relative bg-white" id="main-content">
+    <main class="flex-grow overflow-y-auto h-full lg:h-screen custom-scrollbar relative bg-white pb-16 lg:pb-0" id="main-content">
         <!-- Report Content / Dashboards Injected here -->
     </main>
 
@@ -163,10 +187,10 @@
             POSTS_DATABASE.forEach(post => {
                 const isActive = post.id === currentPostId;
                 const item = document.createElement('div');
-                item.className = `sidebar-item p-4 rounded-xl cursor-pointer transition-all hover:bg-slate-50 ${isActive ? 'active' : ''}`;
-                item.onclick = () => { loadPost(post.id); if (window.innerWidth < 1024) toggleMobileMenu(); };
+                item.className = `sidebar-item p-4 rounded-xl cursor-pointer transition-all hover:bg-white/5 text-slate-300 hover:text-white ${isActive ? 'active' : ''}`;
+                item.onclick = () => { loadPost(post.id); if (window.innerWidth < 1024) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); } };
                 item.innerHTML = `
-                    <div class="flex justify-between items-start"><span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500 uppercase">${post.category}</span><span class="text-[10px] text-slate-400">${post.date}</span></div>
+                    <div class="flex justify-between items-start"><span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-400 uppercase">${post.category}</span><span class="text-[10px] text-slate-500">${post.date}</span></div>
                     <h3 class="text-sm font-bold mt-2 line-clamp-2">${post.title}</h3>
                 `;
                 menu.appendChild(item);
@@ -176,6 +200,34 @@
         function loadPost(id) {
             currentPostId = id;
             renderSidebar();
+            
+            // 모바일 탭 바 활성화 상태 표시 업데이트
+            const tabs = {
+                'macro-2026-06-28': 'tab-macro',
+                'ai-infra-2026-full': 'tab-report',
+                'etf-dictionary': 'tab-dict',
+                'power-analysis': 'tab-etf',
+                'data-analysis': 'tab-etf',
+                'quantum-analysis': 'tab-etf',
+                'finance-analysis': 'tab-etf'
+            };
+            
+            // 모든 탭 초기화
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('text-blue-500');
+                btn.classList.add('text-slate-400');
+            });
+            
+            // 현재 활성화된 포스트에 맞는 탭 활성화
+            const activeTabId = tabs[id];
+            if (activeTabId) {
+                const activeBtn = document.getElementById(activeTabId);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-slate-400');
+                    activeBtn.classList.add('text-blue-500');
+                }
+            }
+
             const post = POSTS_DATABASE.find(p => p.id === id);
             const container = document.getElementById('main-content');
             container.innerHTML = '';
