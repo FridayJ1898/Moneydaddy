@@ -1,6 +1,9 @@
 [
     { "id": "macro-2026-06-28", "category": "📰 데일리", "title": "[2026.06.28] 2026년 글로벌 거시금융 환경의 전환점: 장기금리 흐름 전망과 AI·반도체 슈퍼사이클의 지속성 및 상호 상관관계 분석", "date": "2026.06.28", "type": "macro", "views": 1240 },
-    { "id": "ionq-joby-2026-06-23", "category": "📊 수급분석", "title": "[2026.06.23] 아이온큐(IONQ)·조비 에비에이션(JOBY) 수급 주도권 및 자금 흐름 종편 분석", "date": "2026.06.23", "type": "ionq-joby", "views": 890 },
+    { "id": "daily-2026-06-02", "category": "📰 데일리", "title": "[2026.06.02] 'K자형 분열': AI 랠리 속 관세의 그림자, 연준의 새 선장 워시", "date": "2026.06.02", "type": "daily", "views": 412 },
+    { "id": "tip-2026-08-02", "category": "💡 1분 팁", "title": "ETF 수수료 0.5% 차이가 30년 후엔 얼마나 엄청난 차이를 만들까?", "date": "2026.08.02", "type": "quick-tip", "views": 1560, "readTime": "1분", "summary": "연 7% 수익률 가정 시, 0.5% 수수료 차이는 30년 후 원금의 12%를 차감시킵니다. 수수료가 제일 싼 운용사를 골라야 하는 이유입니다." },
+    { "id": "ai-infra-2026-full", "category": "리포트", "title": "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", "date": "2026.01.22", "type": "report", "views": 2100 },
+    { "id": "ionq-joby-2026-08-10", "category": "📊 수급분석", "title": "2026년 하반기 아이온큐(IONQ) 펀더멘털 및 파생 수급 기반 기대 주가(E(X)) 심층 분석", "date": "2026.08.10", "type": "ionq-joby", "views": 890 },
     {
       "id": "quantum-companies-2026-08-02",
       "category": "📊 산업분석",
@@ -12,12 +15,29 @@
       "summary": "'오류 정정' 임계점을 넘어선 양자컴퓨팅 시장에서 IBM and IonQ의 기술적 성숙도와 상용화 경쟁력을 비교 분석합니다."
     },
     { "id": "skt-2026-06-02", "category": "📊 종목분석", "title": "[2026.06.02] SKT: 엔비디아·앤트로픽·스타링크 3각 동맹이 촉발할 통신주의 구조적 리레이팅", "date": "2026.06.02", "type": "skt", "views": 530 },
-    { "id": "daily-2026-06-02", "category": "📰 데일리", "title": "[2026.06.02] 'K자형 분열': AI 랠리 속 관세의 그림자, 연준의 새 선장 워시", "date": "2026.06.02", "type": "daily", "views": 412 },
-    { "id": "tip-2026-08-02", "category": "💡 1분 팁", "title": "ETF 수수료 0.5% 차이가 30년 후엔 얼마나 엄청난 차이를 만들까?", "date": "2026.08.02", "type": "quick-tip", "views": 1560, "readTime": "1분", "summary": "연 7% 수익률 가정 시, 0.5% 수수료 차이는 30년 후 원금의 12%를 차감시킵니다. 수수료가 제일 싼 운용사를 골라야 하는 이유입니다." },
-    { "id": "ai-infra-2026-full", "category": "리포트", "title": "2026 글로벌 AI 인프라 투자 보고서: 데이터 센터와 전력망 분석", "date": "2026.01.22", "type": "report", "views": 2100 },
-    { "id": "etf-dictionary", "category": "백과사전", "title": "📖 머니대디 ETF 백과사전", "date": "2026.01.22", "type": "dictionary", "views": 3200 },
     { "id": "power-analysis", "category": "ETF 분석", "title": "전력 인프라 ETF (GRID, PAVE, XLU) 분석", "date": "2026.01.22", "type": "interactive", "categoryKey": "power", "views": 670 },
     { "id": "data-analysis", "category": "ETF 분석", "title": "데이터 인프라 ETF (DTCR, SRVR, IDGT) 분석", "date": "2026.01.22", "type": "interactive", "categoryKey": "data", "views": 420 },
     { "id": "quantum-analysis", "category": "ETF 분석", "title": "양자컴퓨터 ETF (QTUM, TEKZ, LOUP) 분석", "date": "2026.01.19", "type": "interactive", "categoryKey": "quantum", "views": 810 },
-    { "id": "finance-analysis", "category": "ETF 분석", "title": "금융주 ETF (XLF, KBE, KRE) 분석", "date": "2026.01.18", "type": "interactive", "categoryKey": "finance", "views": 940 }
+    { "id": "finance-analysis", "category": "💰 금융주 ETF", "title": "금융주 ETF (XLF, KBE, KRE) 분석 — 금리 수혜 섹터 집중 해부", "date": "2026.01.18", "type": "finance-etf", "categoryKey": "finance", "views": 940 },
+    { "id": "etf-dictionary", "category": "백과사전", "title": "📖 머니대디 ETF 백과사전 — 12종 완전 해설", "date": "2026.01.22", "type": "dictionary", "views": 3200 },
+    {
+      "id": "essay-investing-philosophy-2026",
+      "category": "✍️ 에세이",
+      "title": "아빠가 되고 나서야 알게 된 투자의 진짜 의미 — 머니대디의 투자 철학",
+      "date": "2026.07.15",
+      "type": "essay",
+      "views": 720,
+      "readTime": "7분",
+      "summary": "수익률보다 중요한 것이 있다. 15년 금융업에 종사하며, 그리고 아이의 아빠가 되고 나서 비로소 깨달은 '지속 가능한 투자'에 대한 생각을 솔직하게 씁니다."
+    },
+    {
+      "id": "essay-etf-mistakes-2026",
+      "category": "✍️ 에세이",
+      "title": "ETF 투자 5년, 내가 저지른 실수 3가지와 그 교훈",
+      "date": "2026.06.10",
+      "type": "essay",
+      "views": 480,
+      "readTime": "5분",
+      "summary": "섹터 ETF 타이밍 미스, 환헤지 간과, 수수료 무시 — 직접 돈을 잃으며 배운 세 가지 실수담과 구체적인 해결책을 공유합니다."
+    }
 ]
