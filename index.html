@@ -141,6 +141,37 @@
         .article-wrap .summary-card p { color: var(--md-text-secondary) !important; }
         /* 관련 콘텐츠 유도 다크 */
         .article-wrap .related-block { background: rgba(255,255,255,.03) !important; border-radius: var(--radius-md); }
+        
+        /* 백과사전 및 대시보드 라이트 카드 배경 다크모드로 리셋 */
+        .article-wrap .bg-white,
+        .article-wrap .bg-slate-50,
+        .article-wrap .bg-slate-100,
+        .article-wrap .bg-slate-200,
+        .article-wrap .dictionary-card {
+            background-color: var(--md-bg-elevated) !important;
+            background: var(--md-bg-elevated) !important;
+            border-color: rgba(255, 255, 255, 0.06) !important;
+            color: var(--md-text-secondary) !important;
+        }
+        .article-wrap .bg-slate-50 p,
+        .article-wrap .bg-slate-100 p,
+        .article-wrap .bg-slate-50 span,
+        .article-wrap .bg-slate-100 span,
+        .article-wrap .dictionary-card p {
+            color: var(--md-text-secondary) !important;
+        }
+        .article-wrap .dictionary-card h3,
+        .article-wrap .dictionary-card span.text-slate-900,
+        .article-wrap .dictionary-card span.text-slate-700 {
+            color: var(--md-text-primary) !important;
+        }
+        .article-wrap button.border-slate-100 {
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            color: var(--md-text-secondary) !important;
+        }
+        .article-wrap button.border-slate-100:hover {
+            background-color: rgba(255, 255, 255, 0.02) !important;
+        }
 
         /* ── 브레드크럼 ── */
         .breadcrumb-bar {
