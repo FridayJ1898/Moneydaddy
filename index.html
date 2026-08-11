@@ -894,6 +894,11 @@
 
         // ── 70% 스크롤 감지 페이월 트리거 ──
         function initScrollPaywall(scrollEl, paywallEl) {
+            // 로컬 테스트(file://) 환경이거나, localStorage에 Pro/Owner 권한이 활성화된 경우 페이월 작동 우회
+            if (location.protocol === 'file:' || localStorage.getItem('isPro') === 'true' || localStorage.getItem('isOwner') === 'true') {
+                return;
+            }
+
             let paywallShown = false;
             
             scrollEl.onscroll = () => {
