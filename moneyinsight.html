@@ -6,6 +6,15 @@
     <title>머니대디 경제 인사이트 포털</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         /* 기본 레이아웃 및 폰트 */
@@ -210,6 +219,10 @@
             else if (post.type === 'interactive') renderInteractiveDashboard(wrapper, post);
             
             container.scrollTop = 0;
+
+            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise();
+            }
         }
 
         // --- RENDERER: MACRO ECONOMIC & AI/SEMICONDUCTOR REPORT ---
@@ -1857,7 +1870,7 @@
                     
                     <!-- 수식 스타일링 1 -->
                     <div class="font-serif italic bg-slate-50 border border-slate-200 text-slate-800 p-4 rounded-xl text-center my-6 overflow-x-auto text-sm sm:text-base">
-                        $$x_{cb, t} = I_{t}^{\\text{sell}} \\cdot \\mathbb{I}\\left( \\Delta S_t > \\theta_{\\text{upper}} \\right) - I_{t}^{\\text{buy}} \\cdot \\mathbb{I}\\left( \\Delta S_t < \\theta_{\\text{lower}} \\right)$$
+                        $$x_{cb, t} = I_{t}^{\\text{sell}} \\cdot \\mathbb{I}\\left( \\Delta S_t > \\theta_{\\text{upper}} \\right) - I_{t}^{\\text{buy}} \\cdot \\mathbb{I}\\left( \\Delta S_t &lt; \\theta_{\\text{lower}} \\right)$$
                     </div>
                     
                     <p class="text-slate-600 leading-relaxed mb-4">2022년 글로벌 달러 강세가 극에 달했던 시기에 한국은행은 약 459억 달러의 순매도 개입을 단행하여 시중의 달러 수급 불균형을 직접 해소하였습니다.</p>
