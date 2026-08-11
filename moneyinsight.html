@@ -1822,14 +1822,14 @@
         function renderFxInterventionReport(container, post) {
             container.innerHTML = `
                 <!-- 히어로 배너 -->
-                <div class="bg-gradient-to-br from-[#0b1329] via-[#1c2541] to-[#3a506b] border-b-4 border-blue-500 p-8 sm:p-12">
+                <div class="bg-gradient-to-br from-[#0b1329] via-[#1c2541] to-[#3a506b] border-b-4 border-blue-500 px-4 py-8 md:px-8 lg:px-12 sm:py-12">
                     <div class="max-w-4xl mx-auto">
                         <div class="flex items-center gap-2 mb-5 flex-wrap">
                             <span class="bg-blue-500/20 text-blue-200 text-xs font-bold tracking-widest uppercase py-1.5 px-3 rounded-full border border-blue-400/30">📰 거시경제 · 2026.08.11</span>
                             <span class="bg-red-500/20 text-red-300 text-xs font-bold py-1.5 px-3 rounded-full border border-red-500/30">🔴 LIVE</span>
                         </div>
                         <h1 class="text-slate-50 text-2xl sm:text-4xl font-black leading-tight mb-4">원/달러(USD/KRW) 외환당국의 개입 메커니즘과<br><span class="text-blue-400">연쇄적 가격 하락(Cascading Downside)</span> 파급 채널 실증 분석</h1>
-                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">시장 미시구조 내 매수·매도 주문 흐름의 파급 채널, 통화정책과 외환 개입 간의 상호작용 및 실증적 사례 연구</p>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">시장 <span class="whitespace-nowrap">미시구조</span> 내 매수·매도 주문 흐름의 파급 채널, 통화정책과 외환 개입 간의 상호작용 및 실증적 사례 연구</p>
                         <div class="flex flex-wrap gap-2 mt-4">
                             <span class="bg-slate-800/50 text-slate-200 text-xs sm:text-sm py-1.5 px-3 rounded-lg border border-slate-600/50">🏛️ 외환 개입</span>
                             <span class="bg-slate-800/50 text-slate-200 text-xs sm:text-sm py-1.5 px-3 rounded-lg border border-slate-600/50">📉 연쇄 하락</span>
@@ -1839,7 +1839,7 @@
                     </div>
                 </div>
 
-                <div class="max-w-4xl mx-auto px-6 py-10 report-content">
+                <div class="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 py-10 report-content">
                     
                     <!-- 핵심 요약 (Executive Summary) 카드 -->
                     <div class="bg-slate-50/80 backdrop-blur-md border border-slate-200/60 rounded-2xl shadow-sm p-6 mb-8">
@@ -1847,15 +1847,15 @@
                         <div class="flex flex-col gap-4">
                             <div class="flex gap-4 items-start">
                                 <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 mt-0.5">1</span>
-                                <p class="m-0 text-slate-700 text-sm sm:text-base leading-relaxed"><b>복합적 거시경제 이벤트</b>: 외환당국의 개입은 단순한 대외 자산 매매를 넘어 시장 미시구조, 정보 비대칭성, 수급 주체별 파괴적 행태 변화를 유발하며, 특히 원/달러 시장에서 연쇄적인 가격 하락(Cascading Downside Price Action) 현상을 빈번하게 발생시킵니다.</p>
+                                <p class="m-0 text-slate-700 text-sm sm:text-base leading-relaxed"><b>복합적 거시경제 이벤트</b>: 외환당국의 개입은 단순한 대외 자산 매매를 넘어 시장 <span class="whitespace-nowrap">미시구조</span>, 정보 비대칭성, 수급 주체별 파괴적 행태 변화를 유발하며, 특히 원/달러 시장에서 연쇄적인 가격 하락(Cascading Downside Price Action) 현상을 빈번하게 발생시킵니다.</p>
                             </div>
                             <div class="flex gap-4 items-start">
                                 <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 mt-0.5">2</span>
-                                <p class="m-0 text-slate-700 text-sm sm:text-base leading-relaxed"><b>구획화된 실행 수단</b>: 직접적인 외환보유액 매도뿐만 아니라 국민연금과의 외환스왑(FX Swap) 등 시장 외(Off-market) 수단과 거시건전성 규제, 고도화된 구두 개입을 포함하는 종합적인 스펙트럼으로 집행되어 정책 효율성을 극대화합니다.</p>
+                                <p class="m-0 text-slate-700 text-sm sm:text-base leading-relaxed"><b>구획화된 실행 수단</b>: 직접적인 외환보유액 매도뿐만 아니라 국민연금과의 <span class="whitespace-nowrap">외환스왑(FX Swap)</span> 등 시장 외(Off-market) 수단과 거시건전성 규제, 고도화된 구두 개입을 포함하는 종합적인 스펙트럼으로 집행되어 정책 효율성을 극대화합니다.</p>
                             </div>
                             <div class="flex gap-4 items-start">
                                 <span class="bg-purple-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 mt-0.5">3</span>
-                                <p class="m-0 text-slate-700 text-sm sm:text-base leading-relaxed"><b>비대칭적 수급 연쇄 반응</b>: 환율이 임계값(Tipping Point)을 하향 이탈할 경우 수출업체의 패닉 매도, 투기적 포지션의 손절매, 수입업체의 매수 보류가 동시다발적으로 작용하여 극심한 유동성 진공 상태와 급격한 연쇄 하락을 유발합니다.</p>
+                                <p class="m-0 text-slate-700 text-sm sm:text-base leading-relaxed"><b>비대칭적 수급 연쇄 반응</b>: 환율이 임계값(Tipping Point)을 하향 이탈할 경우 수출업체의 패닉 매도, 투기적 포지션의 손절매, 수입업체의 매수 보류가 동시다발적으로 작용하여 극심한 <span class="whitespace-nowrap">유동성 진공</span> 상태와 급격한 연쇄 하락을 유발합니다.</p>
                             </div>
                         </div>
                     </div>
@@ -1875,8 +1875,8 @@
                     
                     <p class="text-slate-600 leading-relaxed mb-4">2022년 글로벌 달러 강세가 극에 달했던 시기에 한국은행은 약 459억 달러의 순매도 개입을 단행하여 시중의 달러 수급 불균형을 직접 해소하였습니다.</p>
 
-                    <h4 class="font-bold text-slate-800 mt-6 mb-2">간접 개입 및 구조적 수단: 한국은행-국민연금 외환스왑 및 거시건전성 조치</h4>
-                    <p class="text-slate-600 leading-relaxed mb-4">외환보유액의 직접 소진에 따른 대외 신인도 악화를 방지하기 위해 개발된 강력한 간접 개입 수단은 한국은행과 국민연금(NPS) 간의 외환스왑(FX Swap) 라인입니다. 국민연금은 거대한 해외 투자 자산을 보유하고 있어 지속적인 달러 매수 수요가 원화 약세의 구조적 원인으로 작용해 왔습니다.</p>
+                    <h4 class="font-bold text-slate-800 mt-6 mb-2">간접 개입 및 구조적 수단: 한국은행-국민연금 <span class="whitespace-nowrap">외환스왑</span> 및 거시건전성 조치</h4>
+                    <p class="text-slate-600 leading-relaxed mb-4">외환보유액의 직접 소진에 따른 대외 신인도 악화를 방지하기 위해 개발된 강력한 간접 개입 수단은 한국은행과 국민연금(NPS) 간의 <span class="whitespace-nowrap">외환스왑(FX Swap)</span> 라인입니다. 국민연금은 거대한 해외 투자 자산을 보유하고 있어 지속적인 달러 매수 수요가 원화 약세의 구조적 원인으로 작용해 왔습니다.</p>
                     <ul class="list-disc list-inside text-slate-600 mb-4 space-y-2 ml-2">
                         <li><b>현물 시장 매수 수요 차단:</b> 국민연금이 외환시장이 아닌 한국은행에서 달러를 직접 조달하여 현물 시장 수급 균형이 매도 우위로 전환.</li>
                         <li><b>외환보유액 회수 구조:</b> 스왑 만기 시 국민연금이 달러를 상환하므로 외환보유액의 일시적 대여 성격을 가짐.</li>
@@ -1884,7 +1884,7 @@
                     </ul>
 
                     <h4 class="font-bold text-slate-800 mt-6 mb-2">구두 개입(Verbal Intervention)과 호가 스프레드 파급 효과</h4>
-                    <p class="text-slate-600 leading-relaxed mb-6">구두 개입은 시장 참여자들의 기대 심리를 조절하는 고도화된 신호 전달 메커니즘입니다. 구두 개입 실행 시 마켓메이커들은 즉각적으로 리스크 한도를 축소하며, NDF 시장의 스프레드가 급격히 확대되고 잔량 깊이가 얇아져 작은 물량에도 환율이 크게 하락할 수 있는 환경이 조성됩니다.</p>
+                    <p class="text-slate-600 leading-relaxed mb-6">구두 개입은 시장 참여자들의 기대 심리를 조절하는 고도화된 신호 전달 메커니즘입니다. 구두 개입 실행 시 마켓메이커들은 즉각적으로 리스크 한도를 축소하며, <span class="whitespace-nowrap">NDF</span> 시장의 스프레드가 급격히 확대되고 잔량 깊이가 얇아져 작은 물량에도 환율이 크게 하락할 수 있는 환경이 조성됩니다.</p>
 
                     <!-- 파급 채널 시퀀스 -->
                     <h3 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 mt-10 mb-6">파급 채널 시퀀스: 연쇄 하락 경로</h3>
@@ -1924,7 +1924,7 @@
                             <div class="absolute left-0 sm:left-1/2 top-4 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold shadow-md -translate-x-1/2 z-10">4</div>
                             <div class="pl-8 sm:pl-8">
                                 <div class="font-bold text-red-700 mb-1">4단계: 투기적 포지션 손절매 (Stop-Loss)</div>
-                                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-sm text-slate-600">역외 NDF CTA 알고리즘 및 헤지펀드의 강제 포지션 청산 연쇄 작용</div>
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-sm text-slate-600">역외 <span class="whitespace-nowrap">NDF</span> <span class="whitespace-nowrap">CTA</span> 알고리즘 및 헤지펀드의 강제 포지션 청산 연쇄 작용</div>
                             </div>
                         </div>
                         
@@ -1941,26 +1941,29 @@
                             <div class="hidden sm:block"></div>
                             <div class="absolute left-0 sm:left-1/2 top-4 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold shadow-md -translate-x-1/2 z-10">6</div>
                             <div class="pl-8 sm:pl-8">
-                                <div class="font-bold text-slate-800 mb-1">6단계: 극심한 유동성 진공 (Liquidity Vacuum)</div>
+                                <div class="font-bold text-slate-800 mb-1">6단계: 극심한 <span class="whitespace-nowrap">유동성 진공</span> (Liquidity Vacuum)</div>
                                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-sm text-slate-600">소규모 매도 주문만으로도 가격이 비선형적으로 급락하는 진공 상태 도달</div>
                             </div>
                         </div>
                     </div>
 
-                    <h3 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 mt-10 mb-4">시장 미시구조 모델: 주문 흐름 방정식</h3>
-                    <p class="text-slate-600 leading-relaxed mb-4">Evans & Lyons(2002)의 시장 미시구조 이론에 따르면, 환율은 단순한 거시 지표가 아니라 인터뱅크 주문 흐름의 불균형에 의해 결정됩니다. 아래의 주문흐름 방정식은 이를 수치화합니다.</p>
+                    <h3 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 mt-10 mb-4">시장 <span class="whitespace-nowrap">미시구조</span> 모델: 주문 흐름 방정식</h3>
+                    <p class="text-slate-600 leading-relaxed mb-4">Evans & Lyons(2002)의 시장 <span class="whitespace-nowrap">미시구조</span> 이론에 따르면, 환율은 단순한 거시 지표가 아니라 인터뱅크 주문 흐름의 불균형에 의해 결정됩니다. 아래의 주문흐름 방정식은 이를 수치화합니다.</p>
                     
-                    <!-- 수식 스타일링 2 -->
+                    <!-- 수식 스타일링 1 -->
                     <div class="font-serif italic bg-slate-50 border border-slate-200 text-slate-800 p-4 rounded-xl text-center my-6 overflow-x-auto text-sm sm:text-base">
                         $$\\Delta \\ln(S_t) = \\alpha + \\beta_1 OF_t - \\beta_2 x_{cb, t} + \\gamma (i_t - i_t^*) + \\epsilon_t$$
                     </div>
                     
-                    <p class="text-slate-600 leading-relaxed mb-6">여기서 OF_t는 순매수 주문 흐름을 나타냅니다. 유동성 진공 상태에서는 이 주문 흐름 불균형이 극대화되어 폭발적인 하락세가 발생합니다.</p>
+                    <p class="text-slate-600 leading-relaxed mb-6">여기서 OF_t는 순매수 주문 흐름을 나타냅니다. <span class="whitespace-nowrap">유동성 진공</span> 상태에서는 이 주문 흐름 불균형이 극대화되어 폭발적인 하락세가 발생합니다.</p>
 
                     <!-- 금리 정책과 외환 개입의 패러독스 -->
                     <h3 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 mt-10 mb-4">금리 정책과 외환 개입의 패러독스 (Rate Policy vs. FX Intervention Paradox)</h3>
                     <p class="text-slate-600 leading-relaxed mb-4">중앙은행이 매파적 통화정책 기조를 유지하면서 환율 방어를 위해 외환을 매도할 경우, 단기적으로는 통화가치 상승으로 일관되어 보이나 장기적으로 자산부채표 상의 역풍과 통화정책 왜곡을 초래합니다. 한·미 금리 역전 상황에서 개입 효과는 단기와 중기 간 확연한 차이를 보입니다.</p>
 
+                    <div class="block md:hidden text-center text-xs text-slate-400 mb-2">
+                        ← 좌우로 스크롤하여 전체 비교 데이터를 보실 수 있습니다 →
+                    </div>
                     <div class="overflow-x-auto mb-6">
                         <table class="w-full text-sm text-left border-collapse border border-slate-200 rounded-lg">
                             <thead class="bg-slate-100 text-slate-700">
@@ -1983,7 +1986,7 @@
                                 </tr>
                                 <tr>
                                     <td class="border border-slate-200 px-4 py-2 font-bold bg-slate-50 whitespace-nowrap">수급 행태</td>
-                                    <td class="border border-slate-200 px-4 py-2">패닉 네고 유출 및 NDF 스탑로스</td>
+                                    <td class="border border-slate-200 px-4 py-2">패닉 네고 유출 및 <span class="whitespace-nowrap">NDF</span> 스탑로스</td>
                                     <td class="border border-slate-200 px-4 py-2">구조적 외화 유출 (서학개미 및 연기금) 지속</td>
                                 </tr>
                                 <tr>
@@ -1998,6 +2001,9 @@
                     <!-- 실증적 사례 연구 및 정량적 역사 데이터 -->
                     <h3 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 mt-10 mb-4">실증적 사례 연구 및 정량적 역사 데이터</h3>
                     <p class="text-slate-600 leading-relaxed mb-4">외환당국의 개입이 연쇄적 가격 하락을 유발한 대표적인 실증 사례로 한국 외환당국의 2022~2024년 시장 안정화 조치와 일본 재무성(MoF)의 2022년 및 2024년 엔화 방어 개입을 들 수 있습니다.</p>
+                    <div class="block md:hidden text-center text-xs text-slate-400 mb-2">
+                        ← 좌우로 스크롤하여 전체 비교 데이터를 보실 수 있습니다 →
+                    </div>
                     <div class="overflow-x-auto mb-8">
                         <table class="w-full text-sm text-left border-collapse border border-slate-200 shadow-sm rounded-lg overflow-hidden">
                             <thead class="bg-slate-900 text-slate-200 font-bold">
@@ -2017,7 +2023,7 @@
                                 </tr>
                                 <tr>
                                     <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50 whitespace-nowrap">핵심 수단</td>
-                                    <td class="border border-slate-200 px-4 py-3">직매도 + NPS FX 스왑($650억)</td>
+                                    <td class="border border-slate-200 px-4 py-3">직매도 + NPS <span class="whitespace-nowrap">FX 스왑</span>($650억)</td>
                                     <td class="border border-slate-200 px-4 py-3">미 국채 매도 및 달러 직매도</td>
                                     <td class="border border-slate-200 px-4 py-3">달러 직매도 + 금리 인상 신호</td>
                                 </tr>
@@ -2046,33 +2052,36 @@
                     <!-- 한일 외환당국 비교 테이블 -->
                     <h3 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 mt-10 mb-4">한·일 외환당국 개입 방식 실증 비교</h3>
                     <p class="text-slate-600 leading-relaxed mb-4">한국과 일본의 역사적 개입 사례는 목표와 구조에서 상이한 패턴을 보여줍니다. 경제전문가 피드백을 수용하여 두 당국의 개입 특징을 비교하였습니다.</p>
+                    <div class="block md:hidden text-center text-xs text-slate-400 mb-2">
+                        ← 좌우로 스크롤하여 전체 비교 데이터를 보실 수 있습니다 →
+                    </div>
                     <div class="overflow-x-auto mb-8">
                         <table class="w-full text-sm text-left border-collapse border border-slate-200 shadow-sm rounded-lg overflow-hidden">
                             <thead class="bg-slate-900 text-slate-200 font-bold">
                                 <tr>
-                                    <th class="px-4 py-3 border-b border-slate-700">비교 항목</th>
-                                    <th class="px-4 py-3 border-b border-slate-700">🇰🇷 한국 외환당국 (기재부·한은)</th>
-                                    <th class="px-4 py-3 border-b border-slate-700">🇯🇵 일본 재무성 (MoF)</th>
+                                    <th class="px-4 py-3 border-b border-slate-700 whitespace-nowrap">비교 항목</th>
+                                    <th class="px-4 py-3 border-b border-slate-700 whitespace-nowrap">🇰🇷 한국 외환당국 (기재부·한은)</th>
+                                    <th class="px-4 py-3 border-b border-slate-700 whitespace-nowrap">🇯🇵 일본 재무성 (MoF)</th>
                                 </tr>
                             </thead>
                             <tbody class="text-slate-700 bg-white">
                                 <tr>
-                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50">개입 주체</td>
+                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50 whitespace-nowrap">개입 주체</td>
                                     <td class="border border-slate-200 px-4 py-3">기획재정부와 한국은행 공조 체제</td>
                                     <td class="border border-slate-200 px-4 py-3">재무성(MoF) 주도 단독 개입</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50">주요 수단</td>
-                                    <td class="border border-slate-200 px-4 py-3">직매도 및 간접 수단(국민연금 외환스왑 등) 혼합</td>
+                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50 whitespace-nowrap">주요 수단</td>
+                                    <td class="border border-slate-200 px-4 py-3">직매도 및 간접 수단(국민연금 <span class="whitespace-nowrap">외환스왑</span> 등) 혼합</td>
                                     <td class="border border-slate-200 px-4 py-3">압도적 규모의 미국 국채 매도 및 달러 직매도</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50">정보 공개 투명성</td>
+                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50 whitespace-nowrap">정보 공개 투명성</td>
                                     <td class="border border-slate-200 px-4 py-3">분기별 순매도 규모 사후 공개</td>
                                     <td class="border border-slate-200 px-4 py-3">월말 등 사후 공개 원칙 유지</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50">전략적 패턴</td>
+                                    <td class="border border-slate-200 px-4 py-3 font-bold bg-slate-50 whitespace-nowrap">전략적 패턴</td>
                                     <td class="border border-slate-200 px-4 py-3">변동성 완화(Smoothing) 및 미시적 유동성 조절</td>
                                     <td class="border border-slate-200 px-4 py-3">역사적 저점 방어 및 엔 캐리 청산 유도(Shock Therapy)</td>
                                 </tr>
@@ -2090,7 +2099,7 @@
 
                     <div class="bg-slate-100 p-6 rounded-xl border border-slate-200 mt-8 text-slate-700 leading-relaxed text-sm">
                         <h4 class="font-black text-slate-900 mb-3 text-base">결론적 시사점</h4>
-                        정책당국은 외환 개입을 단순 가격 방어 목표로 남용하기보다, 변동성이 극대화되는 시점에 미시구조적 유동성 공백과 연쇄 반응을 활용하는 변동성 완화 수단으로 집행해야 합니다. 나아가 거시 통화정책 및 연기금 환헤지 체계와 정교하게 조율된 종합적 틀 안에서 외환 안정을 도모하는 것이 필수적입니다.
+                        정책당국은 외환 개입을 단순 가격 방어 목표로 남용하기보다, 변동성이 극대화되는 시점에 <span class="whitespace-nowrap">미시구조적</span> <span class="whitespace-nowrap">유동성 공백</span>과 연쇄 반응을 활용하는 변동성 완화 수단으로 집행해야 합니다. 나아가 거시 통화정책 및 연기금 환헤지 체계와 정교하게 조율된 종합적 틀 안에서 외환 안정을 도모하는 것이 필수적입니다.
                     </div>
                 </div>
             `;
