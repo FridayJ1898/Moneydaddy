@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 양자컴퓨팅 투자 분석 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-warm: #FAF9F6;
+            --tech-navy: #1E293B;
+            --accent-gold: #B59410;
+            --accent-blue: #3B82F6;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--tech-navy);
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(30, 41, 59, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        .tab-active {
+            border-bottom: 3px solid var(--accent-blue);
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+        .step-node {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            position: relative;
+        }
+        .step-line {
+            height: 2px;
+            background: #E2E8F0;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body class="p-0 m-0 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 border-b border-slate-200 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter text-slate-800">
+                QUANTUM<span class="text-blue-600">INVEST</span> 2026
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium text-sm">
+                <a href="#summary" class="hover:text-blue-600 transition">시장 요약</a>
+                <a href="#tech" class="hover:text-blue-600 transition">기술 비교</a>
+                <a href="#enterprise" class="hover:text-blue-600 transition">기업 분석</a>
+                <a href="#risk" class="hover:text-blue-600 transition">리스크</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- SECTION 1: SUMMARY -->
+        <section id="summary" class="mb-20">
+            <div class="mb-10 text-center md:text-left">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
+                    '오류 정정' 임계점을 넘어선<br><span class="text-blue-600">양자 상용화의 서막</span>
+                </h1>
+                <p class="text-lg text-slate-600 max-w-3xl">
+                    2026년 현재, 양자컴퓨팅은 NISQ 시대를 지나 스스로 에러를 수정하는 '초기 오류 정정' 시대로 진입했습니다. 
+                    미국 정부의 자금 투입과 양자 내성 암호 의무화로 인해 기술적 호기심을 넘어선 거대한 실질적 시장이 형성되고 있습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-blue-500">
+                    <div class="text-sm text-slate-500 font-bold mb-1 uppercase tracking-wider">정부 지원 규모</div>
+                    <div class="text-3xl font-black text-slate-800">$2,000M+</div>
+                    <div class="text-xs text-blue-600 mt-2 font-medium">● CHIPS & Science Act 2026 배정</div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-emerald-500">
+                    <div class="text-sm text-slate-500 font-bold mb-1 uppercase tracking-wider">IonQ 수주 잔고</div>
+                    <div class="text-3xl font-black text-slate-800">$470M</div>
+                    <div class="text-xs text-emerald-600 mt-2 font-medium">● 전년 대비 755% 성장 동력</div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-amber-500">
+                    <div class="text-sm text-slate-500 font-bold mb-1 uppercase tracking-wider">IBM 오류 정정 효율</div>
+                    <div class="text-3xl font-black text-slate-800">24:1</div>
+                    <div class="text-xs text-amber-600 mt-2 font-medium">● qLDPC 기반 논리 큐비트 비율</div>
+                </div>
+            </div>
+
+            <!-- Path to Maturity UI -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                <h3 class="text-xl font-bold mb-8 flex items-center">
+                    <span class="mr-2">⚡</span> 상용화 로드맵: 물리적에서 논리적 큐비트로
+                </h3>
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between space-y-8 md:space-y-0">
+                    <div class="flex-1 px-4">
+                        <div class="flex items-center mb-2">
+                            <div class="step-node bg-slate-300"></div>
+                            <div class="step-line"></div>
+                        </div>
+                        <h4 class="font-bold text-slate-400">NISQ 단계 (과거)</h4>
+                        <p class="text-sm text-slate-400">노이즈에 취약한 초기 단계</p>
+                    </div>
+                    <div class="flex-1 px-4">
+                        <div class="flex items-center mb-2">
+                            <div class="step-node shadow-lg shadow-blue-200"></div>
+                            <div class="step-line bg-blue-500"></div>
+                        </div>
+                        <h4 class="font-bold text-blue-600">오류 정정 (2026 현재)</h4>
+                        <p class="text-sm text-slate-600">스스로 에러를 감지하고 수정 시작</p>
+                    </div>
+                    <div class="flex-1 px-4">
+                        <div class="flex items-center mb-2">
+                            <div class="step-node bg-slate-200"></div>
+                            <div class="step-line"></div>
+                        </div>
+                        <h4 class="font-bold text-slate-400">결함 허용 (2029+)</h4>
+                        <p class="text-sm text-slate-400">무결점 대규모 양자 연산 시대</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TECH EXPLORER -->
+        <section id="tech" class="mb-20 scroll-mt-24">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl font-bold mb-4 italic">Technology Battleground</h2>
+                    <p class="text-slate-600">
+                        양자 큐비트를 구현하는 방식은 다양합니다. 각 방식은 '속도'와 '정밀도' 사이에서 서로 다른 균형점을 찾고 있습니다. 
+                        아래의 탭을 클릭하여 기술별 작동 원리와 장단점을 비교해 보세요.
+                    </p>
+                </div>
+                <div class="flex bg-slate-100 p-1 rounded-xl">
+                    <button onclick="updateTechView('super')" id="btn-super" class="px-4 py-2 text-sm rounded-lg tab-active">초전도</button>
+                    <button onclick="updateTechView('ion')" id="btn-ion" class="px-4 py-2 text-sm rounded-lg">이온트랩</button>
+                    <button onclick="updateTechView('neutral')" id="btn-neutral" class="px-4 py-2 text-sm rounded-lg">중성원자/광자</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white p-8 rounded-3xl border border-slate-100 shadow-xl">
+                <div>
+                    <h3 id="tech-title" class="text-2xl font-black mb-2 text-blue-600">초전도 (Superconducting)</h3>
+                    <p id="tech-metaphor" class="text-sm font-bold text-slate-400 mb-6 uppercase tracking-widest italic">"얼음판 위의 초고속 F1 레이싱"</p>
+                    
+                    <div id="tech-desc" class="space-y-4 text-slate-700 leading-relaxed">
+                        <p>영하 273도의 극저온에서 전기 저항이 0이 되는 성질을 이용합니다. <strong>IBM, Google</strong>이 주도하고 있습니다.</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 연산 속도가 타 방식 대비 수천 배 빠름</li>
+                            <li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 기존 반도체 공정을 활용한 대량 생산 가능</li>
+                            <li class="flex items-start"><span class="text-red-400 mr-2">✘</span> 외부 소음(열)에 극도로 취약, 거대 냉각기 필수</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="techChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: ENTERPRISE DEEP-DIVE -->
+        <section id="enterprise" class="mb-20 scroll-mt-24">
+            <h2 class="text-3xl font-bold mb-10 text-center">Top Pick: 상용화 리더 분석</h2>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto">
+                기술적 우위뿐만 아니라 생태계 장악력과 재무적 생존 가능성을 고려했을 때, 2026년 가장 주목해야 할 두 기업은 <strong>IBM</strong>과 <strong>IonQ</strong>입니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- IBM Card -->
+                <div class="bg-slate-900 text-white rounded-3xl p-8 overflow-hidden relative group">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-10">
+                            <div>
+                                <h4 class="text-3xl font-black tracking-tight">IBM</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-blue-600 rounded">Full-Stack Leader</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-slate-400">오류 정정 기술</div>
+                                <div class="text-xl font-bold text-blue-400">qLDPC</div>
+                            </div>
+                        </div>
+                        <div class="space-y-6 mb-8">
+                            <div>
+                                <p class="text-slate-400 text-sm mb-2 font-bold uppercase tracking-tighter">핵심 경쟁력</p>
+                                <ul class="text-sm space-y-3">
+                                    <li class="flex items-center"><span class="mr-3">◈</span> 600만+ Qiskit 개발자 생태계 독점</li>
+                                    <li class="flex items-center"><span class="mr-3">◈</span> 1,121 큐비트 'Condor'로 확장성 증명</li>
+                                    <li class="flex items-center"><span class="mr-3">◈</span> 기존 엔터프라이즈 서버와 완벽한 통합</li>
+                                </ul>
+                            </div>
+                            <div class="chart-container" style="height: 180px;">
+                                <canvas id="ibmRatioChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative back element -->
+                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition"></div>
+                </div>
+
+                <!-- IonQ Card -->
+                <div class="bg-white border-2 border-slate-900 rounded-3xl p-8 overflow-hidden relative group">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-10">
+                            <div>
+                                <h4 class="text-3xl font-black tracking-tight text-slate-900">IonQ</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-amber-500 text-white rounded">Growth Star</span>
+                            </div>
+                            <div class="text-right text-slate-900">
+                                <div class="text-xs text-slate-500">현금 보유고</div>
+                                <div class="text-xl font-bold text-amber-600">$3.1B</div>
+                            </div>
+                        </div>
+                        <div class="space-y-6 mb-8 text-slate-700">
+                            <div>
+                                <p class="text-slate-500 text-sm mb-2 font-bold uppercase tracking-tighter">핵심 경쟁력</p>
+                                <ul class="text-sm space-y-3">
+                                    <li class="flex items-center"><span class="mr-3 text-amber-500">▶</span> 99.99% 압도적 큐비트 충실도</li>
+                                    <li class="flex items-center"><span class="mr-3 text-amber-500">▶</span> 현대차, 미 공군 등 화려한 수주 실적</li>
+                                    <li class="flex items-center"><span class="mr-3 text-amber-500">▶</span> '양자 겨울'을 견딜 압도적 현금 런웨이</li>
+                                </ul>
+                            </div>
+                            <div class="chart-container" style="height: 180px;">
+                                <canvas id="ionqGrowthChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl group-hover:bg-amber-500/20 transition"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: RISK ASSESSMENT -->
+        <section id="risk" class="mb-20 scroll-mt-24">
+            <div class="bg-amber-50 rounded-3xl p-8 border border-amber-100">
+                <h2 class="text-3xl font-bold mb-8 flex items-center text-amber-900">
+                    <span class="mr-3">⚠</span> 투자 시 유의해야 할 3대 리스크
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-6 bg-white/60 rounded-2xl">
+                        <div class="text-2xl mb-4">🧱</div>
+                        <h4 class="font-bold text-lg mb-2">공학적 스케일업 장벽</h4>
+                        <p class="text-sm text-slate-600">수천 개의 논리 큐비트를 묶는 공학적 난제는 여전히 미결 상태입니다. 상용화가 2030년대 이후로 지연될 가능성이 있습니다.</p>
+                    </div>
+                    <div class="p-6 bg-white/60 rounded-2xl">
+                        <div class="text-2xl mb-4">📈</div>
+                        <h4 class="font-bold text-lg mb-2">거품(Hype)과 사기 사례</h4>
+                        <p class="text-sm text-slate-600">QCI 사태처럼 기술적 실체 없이 투기 세력에 의해 주가가 조작된 사례가 발생하고 있습니다. 철저한 기술 검증이 필요합니다.</p>
+                    </div>
+                    <div class="p-6 bg-white/60 rounded-2xl">
+                        <div class="text-2xl mb-4">🦅</div>
+                        <h4 class="font-bold text-lg mb-2">빅테크 종속 리스크</h4>
+                        <p class="text-sm text-slate-600">AWS, 구글 등 클라우드 플랫폼 기업이 자사 양자칩을 완성할 경우, 하드웨어 스타트업의 설 자리가 급격히 좁아질 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <div class="text-xl font-black mb-2">QUANTUM INVEST 2026</div>
+                <p class="text-slate-500 text-sm">이 보고서 앱은 인공지능 기반 분석을 바탕으로 제작되었습니다.<br>© 2026 Quantum Tech Report. All Rights Reserved.</p>
+            </div>
+            <div class="flex space-x-4">
+                <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-lg hover:bg-blue-600 transition cursor-pointer">ℹ</div>
+                <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-lg hover:bg-blue-600 transition cursor-pointer">↓</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data and Logic
+        let techChart;
+        const techData = {
+            super: {
+                labels: ['속도', '정밀도', '확장성', '인프라 비용', '결맞음 시간'],
+                values: [95, 60, 85, 90, 40],
+                title: '초전도 (Superconducting)',
+                metaphor: '"얼음판 위의 초고속 F1 레이싱"',
+                desc: '<p>영하 273도의 극저온에서 전기 저항이 0이 되는 성질을 이용합니다. <strong>IBM, Google</strong>이 주도하고 있습니다.</p><ul class="space-y-2"><li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 연산 속도가 타 방식 대비 수천 배 빠름</li><li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 기존 반도체 공정을 활용한 대량 생산 가능</li><li class="flex items-start"><span class="text-red-400 mr-2">✘</span> 외부 소음(열)에 극도로 취약, 거대 냉각기 필수</li></ul>'
+            },
+            ion: {
+                labels: ['속도', '정밀도', '확장성', '인프라 비용', '결맞음 시간'],
+                values: [40, 98, 55, 60, 95],
+                title: '이온트랩 (Trapped-ion)',
+                metaphor: '"진공 속의 정밀 레이저 곡예"',
+                desc: '<p>진공 속에 원자를 띄워 레이저로 제어합니다. <strong>IonQ, Quantinuum</strong>이 대표적입니다.</p><ul class="space-y-2"><li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 99.99%의 압도적 연산 정밀도</li><li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 상온 진공 챔버 운영 가능 (소형화 유리)</li><li class="flex items-start"><span class="text-red-400 mr-2">✘</span> 연산 속도가 상대적으로 느리고 대규모 병렬화가 어려움</li></ul>'
+            },
+            neutral: {
+                labels: ['속도', '정밀도', '확장성', '인프라 비용', '결맞음 시간'],
+                values: [60, 80, 95, 50, 70],
+                title: '중성원자/광자 (Neutral/Photonic)',
+                metaphor: '"밤하늘의 드론 라이트 쇼"',
+                desc: '<p>광학 집게로 원자를 재배열하거나 빛의 입자를 활용합니다. <strong>AWS, QuEra</strong>가 차세대 주자로 꼽힙니다.</p><ul class="space-y-2"><li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 단일 시스템 내 수천 큐비트 확장 용이</li><li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 빛의 속도로 연산 및 광랜 통신 연동 가능</li><li class="flex items-start"><span class="text-red-400 mr-2">✘</span> 2큐비트 게이트 연산 제어가 물리적으로 매우 난해함</li></ul>'
+            }
+        };
+
+        function initTechChart() {
+            const ctx = document.getElementById('techChart').getContext('2d');
+            techChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: techData.super.labels,
+                    datasets: [{
+                        label: '성능 지표',
+                        data: techData.super.values,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function updateTechView(key) {
+            // Update UI
+            document.getElementById('tech-title').innerText = techData[key].title;
+            document.getElementById('tech-metaphor').innerText = techData[key].metaphor;
+            document.getElementById('tech-desc').innerHTML = techData[key].desc;
+
+            // Update Chart
+            techChart.data.datasets[0].data = techData[key].values;
+            techChart.update();
+
+            // Update Tab Styles
+            ['super', 'ion', 'neutral'].forEach(k => {
+                document.getElementById(`btn-${k}`).classList.remove('tab-active');
+            });
+            document.getElementById(`btn-${key}`).classList.add('tab-active');
+        }
+
+        function initCompanyCharts() {
+            // IBM Efficiency Chart
+            new Chart(document.getElementById('ibmRatioChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['표면 코드(과거)', 'qLDPC(IBM 2026)'],
+                    datasets: [{
+                        label: '논리 큐비트 1개당 필요한 물리 큐비트 수',
+                        data: [1000, 24],
+                        backgroundColor: ['#475569', '#3B82F6'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94A3B8' } },
+                        y: { grid: { display: false }, ticks: { color: '#FFFFFF' } }
+                    }
+                }
+            });
+
+            // IonQ Revenue Growth Chart
+            new Chart(document.getElementById('ionqGrowthChart'), {
+                type: 'line',
+                data: {
+                    labels: ['23Q1', '24Q1', '25Q1', '26Q1'],
+                    datasets: [{
+                        label: '분기 매출 ($M)',
+                        data: [7.6, 12.1, 24.5, 64.7],
+                        borderColor: '#D97706',
+                        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { borderDash: [5, 5] } }
+                    }
+                }
+            });
+        }
+
+        window.onload = () => {
+            initTechChart();
+            initCompanyCharts();
+        };
+    </script>
+</body>
+</html>

@@ -143,6 +143,13 @@
         // --- POSTS CONFIG ---
         const POSTS_DATABASE = [
             {
+                id: "ionq-achilles-2026-08-16",
+                category: "⚛️ 기술심층",
+                title: "아이온큐(IonQ)의 숨겨진 아킬레스건: 광학 인터커넥트 병목과 Entangled Networks 인수 배경 심층 분석",
+                date: "2026.08.16",
+                type: "ionq-achilles"
+            },
+            {
                 id: "fx-intervention-2026-08-11",
                 category: "📰 거시경제",
                 title: "원/달러(USD/KRW) 외환당국의 개입 메커니즘과 연쇄적 가격 하락(Cascading Downside) 파급 채널에 대한 실증 및 이론적 연구",
@@ -172,7 +179,7 @@
             { id: "finance-analysis", category: "ETF 분석", title: "금융주 ETF (XLF, KBE, KRE) 분석", date: "2026.01.18", type: "interactive", categoryKey: "finance" }
         ];
 
-        let currentPostId = "fx-intervention-2026-08-11";
+        let currentPostId = "ionq-achilles-2026-08-16";
         let lineChart = null;
         let pieChart = null;
 
@@ -209,7 +216,8 @@
             wrapper.className = 'fade-in';
             container.appendChild(wrapper);
 
-            if (post.type === 'macro') renderMacroReport(wrapper, post);
+            if (post.type === 'ionq-achilles') renderIonqAchillesReport(wrapper, post);
+            else if (post.type === 'macro') renderMacroReport(wrapper, post);
             else if (post.type === 'fx-intervention') renderFxInterventionReport(wrapper, post);
             else if (post.type === 'ionq-joby') renderIonqJobyReport(wrapper, post);
             else if (post.type === 'skt') renderSktReport(wrapper, post);
@@ -2102,6 +2110,387 @@
                         <h4 class="font-black text-slate-900 mb-3 text-base">결론적 시사점</h4>
                         정책당국은 외환 개입을 단순 가격 방어 목표로 남용하기보다, 변동성이 극대화되는 시점에 <span class="whitespace-nowrap">미시구조적</span> <span class="whitespace-nowrap">유동성 공백</span>과 연쇄 반응을 활용하는 변동성 완화 수단으로 집행해야 합니다. 나아가 거시 통화정책 및 연기금 환헤지 체계와 정교하게 조율된 종합적 틀 안에서 외환 안정을 도모하는 것이 필수적입니다.
                     </div>
+                </div>
+            `;
+        }
+
+        // --- RENDERER: IonQ Achilles Report ---
+        function renderIonqAchillesReport(container, post) {
+            container.innerHTML = `
+                <!-- 히어로 배너 -->
+                <div style="background:linear-gradient(135deg,#05080f 0%,#0d1b2a 45%,#1a0533 100%);border-bottom:4px solid #7c3aed;padding:3rem 2rem 2.5rem;">
+                    <div style="max-width:860px;margin:0 auto;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+                            <span style="background:rgba(124,58,237,0.25);color:#c4b5fd;font-size:0.65rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid rgba(124,58,237,0.4);">⚛️ 기술 심층 분석 · 2026.08.16</span>
+                            <span style="background:rgba(239,68,68,0.15);color:#fca5a5;font-size:0.65rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid rgba(239,68,68,0.25);">🔴 IonQ 심층</span>
+                            <span style="background:rgba(16,185,129,0.15);color:#6ee7b7;font-size:0.65rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid rgba(16,185,129,0.25);">🔬 광학 인터커넥트</span>
+                        </div>
+                        <h1 style="color:#f8fafc;font-size:clamp(1.4rem,3.8vw,2.2rem);font-weight:900;line-height:1.25;margin-bottom:1rem;">아이온큐(IonQ)의 숨겨진 아킬레스건:<br><span style="color:#a78bfa;">큐비트 모듈화 확장을 위한</span><br><span style="color:#34d399;">광학 인터커넥트 병목 현상</span>과<br>Entangled Networks 인수 배경 심층 분석</h1>
+                        <p style="color:#94a3b8;font-size:0.95rem;line-height:1.7;">포획 이온 QPU 모듈 간 원격 얽힘 속도의 물리적 한계, 성능 간극(Gap Analysis), 그리고 소프트웨어·하드웨어 돌파 전략까지 — IonQ 10배 상승을 가르는 단 하나의 기술적 변수</p>
+                        <div style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                            <span style="background:rgba(124,58,237,0.1);color:#c4b5fd;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(124,58,237,0.2);">🔗 광학 인터커넥트</span>
+                            <span style="background:rgba(239,68,68,0.1);color:#fca5a5;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(239,68,68,0.2);">⚡ 원격 얽힘 생성</span>
+                            <span style="background:rgba(16,185,129,0.1);color:#6ee7b7;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(16,185,129,0.2);">🧠 분산 컴파일러</span>
+                            <span style="background:rgba(245,158,11,0.1);color:#fcd34d;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(245,158,11,0.2);">🔬 Electron Juggling</span>
+                            <span style="background:rgba(59,130,246,0.1);color:#93c5fd;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(59,130,246,0.2);">💡 Lightsynq 메모리</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="max-width:860px;margin:0 auto;padding:2.5rem 1.5rem;">
+
+                    <!-- 핵심 요약 카드 -->
+                    <div style="background:#fefce8;border:1px solid #fde047;border-radius:1.5rem;padding:1.75rem 2rem;margin-bottom:2.5rem;">
+                        <h2 style="font-size:0.85rem;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">⚡ 핵심 요약 (3줄 요약)</h2>
+                        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                            <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                                <span style="background:#7c3aed;color:white;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;flex-shrink:0;margin-top:0.1rem;">1</span>
+                                <p style="margin:0;color:#1e293b;font-size:0.9rem;line-height:1.6;"><b>단일 칩 물리적 한계와 모듈화 필수성:</b> IonQ는 99.99% 2-큐비트 충실도를 달성했으나, 이온 사슬 길어질수록 발생하는 모드 혼잡(Mode Crowding)으로 단일 진공 용기 확장은 한계에 봉착. 2030년 200만 물리 큐비트 목표 달성을 위해 광학 인터커넥트 기반 QPU 모듈화가 절대 필수입니다.</p>
+                            </div>
+                            <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                                <span style="background:#dc2626;color:white;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;flex-shrink:0;margin-top:0.1rem;">2</span>
+                                <p style="margin:0;color:#1e293b;font-size:0.9rem;line-height:1.6;"><b>아킬레스건인 성능 간극:</b> 칩 내부 로컬 게이트는 초당 10,000회·99.99% 충실도인 반면, 칩 간 원격 얽힘은 최고 학술 수준도 250Hz·95~97% 충실도에 불과. 상용화를 위해서는 속도 4~4,000배, 오류율 10배 이상 개선이 필요합니다.</p>
+                            </div>
+                            <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                                <span style="background:#059669;color:white;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:900;flex-shrink:0;margin-top:0.1rem;">3</span>
+                                <p style="margin:0;color:#1e293b;font-size:0.9rem;line-height:1.6;"><b>3중 돌파 전략 (하드웨어+소프트웨어):</b> Entangled Networks 인수(분산 컴파일러), Lightsynq 인수(광자 메모리 버퍼), Electron Juggling 기술(연사 속도 10배 향상)의 결합이 병목 해소의 핵심. 이 3가지 모두 실증 입증 시 주가 10배+ 재평가가 정당화됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1. 서론 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#7c3aed;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">1. 서론: IonQ의 10배 기업 가치 상승을 가로막는 단 하나의 기술적 아킬레스건</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">포획 이온(Trapped-Ion) 기반 양자 컴퓨팅 기업인 아이온큐(IonQ)는 단일 포획 영역(Single Trap Zone) 내에서 <b>99.99%</b>에 달하는 2-큐비트 게이트 충실도(Fidelity)를 달성하며 기술적 우위를 입증해 왔다. 최근 #AQ 36의 Forte Enterprise와 #AQ 64를 달성한 Tempo 시스템을 시장에 선보이고, 옥스퍼드 아이오닉스(Oxford Ionics) 및 스카이워터(SkyWater Technology) 인수를 통해 온칩(On-Chip) 전자 큐비트 제어(EQC) 및 반도체 제조 내재화를 가속화하고 있다.</p>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">그러나 이러한 외형적 성과에도 불구하고 IonQ의 시가총액이 10배 이상 폭발적으로 성장하여 본격적인 상용 내결함성 양자 컴퓨터(FTQC) 시대로 진입하기 위해서는 반드시 해결해야 하는 구조적 한계가 존재한다. 그것은 바로 <b>'광학 인터커넥트(Photonic Interconnect)를 통한 QPU 모듈화 확장의 병목 현상'</b>이다.</p>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">단일 칩 또는 단일 진공 용기(Vacuum Chamber) 내부에서 포획된 이온의 수를 늘리는 방식은 명확한 물리적 한계에 신속하게 도달한다. 이온 사슬이 길어질수록 이온 간 공통 진동 모드(Motional Modes)가 밀집되어 연산 제어가 기하급수적으로 복잡해지는 <b>모드 혼잡(Mode Crowding)</b> 현상이 발생하며, 크로스토크(Crosstalk), 광학 레이저의 스페셜 빔 프로파일 한계, 공진기 내부의 열 방출 문제가 가중된다.</p>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">IonQ가 제시한 장기 로드맵의 핵심은 개별 QPU 모듈들을 광학 인터커넥트로 연결하는 분산형 양자 컴퓨팅(Distributed Quantum Computing) 아키텍처다. IonQ는 <b>2028년까지 약 20,000개 물리 큐비트(1,600개 이상 논리 큐비트)</b>를, <b>2030년까지 2,000,000개 이상 물리 큐비트(80,000개 논리 큐비트)</b>를 구축하겠다는 목표를 발표하였다. 단일 칩 내부 연산 성능과 독립된 QPU 모듈 간 광학 인터커넥트 연산 성능 사이에 존재하는 극심한 성능 격차(Performance Disparity)는 IonQ가 해결해야 할 최대 아킬레스건이다.</p>
+
+                        <!-- 투자자 해설 박스 -->
+                        <div style="background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #93c5fd;border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem;">
+                            <h4 style="font-size:0.85rem;font-weight:800;color:#1e40af;margin-top:0;margin-bottom:0.75rem;">💡 투자자 쉬운 해설: 왜 이것이 10배 상승을 가르는 핵심인가?</h4>
+                            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.6rem;">
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🖥️ 단일 칩의 한계 (스마트폰 칩 비유):</b> 아무리 성능이 뛰어난 엔비디아 GPU라도 단 1개만으로는 거대한 생성형 AI를 돌릴 수 없습니다. 마찬가지로, IonQ가 아무리 뛰어난 이온 트랩 칩 1개를 만들어도 물리적 발열과 정밀 제어 문제 때문에 이온을 무한정 구겨 넣을 수 없습니다.</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🔗 광학 인터커넥트의 역할 (초고속 광케이블 네트워크):</b> 따라서 수십~수백 개의 칩을 '광케이블'로 연결하여 하나의 거대한 슈퍼컴퓨터처럼 작동시키는 모듈화(Modularity)가 필수적입니다.</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🐢 아킬레스건인 이유:</b> 현재 칩 '내부'의 처리 속도는 KTX처럼 빠른데, 칩 '사이'를 연결하는 광통신 속도는 걸어가는 수준으로 매우 늦습니다. 이 '모듈 연결 통신 병목'을 해결하지 못하면, 큐비트 수를 아무리 늘려도 컴퓨터 전체가 멈춰 서게 됩니다.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- 2. 광학 인터커넥트 물리적 메커니즘 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#0ea5e9;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">2. 광학 인터커넥트의 물리적 메커니즘과 스케일링 법칙</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">포획 이온 아키텍처가 지닌 독보적인 자연적 이점 중 하나는 이온이 자발 방출(Spontaneous Emission)을 통해 방출하는 광자가 이온 내부의 양자 상태(내부 스핀 상태)와 자연스럽게 얽힘을 형성한다는 점이다. 광학 인터커넥트는 이러한 물리적 특성을 이용하여 서로 다른 공간에 위치한 QPU 모듈 A와 QPU 모듈 B의 통신 큐비트(Communication Qubit)를 광섬유로 연결한다.</p>
+                        
+                        <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:1.5rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem;"><span style="width:3px;height:1.1rem;background:#0ea5e9;border-radius:2px;display:inline-block;"></span> 원격 이온 간 얽힘 생성 과정 (4단계)</h3>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1rem;border-top:3px solid #0ea5e9;">
+                                <div style="font-size:0.7rem;font-weight:700;color:#0ea5e9;margin-bottom:0.4rem;">STEP 1</div>
+                                <div style="font-size:0.82rem;color:#1e293b;line-height:1.6;">각 QPU 통신 이온에 극초단 레이저 펄스 조사 → 내부 양자 상태와 결합된 단일 광자 방출</div>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1rem;border-top:3px solid #7c3aed;">
+                                <div style="font-size:0.7rem;font-weight:700;color:#7c3aed;margin-bottom:0.4rem;">STEP 2</div>
+                                <div style="font-size:0.82rem;color:#1e293b;line-height:1.6;">고수치구경(High-NA) 렌즈로 광자 수집 → 광섬유 케이블로 집광 이송</div>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1rem;border-top:3px solid #d97706;">
+                                <div style="font-size:0.7rem;font-weight:700;color:#d97706;margin-bottom:0.4rem;">STEP 3</div>
+                                <div style="font-size:0.82rem;color:#1e293b;line-height:1.6;">두 광자가 중앙 벨 상태 분석기(BSA)에서 간섭 → 경로 정보(Which-path Information) 소멸</div>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1rem;border-top:3px solid #059669;">
+                                <div style="font-size:0.7rem;font-weight:700;color:#059669;margin-bottom:0.4rem;">STEP 4</div>
+                                <div style="font-size:0.82rem;color:#1e293b;line-height:1.6;">특정 동시 검출 이벤트 확인(Heralding) → 두 이온이 Bell state로 투영, 얽힘 완성</div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:1.5rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem;"><span style="width:3px;height:1.1rem;background:#0ea5e9;border-radius:2px;display:inline-block;"></span> 핵심 성능 방정식: 2-광자 vs 1-광자 헤럴딩</h3>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">전통적인 <b>2-광자 헤럴딩(Two-photon Heralding)</b> 방식의 전체 얽힘 성공 확률은 시스템 단일 광자 검출 효율 $\eta$의 <b>제곱</b>에 비례한다:</p>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;text-align:center;margin-bottom:1rem;overflow-x:auto;">
+                            $$P_{\text{two-photon}} = \frac{1}{2} \eta_A \eta_B \approx \frac{1}{2} \eta^2$$
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">전체 효율 $\eta$는 광 수집 효율($\eta_{\text{coll}}$), 광섬유 전송 효율($\eta_{\text{fiber}}$), 검출기 효율($\eta_{\text{det}}$)의 곱이며, 자유 공간 렌즈의 광 수집 효율은 수치 구경 $\text{NA}$에 따라 근사된다:</p>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;text-align:center;margin-bottom:1rem;overflow-x:auto;">
+                            $$\eta_{\text{coll}} = \frac{1 - \sqrt{1 - \text{NA}^2}}{2} \approx \frac{\text{NA}^2}{4}$$
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">일반적인 고성능 렌즈($\text{NA} = 0.5 \sim 0.8$) 환경에서 단일 광자 검출 효율 $\eta$는 <b>1% ~ 2% 수준</b>에 불과하다. 이로 인해 2-광자 방식의 시도당 성공 확률 $P_{\text{two-photon}}$은 약 <b>0.01% ~ 0.001% ($10^{-4} \sim 10^{-5}$)</b> 수준으로 급격히 저하된다.</p>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">최근 도입되는 <b>1-광자 헤럴딩(Single-photon Heralding)</b> 기법은 얽힘 성공 확률이 광자 검출 효율에 <b>선형적</b>으로 비례하도록 전환한다:</p>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;text-align:center;margin-bottom:1.5rem;overflow-x:auto;">
+                            $$P_{\text{single-photon}} \propto \eta$$
+                        </div>
+
+                        <!-- 투자자 해설 박스 -->
+                        <div style="background:linear-gradient(135deg,#fdf4ff,#f0fdf4);border:1px solid #d8b4fe;border-radius:1.25rem;padding:1.5rem;">
+                            <h4 style="font-size:0.85rem;font-weight:800;color:#6d28d9;margin-top:0;margin-bottom:0.75rem;">💡 투자자 쉬운 해설: 광자 수집 병목의 원리 (반딧불이 비유)</h4>
+                            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🦟 어둠 속의 반딧불이:</b> 이온(큐비트)이 방출하는 빛(광자)을 카메라 렌즈로 포착하는 과정을 상상해 봅시다. 반딧불이가 사방(360도)으로 빛을 쏘는데, 우리가 가진 렌즈가 포착할 수 있는 범위는 극히 일부입니다.</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>📉 1%의 한계:</b> 방출된 빛의 단 1%만 렌즈에 들어옵니다.</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>📐 제곱의 비극 (2-광자 방식):</b> 칩 A와 칩 B가 서로 통신하려면, 두 반딧불이가 동시에 쏜 빛이 둘 다 렌즈에 포착되어 만나야 합니다. A 들어올 확률 1% × B 들어올 확률 1% = <b>0.01% 성공 확률</b>. 연결을 1번 성공시키기 위해 레이저를 10,000번 이상 쏘아야 합니다.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- 3. 현 성능 vs 상용화 요구 수치 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#ef4444;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">3. 현 성능과 상용화 요구 수치 간의 거대한 간극 (Gap Analysis)</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">듀크 대학교 크리스 먼로(Chris Monroe) 교수 연구팀 및 IonQ 공동 연구진은 진공 내부 0.8 NA 대물렌즈와 이중 이온($^{138}\text{Ba}^+$–$^{171}\text{Yb}^+$) 공감 냉각(Sympathetic Cooling) 기법을 활용하여, 학술계 최고 수준인 <b>250 Hz의 원격 얽힘 생성 속도</b>와 <b>94.4% ~ 97% 수준의 충실도</b>를 달성하였다. Tsinghua 대학 연구팀은 10개의 시간 팩 모드(Temporal Modes) 시분할 다중화를 통해 1.2 km 광섬유 연동 환경에서 95.9% 충실도의 원격 이온 얽힘을 실증하였다.</p>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">그러나 IonQ가 2026년 발표한 상용 QPU 간 광학 인터커넥트 시연(AFRL 협력)에서는 광자 송수신 및 얽힘 수집 자체는 성공적으로 검증했으나, <b>구체적인 원격 얽힘 생성 속도(Hz), 원격 게이트 충실도, 광자 수집 효율 등의 정량적 수치를 공식적으로 공개하지 않았다.</b></p>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">양자 오류 수정 아키텍처(Surface Code 또는 Lifted Product Code)가 원활히 작동하려면, 오류 신드롬 측정(Syndrome Measurement) 주기 내에 모듈 간 얽힘이 완료되어야 한다. 상용 QPU의 로컬 2-큐비트 게이트 속도가 <b>초당 10,000회(100 μs) · 99.99%</b>인 반면, 현재 원격 광학 인터커넥트 속도는 <b>초당 10~100회 수준</b>으로 로컬 연산 대비 최소 100배 이상 느리다.</p>
+
+                        <!-- 성능 간극 비교 테이블 -->
+                        <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:1.5rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem;"><span style="width:3px;height:1.1rem;background:#ef4444;border-radius:2px;display:inline-block;"></span> 표: 현재 성능 vs FTQC 상용화 요구 수치 비교</h3>
+                        <div style="overflow-x:auto;border:1px solid #e2e8f0;border-radius:1.25rem;margin-bottom:1.5rem;">
+                            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                                <thead style="background:linear-gradient(90deg,#1e1b4b,#3b1a6b);">
+                                    <tr>
+                                        <th style="padding:0.75rem 1rem;text-align:left;color:#e0e7ff;font-weight:700;font-size:0.72rem;">평가 항목</th>
+                                        <th style="padding:0.75rem 1rem;text-align:center;color:#a5f3fc;font-weight:700;font-size:0.72rem;">학술적 세계 최고 (SOTA)</th>
+                                        <th style="padding:0.75rem 1rem;text-align:center;color:#fcd34d;font-weight:700;font-size:0.72rem;">IonQ 상용 하드웨어 현주소</th>
+                                        <th style="padding:0.75rem 1rem;text-align:center;color:#6ee7b7;font-weight:700;font-size:0.72rem;">FTQC 상용화 요구치</th>
+                                        <th style="padding:0.75rem 1rem;text-align:center;color:#fca5a5;font-weight:700;font-size:0.72rem;">성능 간극</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-top:1px solid #f1f5f9;">
+                                        <td style="padding:0.75rem 1rem;font-weight:700;color:#0f172a;">원격 얽힘 생성 속도 (REG Rate)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#0284c7;">250 Hz (Duke/IonQ lab, 0.8 NA)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#92400e;">비공개 (독립 상용 QPU 간 시연 완료)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#065f46;">1,000 ~ 1,000,000 Hz</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;font-weight:700;color:#dc2626;">4 ~ 4,000배 향상 필요</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9;background:#fafafa;">
+                                        <td style="padding:0.75rem 1rem;font-weight:700;color:#0f172a;">원격 얽힘 충실도</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#0284c7;">95.9% ~ 97.4%</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#92400e;">비공개</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#065f46;">&gt; 99.9% (얽힘 정제 오버헤드 최소화)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;font-weight:700;color:#dc2626;">오류율 10배 이상 감소 필요</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9;">
+                                        <td style="padding:0.75rem 1rem;font-weight:700;color:#0f172a;">단일 광자 수집 효율 ($\eta_{\text{coll}}$)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#0284c7;">1.9% ~ 2.1% (In-vacuo optics)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#92400e;">미공개 (집적 광학 모듈화 개발 중)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#065f46;">&gt; 10% ~ 50% (Purcell 공진기 적용 시)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;font-weight:700;color:#dc2626;">5 ~ 25배 향상 필요</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9;background:#fafafa;">
+                                        <td style="padding:0.75rem 1rem;font-weight:700;color:#0f172a;">얽힘 스케일링 프로토콜</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#0284c7;">2-광자 동시 검출 (이차 스케일링 $\eta^2$)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#92400e;">비동기 버퍼링 연구 단계</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#065f46;">1-광자 헤럴딩 또는 광자 메모리 비동기</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;font-weight:700;color:#dc2626;">패러다임 전환 필수</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9;">
+                                        <td style="padding:0.75rem 1rem;font-weight:700;color:#0f172a;">로컬 대비 원격 게이트 속도 비율</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#0284c7;">로컬 대비 약 1/40</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#92400e;">로컬 대비 극심한 지연 존재</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;color:#065f46;">로컬 대비 1/2 이상 (QEC 병목 해소)</td>
+                                        <td style="padding:0.75rem 1rem;text-align:center;font-weight:700;color:#dc2626;">아키텍처적 병목 해소 필수</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 투자자 해설 박스 -->
+                        <div style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1px solid #fca5a5;border-radius:1.25rem;padding:1.5rem;">
+                            <h4 style="font-size:0.85rem;font-weight:800;color:#991b1b;margin-top:0;margin-bottom:0.75rem;">💡 투자자 쉬운 해설: 격차(Gap) 분석 — 모뎀과 초고속 광랜의 비유</h4>
+                            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>💾 내부 처리 속도:</b> 칩 내부 큐비트 연산 속도는 초당 10,000회 이상으로 매우 빠르고 정확도도 99.99%입니다 (초고속 SSD 수준).</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>📡 칩 간 통신 속도:</b> 광학 인터커넥트를 통한 칩 간 통신 속도는 현재 초당 250회 미만이며, 정확도도 95% 수준에 그칩니다 (옛날 56k 전화선 모뎀 수준).</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>⚠️ 왜 문제인가?:</b> 모듈 간 데이터를 주고받을 때마다 100배 넘게 병목이 생기면 컴퓨터 전체 성능은 모뎀 속도로 하향 평준화됩니다. 이 통신 속도를 최소 4배에서 최대 4,000배까지 끌어올려야 상용 슈퍼컴퓨터가 완성됩니다.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- 4. Entangled Networks 인수 배경 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#059669;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">4. 소프트웨어 해법: Entangled Networks 인수 배경과 분산 컴파일러 전략</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">IonQ는 2023년 1월 토론토 기반의 양자 아키텍처 및 소프트웨어 전문 기업인 <b>Entangled Networks</b>의 자산을 인수하여 'IonQ Canada'를 설립하였다. 설립자인 아론 브로드러치(Aharon Brodutch)와 일리야 카이트(Ilia Khait)는 분산 양자 아키텍처 시뮬레이션을 통해 포획 이온 기술이 분산 모듈화에 가장 적합하다는 결론을 내렸다. 그들은 하드웨어 제약이 존재하더라도 <b>분산 양자 컴파일러(Distributed Quantum Compiler)의 최적화 수준이 뛰어나면 전체 시스템 연산 속도를 기하급수적으로 향상</b>시킬 수 있음을 입증했다.</p>
+                        
+                        <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:1.5rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem;"><span style="width:3px;height:1.1rem;background:#059669;border-radius:2px;display:inline-block;"></span> 분산 컴파일러의 3가지 핵심 최적화</h3>
+                        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;">
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;border-left:4px solid #059669;">
+                                <div style="font-size:0.8rem;font-weight:700;color:#059669;margin-bottom:0.4rem;">① 회로 분할(Circuit Partitioning)</div>
+                                <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">양자 회로를 방향성 비순환 그래프(DAG)로 분석하여 큐비트 간 상호작용 밀도가 높은 게이트 군집을 동일한 물리적 QPU 모듈 내부로 우선 배치. 느린 원격 게이트 실행 횟수를 최소화합니다.</p>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;border-left:4px solid #7c3aed;">
+                                <div style="font-size:0.8rem;font-weight:700;color:#7c3aed;margin-bottom:0.4rem;">② 양자 상태 텔레포테이션(Quantum Teleportation) 기반 회로 재구성</div>
+                                <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">QPU 모듈 간 통신이 불가피한 경우에만 광학 인터커넥트를 이용한 양자 상태 텔레포테이션을 실행하도록 회로를 재구성. 느리고 불완전한 원격 게이트의 실행 빈도를 획기적으로 낮춥니다.</p>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;border-left:4px solid #0ea5e9;">
+                                <div style="font-size:0.8rem;font-weight:700;color:#0ea5e9;margin-bottom:0.4rem;">③ 비결정론적 속성 고려 동적 스케줄링</div>
+                                <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">광학 인터커넥트의 비결정론적(Probabilistic) 속성을 고려한 동적 스케줄링 알고리즘. 원격 얽힘 생성이 성공할 때까지 로컬 메모리 큐비트의 위상 결맞음(Coherence)을 보존하도록 연산 순서를 조율하여 유휴 시간 동안 발생하는 결맞음 손실을 방지합니다.</p>
+                            </div>
+                        </div>
+
+                        <!-- 투자자 해설 박스 -->
+                        <div style="background:linear-gradient(135deg,#ecfdf5,#eff6ff);border:1px solid #6ee7b7;border-radius:1.25rem;padding:1.5rem;">
+                            <h4 style="font-size:0.85rem;font-weight:800;color:#065f46;margin-top:0;margin-bottom:0.75rem;">💡 투자자 쉬운 해설: Entangled Networks 인수가 '신의 한 수'인 이유 (네비게이션 비유)</h4>
+                            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🗺️ 하드웨어의 한계를 소프트웨어로 극복:</b> 도로(광학 하드웨어)를 넓히는 데는 시간이 오래 걸립니다. 그렇다면 가장 똑똑한 네비게이션(컴파일러 소프트웨어)을 도입해 차선 우회를 시키는 것입니다.</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🔀 스마트한 작업 분배:</b> 얽힘 연산이 많이 필요한 작업은 한 칩 내부(동네 연산)에서 모두 처리하도록 코드를 자동 재배치합니다.</li>
+                                <li style="font-size:0.85rem;color:#1e293b;line-height:1.6;"><b>🚦 교통량 최소화:</b> 꼭 필요한 경우에만 광섬유 다리(칩 간 연산)를 건너도록 스케줄을 짜서 병목 현상을 미리 방지합니다. 즉, 하드웨어 통신 속도가 100배 느려도 알고리즘 재배치를 통해 전체 컴퓨터 동작 속도를 최대 수천 배 가속시키는 기술입니다.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- 5. 최신 기술 돌파 시도 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#f59e0b;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">5. 최신 연구 동향: "Electron Juggling"과 Lightsynq 광자 메모리 버퍼링</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">IonQ는 광학 인터커넥트의 물리적 속도 한계를 극복하기 위해 물리 이론 개척과 신규 하드웨어 인수를 병행하고 있다.</p>
+
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
+                            <!-- Electron Juggling 카드 -->
+                            <div style="background:white;border:2px solid #fbbf24;border-radius:1.25rem;padding:1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                                    <span style="font-size:1.25rem;">🤹</span>
+                                    <h4 style="font-size:0.95rem;font-weight:800;color:#92400e;margin:0;">Electron Juggling (전자 저글링)</h4>
+                                </div>
+                                <p style="font-size:0.82rem;color:#475569;line-height:1.7;margin-bottom:0.75rem;">2025년 11월 IonQ 연구진(I. D. Moore 외)이 제안한 기법. 기존 방식은 매 시도마다 이온을 특정 기저 상태로 초기화하는 <b>광 펌핑(Optical Pumping)</b> 단계에 수백 ns ~ 1 μs가 소요되어 병목이 발생했다.</p>
+                                <p style="font-size:0.82rem;color:#475569;line-height:1.7;margin-bottom:0.75rem;">Electron Juggling은 느린 광 펌핑을 생략하고, <b>편광 방향이 반대인 원형 편광 레이저 펄스($\sigma_+$ 및 $\sigma_-$)를 교대로 빠르게 조사</b>한다. 시도 실패 시 이온 재초기화 없이 즉시 반대 편광 펄스를 인가하여 연속적인 광자 방출을 유도, 광자 발생 시도 주기를 100 ns 이하로 단축.</p>
+                                <div style="background:#fef3c7;border-radius:0.75rem;padding:0.75rem;margin-top:0.5rem;">
+                                    <div style="font-size:0.78rem;font-weight:700;color:#92400e;">이론적 달성 성능</div>
+                                    <div style="font-size:1.1rem;font-weight:900;color:#b45309;margin-top:0.2rem;">&gt; 1,000 Hz Bell pair 생성</div>
+                                    <div style="font-size:0.72rem;color:#92400e;margin-top:0.1rem;">하드웨어 지연 고려 후에도</div>
+                                </div>
+                            </div>
+
+                            <!-- Lightsynq 카드 -->
+                            <div style="background:white;border:2px solid #3b82f6;border-radius:1.25rem;padding:1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                                    <span style="font-size:1.25rem;">💾</span>
+                                    <h4 style="font-size:0.95rem;font-weight:800;color:#1e40af;margin:0;">Lightsynq 인수 — 광자 메모리 버퍼</h4>
+                                </div>
+                                <p style="font-size:0.82rem;color:#475569;line-height:1.7;margin-bottom:0.75rem;">2025년 완료된 Lightsynq 인수는 광학 인터커넥트에 <b>비동기(Asynchronous) 네트워크 패러다임</b>을 도입한다. 기존 동기식 시스템에서는 두 QPU에서 동시에 광자가 방출되어 중앙 간섭계에서 정확히 만나는 타이밍을 맞춰야 했기에 결합 성공률이 급격히 낮아졌다.</p>
+                                <p style="font-size:0.82rem;color:#475569;line-height:1.7;margin-bottom:0.75rem;">Lightsynq의 기술은 방출된 광자를 <b>광 양자 메모리(Photonic Quantum Memory) 소자에 일시적으로 버퍼링(Buffering)</b>. 한쪽 모듈에서 먼저 방출된 광자를 정밀하게 저장해 두고 다른 모듈의 광자 생성 시점에 맞춰 간섭.</p>
+                                <div style="background:#eff6ff;border-radius:0.75rem;padding:0.75rem;margin-top:0.5rem;">
+                                    <div style="font-size:0.78rem;font-weight:700;color:#1e40af;">이론적 달성 성능</div>
+                                    <div style="font-size:1.1rem;font-weight:900;color:#1d4ed8;margin-top:0.2rem;">비동기 얽힘 효율 최대 50배+ 향상</div>
+                                    <div style="font-size:0.72rem;color:#1e40af;margin-top:0.1rem;">기존 동기식 대비</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">아울러 IonQ는 기존의 이테르븀($^{171}\text{Yb}^+$) 중심 아키텍처에서 <b>바륨($^{138}\text{Ba}^+$) 이온으로 핵심 큐비트 종을 전환</b>하고 있다. 바륨 이온의 광자 방출 파장은 <b>493 nm(녹색 가시광)</b> 영역에 위치하여 표준 렌즈 및 집적 광학 소자 결합이 자외선 대역보다 우수하다. 나아가 493 nm 가시광 광자는 저손실 광섬유 통신 대역인 <b>Telecom C-band(1550 nm)로의 양자 주파수 변환(QFC)</b> 시 높은 변환 효율과 적은 위상 노이즈를 나타내어 장거리 분산 데이터센터 연동에 탁월한 적합성을 가진다.</p>
+
+                        <!-- 투자자 해설 박스 -->
+                        <div style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fbbf24;border-radius:1.25rem;padding:1.5rem;">
+                            <h4 style="font-size:0.85rem;font-weight:800;color:#92400e;margin-top:0;margin-bottom:0.75rem;">💡 투자자 쉬운 해설: 2가지 핵심 기술 혁신</h4>
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.75rem;">
+                                <div>
+                                    <div style="font-size:0.82rem;font-weight:700;color:#92400e;margin-bottom:0.3rem;">🤹 전자 저글링 — 리로드 속도 가속</div>
+                                    <p style="font-size:0.82rem;color:#475569;margin:0;line-height:1.6;"><b>기존:</b> 광자 발사 실패 시 원자를 재정비하는 긴 대기 시간 (장전 시간이 긴 구형 소총)<br><b>개선:</b> 재정비 없이 곧바로 연사하는 기술로 발사 주기 10배 단축 (연발 기관총으로 전환)</p>
+                                </div>
+                                <div>
+                                    <div style="font-size:0.82rem;font-weight:700;color:#1e40af;margin-bottom:0.3rem;">💾 Lightsynq 광자 메모리 — 임시 저장소</div>
+                                    <p style="font-size:0.82rem;color:#475569;margin:0;line-height:1.6;"><b>기존:</b> 칩 A와 칩 B가 0.000000001초의 오차도 없이 동시에 광자를 발사해야만 연결 성공<br><b>개선:</b> 칩 A가 쏜 광자를 '양자 메모리(버퍼)'에 보관 후 칩 B가 쏠 때 합쳐서 연결 성공률 50배+ 급증</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 6. 기업 가치 파급 효과 -->
+                    <section style="margin-bottom:3rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#3b82f6;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">6. 기업 가치 관점의 파급 효과: 주가 10배 상승을 결정짓는 2가지 시나리오</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">시장과 투자 기관이 IonQ에 부여하는 높은 기업 가치 배수(Valuation Multiple)는 이 회사가 <b>'수십만 큐비트를 연결하는 양자 데이터센터 시스템 공급자'</b>라는 시나리오에 근거한다. 만약 IonQ가 광학 인터커넥트의 속도와 충실도 병목을 해결하지 못해 단일 진공 용기 칩 내부에 갇히게 된다면, 물리적 확장 한계는 수백~수천 큐비트 선에서 정체되며 기업 가치 상한선을 형성하는 중대한 장벽으로 작용한다.</p>
+
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
+                            <!-- 시나리오 A -->
+                            <div style="background:linear-gradient(135deg,#fff1f2,#fef2f2);border:2px solid #ef4444;border-radius:1.25rem;padding:1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                                    <span style="background:#dc2626;color:white;font-size:0.65rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:999px;">시나리오 A</span>
+                                    <span style="font-size:0.85rem;font-weight:700;color:#991b1b;">광학 인터커넥트 해결 실패 시</span>
+                                </div>
+                                <div style="font-size:1.5rem;font-weight:900;color:#dc2626;margin-bottom:0.75rem;">주가 정체 📉</div>
+                                <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+                                    <li style="font-size:0.82rem;color:#7f1d1d;line-height:1.6;">• 단일 칩에 이온을 넣는 방식은 약 1,000개 큐비트 부근에서 물리적 한계 봉착</li>
+                                    <li style="font-size:0.82rem;color:#7f1d1d;line-height:1.6;">• 초거대 상용 양자 컴퓨팅 시장에 진입 불가</li>
+                                    <li style="font-size:0.82rem;color:#7f1d1d;line-height:1.6;">• 대학/연구소용 특수 장비업체로 남아 밸류에이션 상한선(Cap)에 갇힘</li>
+                                    <li style="font-size:0.82rem;color:#7f1d1d;line-height:1.6;">• QEC 얽힘 정제 오버헤드 폭증 → 물리-논리 큐비트 효율 비율 붕괴</li>
+                                </ul>
+                            </div>
+                            <!-- 시나리오 B -->
+                            <div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:2px solid #10b981;border-radius:1.25rem;padding:1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                                    <span style="background:#059669;color:white;font-size:0.65rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:999px;">시나리오 B</span>
+                                    <span style="font-size:0.85rem;font-weight:700;color:#065f46;">광학 인터커넥트 성공 시</span>
+                                </div>
+                                <div style="font-size:1.5rem;font-weight:900;color:#059669;margin-bottom:0.75rem;">주가 10배+ 폭발 🚀</div>
+                                <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+                                    <li style="font-size:0.82rem;color:#064e3b;line-height:1.6;">• 소형 칩 수백 개를 광섬유로 연결 → 20,000개~2,000,000개 큐비트 거대 양자 데이터센터 구축</li>
+                                    <li style="font-size:0.82rem;color:#064e3b;line-height:1.6;">• Oxford Ionics(온칩 EQC) + Lightsynq(광 메모리) + Entangled Networks(분산 컴파일러) 수직 통합</li>
+                                    <li style="font-size:0.82rem;color:#064e3b;line-height:1.6;">• 빅테크(엔비디아, 아마존, MS 등)에 양자 데이터센터 노드 독점 공급</li>
+                                    <li style="font-size:0.82rem;color:#064e3b;line-height:1.6;">'양자 컴퓨팅계의 엔비디아'로 등극 → <b>10배+ 기업 가치 재평가(Re-rating)</b></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1rem;">경쟁 플랫폼과 비교할 때, <b>퀀티넘(Quantinuum)</b>의 QCCD 방식은 이온을 직접 이동시켜 로컬 충실도를 유지하지만 큐비트 수 증가에 따라 기계적 이동 대기시간(Latency)이 급증하는 한계가 있다. <b>중성 원자 플랫폼</b> 역시 광 핀셋 고밀도 배열을 자랑하지만 챔버 간 연결을 위해서는 동일한 광학 인터커넥트 효율 문제를 해결해야 한다. 따라서 IonQ가 구축한 수직 통합형 아키텍처는 광학 인터커넥트 병목만 해소된다면 가장 완벽한 스케일업 솔루션으로 자리잡게 된다.</p>
+                    </section>
+
+                    <!-- 7. 결론 -->
+                    <section style="margin-bottom:2.5rem;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                            <span style="width:4px;height:2rem;background:#8b5cf6;border-radius:2px;flex-shrink:0;"></span>
+                            <h2 style="font-size:1.4rem;font-weight:900;color:#0f172a;margin:0;">7. 결론: IonQ 로드맵 완성을 위한 핵심 관전 포인트</h2>
+                        </div>
+                        <p style="color:#475569;line-height:1.8;margin-bottom:1.5rem;">IonQ가 기업 가치 측면에서 10배 이상의 도약을 이루어내기 위한 핵심 전제조건은 단일 칩 내부의 큐비트 수 증대나 로컬 게이트 충실도 갱신을 넘어, <b>광학 인터커넥트를 통한 모듈 간 원격 얽힘 속도 및 충실도의 비약적 도약을 실증하는 것</b>이다.</p>
+
+                        <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:1.5rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem;"><span style="width:3px;height:1.1rem;background:#8b5cf6;border-radius:2px;display:inline-block;"></span> 향후 핵심 기술 관전 포인트 3가지</h3>
+                        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;">
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;border-left:4px solid #8b5cf6;display:flex;gap:1rem;align-items:flex-start;">
+                                <span style="background:#8b5cf6;color:white;width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900;flex-shrink:0;">1</span>
+                                <div>
+                                    <div style="font-size:0.85rem;font-weight:700;color:#0f172a;margin-bottom:0.3rem;">상용 광학 인터커넥트의 정량적 지표 공개</div>
+                                    <p style="font-size:0.82rem;color:#475569;margin:0;line-height:1.6;">AFRL 연동 시연 후속 발표에서 칩 간 원격 얽힘 생성 속도(REG Rate)가 최소 <b>1,000 Hz 이상</b>에 도달하는지, 원격 게이트 충실도가 얽힘 정제 오버헤드를 최소화할 수 있는 <b>99% 선을 돌파</b>하는지 여부.</p>
+                                </div>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;border-left:4px solid #f59e0b;display:flex;gap:1rem;align-items:flex-start;">
+                                <span style="background:#f59e0b;color:white;width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900;flex-shrink:0;">2</span>
+                                <div>
+                                    <div style="font-size:0.85rem;font-weight:700;color:#0f172a;margin-bottom:0.3rem;">"Electron Juggling" 및 Lightsynq 메모리의 하드웨어 탑재</div>
+                                    <p style="font-size:0.82rem;color:#475569;margin:0;line-height:1.6;">이론 연구로 발표된 Electron Juggling 프로토콜과 광 양자 메모리 버퍼 기술이 <b>실제 상용 QPU 시스템에 성공적으로 통합</b>되어 비동기 얽힘 가속을 구현하는지 여부.</p>
+                                </div>
+                            </div>
+                            <div style="background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.25rem;border-left:4px solid #059669;display:flex;gap:1rem;align-items:flex-start;">
+                                <span style="background:#059669;color:white;width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900;flex-shrink:0;">3</span>
+                                <div>
+                                    <div style="font-size:0.85rem;font-weight:700;color:#0f172a;margin-bottom:0.3rem;">Entangled Networks 분산 컴파일러의 효용성 입증</div>
+                                    <p style="font-size:0.82rem;color:#475569;margin:0;line-height:1.6;">2개 이상의 독립 QPU 모듈로 분산된 환경에서 실제 알고리즘 회로를 실행했을 때, 모놀리식 단일 칩 대비 <b>연산 지연 및 오류 증가율이 컴파일러 최적화를 통해 효과적으로 제어</b>되는지 여부.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:linear-gradient(135deg,#0f172a,#1e1b4b);border-radius:1.25rem;padding:1.75rem;color:white;">
+                            <h4 style="font-size:0.85rem;font-weight:800;color:#a78bfa;text-transform:uppercase;letter-spacing:0.08em;margin-top:0;margin-bottom:0.75rem;">📡 머니대디's 인사이트</h4>
+                            <p style="font-size:0.9rem;color:#cbd5e1;margin:0;line-height:1.8;">IonQ는 포획 이온이 지닌 뛰어난 물리적 결맞음과 고유한 광자 방출 능력이라는 이점을 바탕으로 양자 컴퓨팅의 모듈화라는 가장 앞선 비전을 제시해 왔습니다. Oxford Ionics(온칩 EQC) + Lightsynq(광 메모리) + Entangled Networks(분산 컴파일러)의 3각 수직 통합 아키텍처는 광학 인터커넥트 병목만 해소된다면 현존하는 가장 완벽한 스케일업 솔루션입니다. <b style="color:#a78bfa;">광학 인터커넥트라는 숨겨진 아킬레스건을 기술적 혁신으로 정복해 낸다면, IonQ는 진정한 의미의 대규모 분산 양자 슈퍼컴퓨팅 시대를 열어젖히고 상업적·기술적 왕좌를 차지할 것입니다.</b></p>
+                        </div>
+
+                        <!-- 연관 리포트 링크 -->
+                        <div style="margin-top:2.5rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:1.25rem;padding:1.5rem;">
+                            <p style="font-size:0.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">📚 연관 리포트</p>
+                            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                                <button onclick="loadPost('ionq-joby-2026-08-10')" style="background:#7c3aed;color:white;border:none;padding:0.625rem 1.25rem;border-radius:0.75rem;font-size:0.8rem;font-weight:700;cursor:pointer;">⚛️ IonQ 수급 분석</button>
+                                <button onclick="loadPost('quantum-companies-2026-08-02')" style="background:#4f46e5;color:white;border:none;padding:0.625rem 1.25rem;border-radius:0.75rem;font-size:0.8rem;font-weight:700;cursor:pointer;">🔬 IBM vs IonQ 비교</button>
+                                <button onclick="loadPost('quantum-analysis')" style="background:#0284c7;color:white;border:none;padding:0.625rem 1.25rem;border-radius:0.75rem;font-size:0.8rem;font-weight:700;cursor:pointer;">📊 양자컴퓨터 ETF 분석</button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             `;
         }
