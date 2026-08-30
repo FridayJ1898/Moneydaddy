@@ -561,3 +561,201 @@ body {
 .mob-tab:active {
     transform: scale(0.92);
 }
+
+/* ==========================================================================
+   Universal Content Architecture - Standardized Report Components
+   ========================================================================== */
+
+/* 표준 히어로 배너 래퍼 */
+.report-hero-standard {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(10, 14, 23, 0.95) 50%, rgba(245, 158, 11, 0.08) 100%);
+    border-bottom: 2px solid rgba(14, 165, 233, 0.3);
+    padding: 3rem 1.5rem 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .report-hero-standard {
+        padding: 3.5rem 2.5rem 3rem;
+    }
+}
+
+.report-hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+/* 표준 카테고리 & 상태 뱃지 */
+.tag-badge-standard {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.tag-badge-blue {
+    background: rgba(14, 165, 233, 0.18);
+    color: #7dd3fc;
+    border: 1px solid rgba(14, 165, 233, 0.35);
+}
+
+.tag-badge-emerald {
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.tag-badge-purple {
+    background: rgba(139, 92, 246, 0.18);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.35);
+}
+
+.tag-badge-amber {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.tag-badge-live {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    font-weight: 800;
+}
+
+/* 표준 H1 제목 */
+.hero-title-standard {
+    color: #f8fafc !important;
+    font-size: clamp(1.4rem, 3.8vw, 2.3rem);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+/* 표준 서브타이틀 설명 */
+.hero-sub-standard {
+    color: #94a3b8 !important;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+/* 표준 핵심 요약 상자 */
+.summary-box-standard {
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.summary-title-standard {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #f59e0b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* 표준 섹션 H2/H3 타이틀 */
+.section-title-standard {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #f1f5f9 !important;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title-indicator {
+    width: 4px;
+    height: 1.8rem;
+    background: var(--theme-color, #0ea5e9);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* 표준 리포트 다크 테이블 */
+.table-container-standard {
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.75rem;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.table-standard {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    text-align: left;
+}
+
+.table-standard thead {
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.table-standard th {
+    padding: 0.875rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.table-standard td {
+    padding: 0.8rem 1rem;
+    color: #cbd5e1;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.table-standard tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.015);
+}
+
+/* 표준 하단 연관 콘텐츠 탐색 바 */
+.related-nav-standard {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.related-nav-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #f1f5f9;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.related-nav-btn:hover {
+    background: rgba(14, 165, 233, 0.15);
+    border-color: rgba(14, 165, 233, 0.4);
+    color: #38bdf8;
+    transform: translateY(-2px);
+}
