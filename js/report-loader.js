@@ -173,7 +173,8 @@ async function loadPost(id, forceShow = false) {
     // 5. 인터랙션 액션 바 (북마크/공유/조회자수)
     const ab = document.createElement('div');
     ab.className = 'max-w-[860px] mx-auto px-6 py-6 mt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 bg-white/[0.01] rounded-xl';
-    const escapedTitle = (post.title || '').replace(/'/g, "\\'");
+    const cleanTitle = (post.title || '').replace(/<[^>]*>?/gm, '');
+    const escapedTitle = cleanTitle.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     ab.innerHTML = `
         <div class="flex items-center gap-3">
             <button onclick="window.toggleBookmark('${post.id}')" id="btn-bm-${post.id}" class="flex items-center gap-1.5 py-1.5 px-3 rounded bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white transition-all">📌 북마크</button>
