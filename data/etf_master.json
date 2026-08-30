@@ -1,0 +1,134 @@
+{
+  "XLF": {
+    "title": "Financial Select Sector SPDR",
+    "ticker": "XLF",
+    "index": "Financial Select Sector Index",
+    "constituents": ["BRK.B", "JPM", "Visa", "Mastercard"],
+    "summary": "안정적인 종합 금융 대장주",
+    "details": "금융 전반을 아우르는 시총 가중 ETF로 금리 인상기 안정적 수익을 제공합니다.",
+    "fee": "0.09%",
+    "yield": "1.6%",
+    "color": "#1d4ed8"
+  },
+  "KBE": {
+    "title": "SPDR S&P Bank ETF",
+    "ticker": "KBE",
+    "index": "S&P Banks Index",
+    "constituents": ["Wells Fargo", "Citigroup", "First Citizens"],
+    "summary": "수정 동일 가중 은행 ETF",
+    "details": "대형주에 쏠리지 않고 섹터 전반의 은행 마진 개선 수혜를 균형 있게 추구합니다.",
+    "fee": "0.35%",
+    "yield": "2.8%",
+    "color": "#059669"
+  },
+  "KRE": {
+    "title": "SPDR S&P Regional Banking ETF",
+    "ticker": "KRE",
+    "index": "S&P Regional Banks Index",
+    "constituents": ["Regions", "Zions", "Huntington"],
+    "summary": "미국 지역 은행 집중 투자",
+    "details": "로컬 경제와 밀접하며 M&A 및 고배당 메리트가 돋보이는 공격적 선택지입니다.",
+    "fee": "0.35%",
+    "yield": "3.2%",
+    "color": "#d97706"
+  },
+  "QTUM": {
+    "title": "Defiance Quantum Strategy ETF",
+    "ticker": "QTUM",
+    "index": "BlueStar Quantum Computing Index",
+    "constituents": ["Nvidia", "Micron", "Applied Materials"],
+    "summary": "하드웨어 기반 양자 혁신",
+    "details": "양자 컴퓨팅 하드웨어와 반도체 공급망의 핵심 기업들에 선제적으로 투자합니다.",
+    "fee": "0.40%",
+    "yield": "0.9%",
+    "color": "#4f46e5"
+  },
+  "TEKZ": {
+    "title": "First Trust Cloud & Quantum ETF",
+    "ticker": "TEKZ",
+    "index": "First Trust Cloud & Quantum Index",
+    "constituents": ["Microsoft", "Amazon", "Alphabet"],
+    "summary": "클라우드 서비스형 양자(QaaS)",
+    "details": "빅테크의 클라우드 플랫폼 성장과 양자 기술의 시너지를 결합한 안정적 기술주입니다.",
+    "fee": "0.60%",
+    "yield": "0.3%",
+    "color": "#6366f1"
+  },
+  "LOUP": {
+    "title": "Invesco AI and Next Gen Software",
+    "ticker": "LOUP",
+    "index": "Loup Frontier Tech Index",
+    "constituents": ["IonQ", "Rigetti", "D-Wave"],
+    "summary": "파괴적 혁신 기술 선점",
+    "details": "미래를 바꿀 30개의 정예 소프트웨어 및 하드웨어 스타트업 기업에 베팅합니다.",
+    "fee": "0.70%",
+    "yield": "0.0%",
+    "color": "#a855f7"
+  },
+  "DTCR": {
+    "title": "Global X Data Center & Digital Infra",
+    "ticker": "DTCR",
+    "index": "Solactive Digital Infra Index",
+    "constituents": ["Equinix", "Digital Realty", "TSMC"],
+    "summary": "하드웨어 성장을 품은 데이터 인프라",
+    "details": "리츠뿐만 아니라 서버, 서버칩 등 하드웨어 제조사 비중이 높아 공격적 성향에 적합합니다.",
+    "fee": "0.50%",
+    "yield": "1.2%",
+    "color": "#1d4ed8"
+  },
+  "SRVR": {
+    "title": "Pacer Data & Infra Real Estate",
+    "ticker": "SRVR",
+    "index": "Kelly Data Center & Tower Index",
+    "constituents": ["Equinix", "American Tower", "Crown Castle"],
+    "summary": "안정적 배당의 순수 리츠",
+    "details": "기술주를 배제하고 물리적 자산(부동산) 임대 수익에 집중하여 금리 하락 시 재평가를 노립니다.",
+    "fee": "0.60%",
+    "yield": "3.5%",
+    "color": "#059669"
+  },
+  "IDGT": {
+    "title": "iShares U.S. Digital Infra & RE",
+    "ticker": "IDGT",
+    "index": "S&P Data Center Index",
+    "constituents": ["Equinix", "Digital Realty", "SBA Comm"],
+    "summary": "블랙록의 저비용 인프라 대안",
+    "details": "낮은 운용 보수로 미국 내 디지털 인프라 핵심 기업을 효율적으로 보유할 수 있습니다.",
+    "fee": "0.41%",
+    "yield": "1.8%",
+    "color": "#d97706"
+  },
+  "GRID": {
+    "title": "First Trust NASDAQ Smart Grid",
+    "ticker": "GRID",
+    "index": "NASDAQ Smart Grid Index",
+    "constituents": ["Eaton", "ABB", "Schneider Electric"],
+    "summary": "변압기 슈퍼사이클의 왕",
+    "details": "전력망 현대화 및 데이터 센터 전용 전력 장비 시장을 과점한 글로벌 제조사에 집중합니다.",
+    "fee": "0.57%",
+    "yield": "1.1%",
+    "color": "#4f46e5"
+  },
+  "PAVE": {
+    "title": "Global X U.S. Infrastructure Dev",
+    "ticker": "PAVE",
+    "index": "Indxx U.S. Infrastructure Index",
+    "constituents": ["United Rentals", "Eaton", "Quanta Services"],
+    "summary": "제조업 리쇼어링의 최대 수혜",
+    "details": "미국 내 공장 건설과 인프라 현대화 전반을 포괄하는 초대형 인프라 ETF입니다.",
+    "fee": "0.47%",
+    "yield": "0.7%",
+    "color": "#6366f1"
+  },
+  "XLU": {
+    "title": "Utilities Select Sector SPDR",
+    "ticker": "XLU",
+    "index": "Utilities Select Index",
+    "constituents": ["NextEra", "Duke", "Southern Co"],
+    "summary": "에너지 안보와 성장의 유틸리티",
+    "details": "데이터 센터와 직접 계약하는 전력 회사들의 성장판이 열리며 재조명받고 있습니다.",
+    "fee": "0.09%",
+    "yield": "3.1%",
+    "color": "#a855f7"
+  }
+}

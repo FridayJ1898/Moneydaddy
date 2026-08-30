@@ -1,0 +1,4 @@
+.superpowers/
+.venv/
+node_modules/
+*.log

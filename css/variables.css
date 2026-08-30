@@ -1,0 +1,46 @@
+/* ==========================================================================
+   MoneyDaddy Design System - Variables & Tokens
+   ========================================================================== */
+
+/* ── 모던 디자인 토큰 시스템 ── */
+:root {
+    --md-primary: #0ea5e9;
+    --md-primary-dark: #0284c7;
+    --md-primary-light: #7dd3fc;
+    --md-accent: #f59e0b;
+    --md-accent-dark: #d97706;
+    --md-success: #10b981;
+    --md-danger: #ef4444;
+    
+    --md-bg-base: #0a0e17;
+    --md-bg-elevated: #141824;
+    --md-bg-card: rgba(255, 255, 255, 0.03);
+    
+    --md-text-primary: #f1f5f9;
+    --md-text-secondary: #cbd5e1;
+    --md-text-tertiary: #94a3b8;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-full: 999px;
+
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-card-hover: 0 12px 28px rgba(14, 165, 233, 0.15);
+    --shadow-glow: 0 0 25px rgba(14, 165, 233, 0.2);
+    --shadow-warm-glow: 0 0 30px rgba(245, 158, 11, 0.08);
+
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 애니메이션 키프레임 ── */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
