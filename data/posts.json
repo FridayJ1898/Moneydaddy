@@ -1,5 +1,16 @@
 [
   {
+    "id": "ionq-sdt-korea-2026-09-22",
+    "category": "🇰🇷 파트너십 분석",
+    "title": "아이온큐(IonQ) × 한국 SDT 파트너십 공시 팩트 해체: Superion 256 APAC 첫 배치 & 구미 제조 팹 & 퀀트 수급 시나리오 분석",
+    "date": "2026.09.22",
+    "type": "ionq-sdt-korea",
+    "readTime": "15분",
+    "youtubeId": "MJki4PIGdPU",
+    "youtubeUrl": "https://youtu.be/MJki4PIGdPU",
+    "summary": "매크로 금리 안정화·빅테크 AI 훈풍 속 터진 SDT 파트너십 공시 — 팩트 해체(EQC 기술 정정 포함), 글로벌 256큐빗 파이프라인 4대 거점 비교, 회계 리스크, QWC 연계 수급 시나리오별 확률(Sell on News 65%) 분석"
+  },
+  {
     "id": "ionq-financial-valuation-2026-08-22",
     "category": "📊 실적분석",
     "title": "아이온큐(IonQ) 실적·재무 건전성 및 2026~2030 밸류에이션 동학 (시리즈 3편 & 4편)",
@@ -51,6 +62,9 @@
     "title": "[2026.08.02] 2026 양자컴퓨팅 기업 상용화 경쟁력 심층 분석: IBM vs IonQ",
     "date": "2026.08.02",
     "type": "quantum-report",
+    "youtubeId": "85WYstX6154",
+    "youtubeUrl": "https://youtu.be/85WYstX6154?si=JLaTKs_9AYtN9xOl",
+    "isPopularVideo": true,
     "views": 1820,
     "readTime": "15분",
     "summary": "'오류 정정' 임계점을 넘어선 양자컴퓨팅 시장에서 IBM and IonQ의 기술적 성숙도와 상용화 경쟁력을 비교 분석합니다."

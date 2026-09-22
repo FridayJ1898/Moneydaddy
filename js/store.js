@@ -14,7 +14,7 @@ const CATEGORY_THEMES = {
 // 카테고리와 포스트 타입 매핑
 const TYPE_CATEGORY_MAP = {
     macro: ['macro', 'daily', 'report', 'quick-tip', 'fx-intervention'],
-    tech:  ['ionq-joby', 'skt', 'interactive', 'quantum-report', 'finance-etf', 'ionq-achilles', 'nvidia-quantum', 'ionq-financial-valuation'],
+    tech:  ['ionq-joby', 'skt', 'interactive', 'quantum-report', 'finance-etf', 'ionq-achilles', 'nvidia-quantum', 'ionq-financial-valuation', 'ionq-sdt-korea'],
     essay: ['dictionary', 'essay']
 };
 
@@ -36,12 +36,13 @@ const FALLBACK_ETF_MASTER = {
 
 // 기본 포스트 Fallback 데이터
 const FALLBACK_POSTS = [
+    { "id": "ionq-sdt-korea-2026-09-22", "category": "🇰🇷 파트너십 분석", "title": "아이온큐(IonQ) × 한국 SDT 파트너십 공시 팩트 해체: Superion 256 APAC 첫 배치 & 구미 제조 팹 & 퀀트 수급 시나리오 분석", "date": "2026.09.22", "type": "ionq-sdt-korea", "readTime": "15분", "youtubeId": "MJki4PIGdPU", "youtubeUrl": "https://youtu.be/MJki4PIGdPU", "summary": "매크로 금리 안정화·빅테크 AI 훈풍 속 터진 SDT 파트너십 공시 — 팩트 해체(EQC 기술 정정 포함), 글로벌 256큐빗 파이프라인 4대 거점 비교, 회계 리스크, QWC 연계 수급 시나리오별 확률(Sell on News 65%) 분석" },
     { "id": "ionq-financial-valuation-2026-08-22", "category": "📊 실적분석", "title": "아이온큐(IonQ) 실적·재무 건전성 및 2026~2030 밸류에이션 동학 (시리즈 3편 & 4편)", "date": "2026.08.22", "type": "ionq-financial-valuation", "views": 0, "readTime": "18분", "summary": "무료 PoC와 상용 RPO 매출 구분법, 3대 킬러 유즈케이스 실증 성과, 금리 인하와 포스트 AI 사이클 하이프 진입에 대응하는 3단계 자산 배분 모델" },
     { "id": "nvidia-quantum-2026-08-22", "category": "📊 산업분석", "title": "엔비디아의 양자 컴퓨팅 전략 분석: QPU 비제조 이유와 하이브리드 양자 OS 생태계(CUDA-Q·NVQLink)의 독점 아키텍처", "date": "2026.08.22", "type": "nvidia-quantum", "views": 0, "readTime": "12분", "summary": "엔비디아가 자체 QPU를 만들지 않고 CUDA-Q와 NVQLink를 통해 양자 생태계를 장악하는 전략적 아키텍처와 아이온큐 동맹의 정밀 분석" },
     { "id": "ionq-achilles-2026-08-16", "category": "⚛️ 기술심층", "title": "아이온큐(IonQ)의 숨겨진 아킬레스건: 광학 인터커넥트 병목과 Entangled Networks 인수 배경 심층 분석", "date": "2026.08.16", "type": "ionq-achilles", "views": 0, "readTime": "20분", "summary": "포획 이온 QPU 모듈 간 원격 얽힘 속도의 물리적 한계, 성능 간극(Gap Analysis), 그리고 소프트웨어·하드웨어 돌파 전략까지 — IonQ 10배 상승을 가르는 단 하나의 기술적 변수" },
     { "id": "fx-intervention-2026-08-11", "category": "📰 거시경제", "title": "원/달러(USD/KRW) 외환당국의 개입 메커니즘과 연쇄적 가격 하락(Cascading Downside) 파급 채널에 대한 실증 및 이론적 연구", "date": "2026.08.11", "type": "fx-intervention", "views": 1024 },
     { "id": "ionq-joby-2026-08-10", "category": "📊 수급분석", "title": "2026년 하반기 아이온큐(IONQ) 펀더멘털 및 파생 수급 기반 기대 주가(E(X)) 심층 분석", "date": "2026.08.10", "type": "ionq-joby", "views": 890 },
-    { "id": "quantum-companies-2026-08-02", "category": "📊 산업분석", "title": "[2026.08.02] 2026 양자컴퓨팅 기업 상용화 경쟁력 심층 분석: IBM vs IonQ", "date": "2026.08.02", "type": "quantum-report", "views": 1820, "readTime": "15분", "summary": "'오류 정정' 임계점을 넘어선 양자컴퓨팅 시장에서 IBM and IonQ의 기술적 성숙도와 상용화 경쟁력을 비교 분석합니다." },
+    { "id": "quantum-companies-2026-08-02", "category": "📊 산업분석", "title": "[2026.08.02] 2026 양자컴퓨팅 기업 상용화 경쟁력 심층 분석: IBM vs IonQ", "date": "2026.08.02", "type": "quantum-report", "youtubeId": "85WYstX6154", "youtubeUrl": "https://youtu.be/85WYstX6154?si=JLaTKs_9AYtN9xOl", "isPopularVideo": true, "views": 1820, "readTime": "15분", "summary": "'오류 정정' 임계점을 넘어선 양자컴퓨팅 시장에서 IBM and IonQ의 기술적 성숙도와 상용화 경쟁력을 비교 분석합니다." },
     { "id": "tip-2026-08-02", "category": "💡 1분 팁", "title": "ETF 수수료 0.5% 차이가 30년 후엔 얼마나 엄청난 차이를 만들까?", "date": "2026.08.02", "type": "quick-tip", "views": 1560, "readTime": "1분", "summary": "연 7% 수익률 가정 시, 0.5% 수수료 차이는 30년 후 원금의 12%를 차감시킵니다. 수수료가 제일 싼 운용사를 골라야 하는 이유입니다." },
     { "id": "essay-investing-philosophy-2026", "category": "✍️ 에세이", "title": "아빠가 되고 나서야 알게 된 투자의 진짜 의미 — 머니대디의 투자 철학", "date": "2026.07.15", "type": "essay", "views": 720, "readTime": "7분", "summary": "수익률보다 중요한 것이 있다. 15년 금융업에 종사하며, 그리고 아이의 아빠가 되고 나서 비로소 깨달은 '지속 가능한 투자'에 대한 생각을 솔직하게 씁니다." },
     { "id": "macro-2026-06-28", "category": "📰 데일리", "title": "[2026.06.28] 2026년 글로벌 거시금융 환경의 전환점: 장기금리 흐름 전망과 AI·반도체 슈퍼사이클의 지속성 및 상호 상관관계 분석", "date": "2026.06.28", "type": "macro", "views": 1240 },
@@ -78,7 +79,11 @@ const store = {
             ]);
 
             if (postsRes.ok) {
-                this.POSTS_DATABASE = await postsRes.json();
+                const fetched = await postsRes.json();
+                // fetch 성공 시에도 FALLBACK에만 있는 신규 글을 앞에 merge
+                const fetchedIds = new Set(fetched.map(p => p.id));
+                const newOnly = FALLBACK_POSTS.filter(p => !fetchedIds.has(p.id));
+                this.POSTS_DATABASE = [...newOnly, ...fetched];
             } else {
                 console.warn('posts.json 로드 실패, Fallback 데이터를 사용합니다.');
                 this.POSTS_DATABASE = [...FALLBACK_POSTS];
@@ -174,6 +179,44 @@ const store = {
         } catch (e) {
             console.warn('localStorage 조회수 업데이트 오류:', e);
         }
+    },
+
+    /**
+     * 가장 최신의 유튜브 연동 포스트 반환
+     */
+    getLatestYoutubePost() {
+        const videoPosts = this.POSTS_DATABASE.filter(p => !!p.youtubeId);
+        if (!videoPosts.length) return null;
+        return [...videoPosts].sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0];
+    },
+
+    /**
+     * 최고 인기 유튜브 연동 포스트 반환
+     */
+    getPopularYoutubePost() {
+        const popular = this.POSTS_DATABASE.find(p => p.isPopularVideo && !!p.youtubeId);
+        if (popular) return popular;
+
+        const videoPosts = this.POSTS_DATABASE.filter(p => !!p.youtubeId);
+        if (videoPosts.length) {
+            return [...videoPosts].sort((a, b) => (b.views || 0) - (a.views || 0))[0];
+        }
+
+        return {
+            id: 'quantum-companies-2026-08-02',
+            title: '양자컴퓨팅 대장주 IONQ 주가 10배 폭등 시나리오 대공개',
+            youtubeId: '85WYstX6154',
+            youtubeUrl: 'https://youtu.be/85WYstX6154?si=JLaTKs_9AYtN9xOl',
+            date: '2026.08.02'
+        };
+    },
+
+    /**
+     * 유튜브 임베드 URL 생성기 (nocookie 적용)
+     */
+    getYoutubeEmbedUrl(youtubeId) {
+        if (!youtubeId) return '';
+        return `https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&modestbranding=1`;
     }
 };
 

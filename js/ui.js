@@ -147,6 +147,7 @@ function renderSidebar() {
             <div class="flex items-center justify-between mb-1">
                 <div class="flex items-center gap-1.5">
                     <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
+                    ${post.youtubeId ? `<span class="text-[8px] font-extrabold text-red-400 bg-red-500/10 px-1 py-0.5 rounded border border-red-500/20">📺 영상</span>` : ''}
                     ${isHot ? `<span class="text-[8px] font-black text-red-400 bg-red-500/10 px-1 rounded">🔥 HOT</span>` : ''}
                 </div>
                 <span class="t-caption">${post.date}</span>
@@ -219,51 +220,97 @@ function renderMainContent() {
         `;
     }
 
-    // 2. 유튜브 추천 영상 영역 (홈화면 'all' 카테고리 시 최상단 노출)
+    // 2. 유튜브 추천 영상 영역 (홈화면 'all' 카테고리 시 최상단 동적 노출)
     let youtubeHtml = '';
     if (store.activeCategory === 'all') {
+        const latestVideoPost = store.getLatestYoutubePost && store.getLatestYoutubePost();
+        const popularVideoPost = store.getPopularYoutubePost && store.getPopularYoutubePost();
+
+        // 1. 최고 인기 영상 동적 데이터 매핑
+        const popId = popularVideoPost?.id || 'quantum-companies-2026-08-02';
+        const popYtId = popularVideoPost?.youtubeId || '85WYstX6154';
+        const popYtUrl = popularVideoPost?.youtubeUrl || `https://youtu.be/${popYtId}`;
+        const popTitle = popularVideoPost?.title || '양자컴퓨팅 대장주 IONQ 주가 10배 폭등 시나리오 대공개';
+        const popThumb = `https://img.youtube.com/vi/${popYtId}/hqdefault.jpg`;
+        const popViewsText = popularVideoPost?.views ? `조회수 ${(popularVideoPost.views / 10000).toFixed(1)}만회` : '조회수 1.8만회';
+
+        // 2. 최신 업로드 영상 동적 데이터 매핑 (posts.json 등록 시 자동 갱신)
+        const latId = latestVideoPost?.id || 'ionq-sdt-korea-2026-09-22';
+        const latYtId = latestVideoPost?.youtubeId || 'MJki4PIGdPU';
+        const latYtUrl = latestVideoPost?.youtubeUrl || `https://youtu.be/${latYtId}`;
+        const latTitle = latestVideoPost?.title || '아이온큐(IonQ) × 한국 SDT 파트너십 공시 해체 & Superion 256 구미 팹 긴급 진단';
+        const latDate = latestVideoPost?.date || '2026.09.22';
+        const latCategory = latestVideoPost?.category || '공시 팩트체크';
+        const latThumb = `https://img.youtube.com/vi/${latYtId}/hqdefault.jpg`;
+
         youtubeHtml = `
             <section class="mb-8">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="text-red-500 text-lg">❤️</span>
-                    <h3 class="text-sm font-extrabold text-slate-200">머니대디 유튜브 추천 인사이트</h3>
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-red-500 text-lg">❤️</span>
+                        <h3 class="text-sm font-extrabold text-slate-200">머니대디 유튜브 추천 인사이트</h3>
+                    </div>
+                    <a href="https://www.youtube.com/@%EB%A8%B8%EB%8B%88%EB%8C%80%EB%94%94" target="_blank" class="text-[11px] font-bold text-slate-400 hover:text-red-400 transition-colors">
+                        채널 바로가기 ↗
+                    </a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- 최고 인기 영상 -->
-                    <a href="https://youtu.be/85WYstX6154?si=JLaTKs_9AYtN9xOl" target="_blank" class="block p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] hover:border-red-500/30 transition-all flex flex-col gap-3 group">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[9px] px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded font-black">🔥 최고 인기 분석</span>
-                            <span class="text-[10px] text-slate-400 font-bold group-hover:text-red-400 transition-colors">유튜브에서 보기 ↗</span>
-                        </div>
-                        <div class="relative w-full rounded-xl overflow-hidden shadow-lg aspect-video bg-black flex items-center justify-center">
-                            <img src="https://img.youtube.com/vi/85WYstX6154/0.jpg" alt="최고 인기 영상 썸네일" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
-                            <!-- 재생 버튼 아이콘 Overlay -->
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
-                                <div class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-all">
-                                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
+                    <!-- 1. 최고 인기 영상 (동적 연동) -->
+                    <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-red-500/30 transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-2.5">
+                                <span class="text-[9px] px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded font-black">🔥 최고 인기 분석</span>
+                                <span class="text-[10px] text-slate-500 font-medium">${popViewsText}</span>
                             </div>
+                            <a href="${popYtUrl}" target="_blank" class="block relative w-full rounded-xl overflow-hidden shadow-lg aspect-video bg-black flex items-center justify-center mb-3">
+                                <img src="${popThumb}" alt="최고 인기 영상 썸네일" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
+                                    <div class="w-11 h-11 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-all">
+                                        <svg class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                </div>
+                            </a>
+                            <p class="text-[13px] font-bold text-slate-200 line-clamp-1 leading-snug group-hover:text-white transition-colors">${popTitle}</p>
                         </div>
-                        <p class="text-[12px] font-bold text-slate-200 line-clamp-1 leading-snug group-hover:text-white transition-colors">양자컴퓨팅 대장주 IONQ 주가 10배 폭등 시나리오 대공개</p>
-                    </a>
+                        <div class="pt-3 mt-3 border-t border-white/[0.04] flex items-center justify-between gap-2">
+                            <a href="${popYtUrl}" target="_blank" class="text-[11px] font-bold text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                                📺 영상 시청 ↗
+                            </a>
+                            <button onclick="window.loadPost('${popId}', true)" class="text-[11px] font-bold text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1">
+                                📖 심층 리포트 보기 →
+                            </button>
+                        </div>
+                    </div>
                     
-                    <!-- 최신 영상 -->
-                    <a href="https://youtu.be/eBTcBmKi0bg?si=OpieHn6RUD0vpQiq" target="_blank" class="block p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] hover:border-emerald-500/30 transition-all flex flex-col gap-3 group">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[9px] px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded font-black">⚡ 최신 업로드</span>
-                            <span class="text-[10px] text-slate-400 font-bold group-hover:text-emerald-400 transition-colors">유튜브에서 보기 ↗</span>
-                        </div>
-                        <div class="relative w-full rounded-xl overflow-hidden shadow-lg aspect-video bg-black flex items-center justify-center">
-                            <img src="https://img.youtube.com/vi/eBTcBmKi0bg/0.jpg" alt="최신 영상 썸네일" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
-                            <!-- 재생 버튼 아이콘 Overlay -->
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
-                                <div class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-all">
-                                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <!-- 2. 최신 업로드 영상 (posts.json 기반 100% 자동 연동) -->
+                    <div class="p-4 rounded-2xl bg-white/[0.02] border border-sky-500/20 hover:border-sky-500/40 bg-gradient-to-b from-sky-500/[0.03] to-transparent transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-2.5">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[9px] px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded font-black">⚡ 최신 업로드</span>
+                                    <span class="text-[9px] px-2 py-0.5 bg-sky-500/10 text-sky-400 border border-sky-500/20 rounded font-bold">${latCategory}</span>
                                 </div>
+                                <span class="text-[10px] text-amber-400 font-mono font-bold">${latDate}</span>
                             </div>
+                            <a href="${latYtUrl}" target="_blank" class="block relative w-full rounded-xl overflow-hidden shadow-lg aspect-video bg-black flex items-center justify-center mb-3">
+                                <img src="${latThumb}" alt="최신 영상 썸네일" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
+                                    <div class="w-11 h-11 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-all">
+                                        <svg class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                </div>
+                            </a>
+                            <p class="text-[13px] font-bold text-slate-100 line-clamp-1 leading-snug group-hover:text-white transition-colors">${latTitle}</p>
                         </div>
-                        <p class="text-[12px] font-bold text-slate-200 line-clamp-1 leading-snug group-hover:text-white transition-colors">아이온큐 주가 $40 돌파?! 양자 대세 상승장 속 포트폴리오 대응 전략</p>
-                    </a>
+                        <div class="pt-3 mt-3 border-t border-white/[0.04] flex items-center justify-between gap-2">
+                            <a href="${latYtUrl}" target="_blank" class="text-[11px] font-bold text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                                📺 영상 시청 ↗
+                            </a>
+                            <button onclick="window.loadPost('${latId}', true)" class="px-2.5 py-1 rounded-md bg-sky-500/10 hover:bg-sky-500/20 text-[11px] font-extrabold text-sky-400 hover:text-sky-300 border border-sky-500/30 transition-all flex items-center gap-1 shadow-sm">
+                                📖 심층 리포트 전문 읽기 →
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
         `;
@@ -300,6 +347,7 @@ function renderMainContent() {
                     <div class="flex items-center gap-2">
                         <span class="t-label" style="color:var(--theme-color)">${post.category}</span>
                         ${isLatest ? `<span class="text-[8px] font-black px-1.5 py-0.5 rounded" style="background:var(--theme-color);color:#0b0f19">NEW</span>` : ''}
+                        ${post.youtubeId ? `<span class="text-[8px] font-extrabold px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20 flex items-center gap-0.5">📺 영상 해설</span>` : ''}
                         ${isHot ? `<span class="text-[8px] font-bold px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">🔥 HOT</span>` : ''}
                     </div>
                     <span class="t-caption">${post.date}</span>

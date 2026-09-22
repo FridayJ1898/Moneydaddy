@@ -23,6 +23,7 @@ function destroyChart(id) {
  */
 function getTemplateUrl(post) {
     const typeMap = {
+        'ionq-sdt-korea': 'content/reports/ionq-sdt-korea-2026-09-22.html',
         'ionq-financial-valuation': 'content/reports/ionq-financial-valuation.html',
         'nvidia-quantum': 'content/reports/nvidia-quantum.html',
         'ionq-achilles': 'content/reports/ionq-achilles.html',
